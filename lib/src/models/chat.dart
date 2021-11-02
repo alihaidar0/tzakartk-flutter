@@ -4,10 +4,13 @@ import 'user.dart';
 
 class Chat {
   String id = UniqueKey().toString();
+
   // message text
   String text;
+
   // time of the message
   int time;
+
   // user id who send the message
   String userId;
 

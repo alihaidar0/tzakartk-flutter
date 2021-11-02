@@ -22,7 +22,9 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              currentUser.value.apiToken != null ? Navigator.of(context).pushNamed('/Profile') : Navigator.of(context).pushNamed('/Login');
+              currentUser.value.apiToken != null
+                  ? Navigator.of(context).pushNamed('/Profile')
+                  : Navigator.of(context).pushNamed('/Login');
             },
             child: currentUser.value.apiToken != null
                 ? UserAccountsDrawerHeader(
@@ -55,7 +57,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                                 width: double.infinity,
                                 height: 80,
                               ),
-                              errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error_outline),
                             ),
                           ),
                         ),
@@ -81,9 +84,13 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(S.of(context).welcome, style: Theme.of(context).textTheme.headline4.merge(TextStyle(color: Theme.of(context).accentColor))),
+                        Text(S.of(context).welcome,
+                            style: Theme.of(context).textTheme.headline4.merge(
+                                TextStyle(
+                                    color: Theme.of(context).accentColor))),
                         SizedBox(height: 5),
-                        Text(S.of(context).loginAccountOrCreateNewOneForFree, style: Theme.of(context).textTheme.bodyText2),
+                        Text(S.of(context).loginAccountOrCreateNewOneForFree,
+                            style: Theme.of(context).textTheme.bodyText2),
                         SizedBox(height: 15),
                         Wrap(
                           spacing: 10,
@@ -100,10 +107,17 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 spacing: 9,
                                 children: [
-                                  Icon(Icons.exit_to_app_outlined, color: Theme.of(context).primaryColor, size: 24),
+                                  Icon(Icons.exit_to_app_outlined,
+                                      color: Theme.of(context).primaryColor,
+                                      size: 24),
                                   Text(
                                     S.of(context).login,
-                                    style: Theme.of(context).textTheme.subtitle2.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        .merge(TextStyle(
+                                            color: Theme.of(context)
+                                                .primaryColor)),
                                   ),
                                 ],
                               ),
@@ -111,7 +125,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                             ),
                             MaterialButton(
                               elevation: 0,
-                              color: Theme.of(context).focusColor.withOpacity(0.2),
+                              color:
+                                  Theme.of(context).focusColor.withOpacity(0.2),
                               height: 40,
                               onPressed: () {
                                 Navigator.of(context).pushNamed('/SignUp');
@@ -121,10 +136,17 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 spacing: 9,
                                 children: [
-                                  Icon(Icons.person_add_outlined, color: Theme.of(context).hintColor, size: 24),
+                                  Icon(Icons.person_add_outlined,
+                                      color: Theme.of(context).hintColor,
+                                      size: 24),
                                   Text(
                                     S.of(context).register,
-                                    style: Theme.of(context).textTheme.subtitle2.merge(TextStyle(color: Theme.of(context).hintColor)),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        .merge(TextStyle(
+                                            color:
+                                                Theme.of(context).hintColor)),
                                   ),
                                 ],
                               ),
@@ -271,7 +293,9 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              Theme.of(context).brightness == Brightness.dark ? S.of(context).light_mode : S.of(context).dark_mode,
+              Theme.of(context).brightness == Brightness.dark
+                  ? S.of(context).light_mode
+                  : S.of(context).dark_mode,
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
@@ -279,7 +303,9 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
             onTap: () {
               if (currentUser.value.apiToken != null) {
                 logout().then((value) {
-                  Navigator.of(context).pushNamedAndRemoveUntil('/Pages', (Route<dynamic> route) => false, arguments: 2);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/Pages', (Route<dynamic> route) => false,
+                      arguments: 2);
                 });
               } else {
                 Navigator.of(context).pushNamed('/Login');
@@ -290,7 +316,9 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              currentUser.value.apiToken != null ? S.of(context).log_out : S.of(context).login,
+              currentUser.value.apiToken != null
+                  ? S.of(context).log_out
+                  : S.of(context).login,
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),

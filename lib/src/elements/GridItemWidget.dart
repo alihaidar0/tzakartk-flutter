@@ -17,17 +17,25 @@ class GridItemWidget extends StatelessWidget {
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context).pushNamed('/Details', arguments: RouteArgument(id: '0', param: market.id, heroTag: heroTag));
+        Navigator.of(context).pushNamed('/Details',
+            arguments:
+                RouteArgument(id: '0', param: market.id, heroTag: heroTag));
       },
       child: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: [BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.05), offset: Offset(0, 5), blurRadius: 5)]),
+            boxShadow: [
+              BoxShadow(
+                  color: Theme.of(context).focusColor.withOpacity(0.05),
+                  offset: Offset(0, 5),
+                  blurRadius: 5)
+            ]),
         child: Wrap(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5), topRight: Radius.circular(5)),
               child: Hero(
                 tag: heroTag + market.id,
                 child: CachedNetworkImage(
@@ -41,7 +49,8 @@ class GridItemWidget extends StatelessWidget {
                     width: double.infinity,
                     height: 82,
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error_outline),
                 ),
               ),
             ),

@@ -46,7 +46,8 @@ class _MessagesWidgetState extends StateMVC<MessagesWidget> {
               shrinkWrap: true,
               primary: false,
               itemBuilder: (context, index) {
-                Conversation _conversation = Conversation.fromJSON(_docs[index].data());
+                Conversation _conversation =
+                    Conversation.fromJSON(_docs[index].data());
                 return MessageItemWidget(
                   message: _conversation,
                   onDismissed: (conversation) {
@@ -80,10 +81,15 @@ class _MessagesWidgetState extends StateMVC<MessagesWidget> {
           S.of(context).messages,
           overflow: TextOverflow.fade,
           maxLines: 1,
-          style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .merge(TextStyle(letterSpacing: 1.3)),
         ),
         actions: <Widget>[
-          new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+          new ShoppingCartButtonWidget(
+              iconColor: Theme.of(context).hintColor,
+              labelColor: Theme.of(context).accentColor),
         ],
       ),
       body: currentUser.value.apiToken == null

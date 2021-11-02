@@ -7,14 +7,18 @@ class FavoriteGridItemWidget extends StatelessWidget {
   final String heroTag;
   final Favorite favorite;
 
-  FavoriteGridItemWidget({Key key, this.heroTag, this.favorite}) : super(key: key);
+  FavoriteGridItemWidget({Key key, this.heroTag, this.favorite})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context).pushNamed('/Product', arguments: new RouteArgument(heroTag: this.heroTag, id: this.favorite.product.id));
+        Navigator.of(context).pushNamed('/Product',
+            arguments: new RouteArgument(
+                heroTag: this.heroTag, id: this.favorite.product.id));
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,
@@ -27,7 +31,10 @@ class FavoriteGridItemWidget extends StatelessWidget {
                   tag: heroTag + favorite.product.id,
                   child: Container(
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage(this.favorite.product.image.thumb), fit: BoxFit.cover),
+                      image: DecorationImage(
+                          image:
+                              NetworkImage(this.favorite.product.image.thumb),
+                          fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),

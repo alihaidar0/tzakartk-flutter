@@ -10,8 +10,12 @@ class Discountable {
   Discountable.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
-      discountableType = jsonMap['discountable_type'] != null ? jsonMap['discountable_type'].toString() : null;
-      discountableId = jsonMap['discountable_id'] != null ? jsonMap['discountable_id'].toString() : null;
+      discountableType = jsonMap['discountable_type'] != null
+          ? jsonMap['discountable_type'].toString()
+          : null;
+      discountableId = jsonMap['discountable_id'] != null
+          ? jsonMap['discountable_id'].toString()
+          : null;
     } catch (e) {
       id = '';
       discountableType = null;

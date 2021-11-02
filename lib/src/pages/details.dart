@@ -69,7 +69,9 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
             setState(() {
               _con.market = value as Market;
               print(_con.market.toMap());
-              widget.currentPage = MarketWidget(parentScaffoldKey: widget.scaffoldKey, routeArgument: RouteArgument(param: _con.market));
+              widget.currentPage = MarketWidget(
+                  parentScaffoldKey: widget.scaffoldKey,
+                  routeArgument: RouteArgument(param: _con.market));
             });
           });
           break;
@@ -83,14 +85,21 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                   return e;
                 })?.toList(),
                 name: _con.market.name);
-            widget.currentPage = ChatWidget(parentScaffoldKey: widget.scaffoldKey, routeArgument: RouteArgument(id: _con.market.id, param: _conversation));
+            widget.currentPage = ChatWidget(
+                parentScaffoldKey: widget.scaffoldKey,
+                routeArgument:
+                    RouteArgument(id: _con.market.id, param: _conversation));
           }
           break;
         case 2:
-          widget.currentPage = MapWidget(parentScaffoldKey: widget.scaffoldKey, routeArgument: RouteArgument(param: _con.market));
+          widget.currentPage = MapWidget(
+              parentScaffoldKey: widget.scaffoldKey,
+              routeArgument: RouteArgument(param: _con.market));
           break;
         case 3:
-          widget.currentPage = MenuWidget(parentScaffoldKey: widget.scaffoldKey, routeArgument: RouteArgument(param: _con.market));
+          widget.currentPage = MenuWidget(
+              parentScaffoldKey: widget.scaffoldKey,
+              routeArgument: RouteArgument(param: _con.market));
           break;
       }
     });
@@ -105,7 +114,12 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
           height: 66,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
-            boxShadow: [BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, -4), blurRadius: 10)],
+            boxShadow: [
+              BoxShadow(
+                  color: Theme.of(context).hintColor.withOpacity(0.10),
+                  offset: Offset(0, -4),
+                  blurRadius: 10)
+            ],
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -114,7 +128,9 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                 icon: Icon(
                   Icons.store_outlined,
                   size: widget.currentTab == 0 ? 28 : 24,
-                  color: widget.currentTab == 0 ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                  color: widget.currentTab == 0
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).focusColor,
                 ),
                 onPressed: () {
                   this._selectTab(0);
@@ -124,7 +140,9 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                 icon: Icon(
                   Icons.chat_outlined,
                   size: widget.currentTab == 1 ? 28 : 24,
-                  color: widget.currentTab == 1 ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                  color: widget.currentTab == 1
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).focusColor,
                 ),
                 onPressed: () {
                   this._selectTab(1);
@@ -134,7 +152,9 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                 icon: Icon(
                   Icons.directions_outlined,
                   size: widget.currentTab == 2 ? 28 : 24,
-                  color: widget.currentTab == 2 ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                  color: widget.currentTab == 2
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).focusColor,
                 ),
                 onPressed: () {
                   this._selectTab(2);
@@ -152,7 +172,8 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                   spacing: 10,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Icon(Icons.shopping_basket_outlined, color: Theme.of(context).primaryColor),
+                    Icon(Icons.shopping_basket_outlined,
+                        color: Theme.of(context).primaryColor),
                     Text(
                       S.of(context).shopping,
                       style: TextStyle(color: Theme.of(context).primaryColor),

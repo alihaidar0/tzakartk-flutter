@@ -37,6 +37,13 @@ class CreditCard {
   }
 
   bool validated() {
-    return number != null && number != '' && expMonth != null && expMonth != '' && expYear != null && expYear != '' && cvc != null && cvc != '';
+    return number != null &&
+        number != '' &&
+        expMonth != null &&
+        expMonth != '' &&
+        expYear != null &&
+        expYear != '' &&
+        cvc != null &&
+        cvc != '';
   }
 }

@@ -36,7 +36,8 @@ class ReviewItemWidget extends StatelessWidget {
                     height: 65,
                     width: 65,
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error_outline),
                 ),
               ),
               SizedBox(width: 15),
@@ -53,7 +54,8 @@ class ReviewItemWidget extends StatelessWidget {
                             overflow: TextOverflow.fade,
                             softWrap: false,
                             maxLines: 2,
-                            style: Theme.of(context).textTheme.headline6.merge(TextStyle(color: Theme.of(context).hintColor)),
+                            style: Theme.of(context).textTheme.headline6.merge(
+                                TextStyle(color: Theme.of(context).hintColor)),
                           ),
                         ),
                         SizedBox(
@@ -63,7 +65,13 @@ class ReviewItemWidget extends StatelessWidget {
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(review.rate, style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(color: Theme.of(context).primaryColor))),
+                                Text(review.rate,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .merge(TextStyle(
+                                            color: Theme.of(context)
+                                                .primaryColor))),
                                 Icon(
                                   Icons.star_border,
                                   color: Theme.of(context).primaryColor,
@@ -71,14 +79,16 @@ class ReviewItemWidget extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            backgroundColor: Theme.of(context).accentColor.withOpacity(0.9),
+                            backgroundColor:
+                                Theme.of(context).accentColor.withOpacity(0.9),
                             shape: StadiumBorder(),
                           ),
                         ),
                       ],
                     ),
                     Text(
-                      review.user.bio.substring(0, min(30, review.user.bio.length)),
+                      review.user.bio
+                          .substring(0, min(30, review.user.bio.length)),
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.caption,
                     )

@@ -9,7 +9,8 @@ class ImageThumbCarouselWidget extends StatefulWidget {
   ImageThumbCarouselWidget({Key key, this.galleriesList}) : super(key: key);
 
   @override
-  _ImageThumbCarouselWidgetState createState() => _ImageThumbCarouselWidgetState();
+  _ImageThumbCarouselWidgetState createState() =>
+      _ImageThumbCarouselWidgetState();
 }
 
 class _ImageThumbCarouselWidgetState extends State<ImageThumbCarouselWidget> {
@@ -27,7 +28,8 @@ class _ImageThumbCarouselWidgetState extends State<ImageThumbCarouselWidget> {
                   splashColor: Theme.of(context).accentColor.withOpacity(0.8),
                   highlightColor: Colors.transparent,
                   onTap: () {},
-                  child: GalleryItemWidget(gallery: widget.galleriesList.elementAt(index)),
+                  child: GalleryItemWidget(
+                      gallery: widget.galleriesList.elementAt(index)),
                 );
               },
             ),

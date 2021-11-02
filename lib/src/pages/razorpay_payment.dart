@@ -34,7 +34,10 @@ class _RazorPayPaymentWidgetState extends StateMVC<RazorPayPaymentWidget> {
         centerTitle: true,
         title: Text(
           S.of(context).razorpayPayment,
-          style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .merge(TextStyle(letterSpacing: 1.3)),
         ),
       ),
       body: Stack(
@@ -49,8 +52,10 @@ class _RazorPayPaymentWidgetState extends StateMVC<RazorPayPaymentWidget> {
                 setState(() {
                   _con.url = url;
                 });
-                if (url == "${GlobalConfiguration().getValue('base_url')}payments/razorpay") {
-                  Navigator.of(context).pushReplacementNamed('/Pages', arguments: 3);
+                if (url ==
+                    "${GlobalConfiguration().getValue('base_url')}payments/razorpay") {
+                  Navigator.of(context)
+                      .pushReplacementNamed('/Pages', arguments: 3);
                 }
               },
               onPageFinished: (String url) {
@@ -62,7 +67,8 @@ class _RazorPayPaymentWidgetState extends StateMVC<RazorPayPaymentWidget> {
               ? SizedBox(
                   height: 3,
                   child: LinearProgressIndicator(
-                    backgroundColor: Theme.of(context).accentColor.withOpacity(0.2),
+                    backgroundColor:
+                        Theme.of(context).accentColor.withOpacity(0.2),
                   ),
                 )
               : SizedBox(),

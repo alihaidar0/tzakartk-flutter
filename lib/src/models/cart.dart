@@ -14,9 +14,16 @@ class Cart {
   Cart.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
-      quantity = jsonMap['quantity'] != null ? jsonMap['quantity'].toDouble() : 0.0;
-      product = jsonMap['product'] != null ? Product.fromJSON(jsonMap['product']) : Product.fromJSON({});
-      options = jsonMap['options'] != null ? List.from(jsonMap['options']).map((element) => Option.fromJSON(element)).toList() : [];
+      quantity =
+          jsonMap['quantity'] != null ? jsonMap['quantity'].toDouble() : 0.0;
+      product = jsonMap['product'] != null
+          ? Product.fromJSON(jsonMap['product'])
+          : Product.fromJSON({});
+      options = jsonMap['options'] != null
+          ? List.from(jsonMap['options'])
+              .map((element) => Option.fromJSON(element))
+              .toList()
+          : [];
     } catch (e) {
       id = '';
       quantity = 0.0;

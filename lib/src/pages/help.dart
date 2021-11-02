@@ -43,10 +43,14 @@ class _HelpWidgetState extends StateMVC<HelpWidget> {
                 ),
                 title: Text(
                   S.of(context).faq,
-                  style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3, color: Theme.of(context).primaryColor)),
+                  style: Theme.of(context).textTheme.headline6.merge(TextStyle(
+                      letterSpacing: 1.3,
+                      color: Theme.of(context).primaryColor)),
                 ),
                 actions: <Widget>[
-                  new ShoppingCartButtonWidget(iconColor: Theme.of(context).primaryColor, labelColor: Theme.of(context).accentColor),
+                  new ShoppingCartButtonWidget(
+                      iconColor: Theme.of(context).primaryColor,
+                      labelColor: Theme.of(context).accentColor),
                 ],
               ),
               body: RefreshIndicator(
@@ -54,7 +58,8 @@ class _HelpWidgetState extends StateMVC<HelpWidget> {
                 child: TabBarView(
                   children: List.generate(_con.faqs.length, (index) {
                     return SingleChildScrollView(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 25),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -85,7 +90,11 @@ class _HelpWidgetState extends StateMVC<HelpWidget> {
                               return SizedBox(height: 15);
                             },
                             itemBuilder: (context, indexFaq) {
-                              return FaqItemWidget(faq: _con.faqs.elementAt(index).faqs.elementAt(indexFaq));
+                              return FaqItemWidget(
+                                  faq: _con.faqs
+                                      .elementAt(index)
+                                      .faqs
+                                      .elementAt(indexFaq));
                             },
                           ),
                         ],

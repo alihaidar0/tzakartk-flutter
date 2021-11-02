@@ -41,9 +41,15 @@ class DeliveryAddressDialog {
                       child: new TextFormField(
                         style: TextStyle(color: Theme.of(context).hintColor),
                         keyboardType: TextInputType.text,
-                        decoration: getInputDecoration(hintText: S.of(context).home_address, labelText: S.of(context).description),
-                        initialValue: address.description?.isNotEmpty ?? false ? address.description : null,
-                        validator: (input) => input.trim().length == 0 ? 'Not valid address description' : null,
+                        decoration: getInputDecoration(
+                            hintText: S.of(context).home_address,
+                            labelText: S.of(context).description),
+                        initialValue: address.description?.isNotEmpty ?? false
+                            ? address.description
+                            : null,
+                        validator: (input) => input.trim().length == 0
+                            ? 'Not valid address description'
+                            : null,
                         onSaved: (input) => address.description = input,
                       ),
                     ),
@@ -52,9 +58,15 @@ class DeliveryAddressDialog {
                       child: new TextFormField(
                         style: TextStyle(color: Theme.of(context).hintColor),
                         keyboardType: TextInputType.text,
-                        decoration: getInputDecoration(hintText: S.of(context).hint_full_address, labelText: S.of(context).full_address),
-                        initialValue: address.address?.isNotEmpty ?? false ? address.address : null,
-                        validator: (input) => input.trim().length == 0 ? S.of(context).notValidAddress : null,
+                        decoration: getInputDecoration(
+                            hintText: S.of(context).hint_full_address,
+                            labelText: S.of(context).full_address),
+                        initialValue: address.address?.isNotEmpty ?? false
+                            ? address.address
+                            : null,
+                        validator: (input) => input.trim().length == 0
+                            ? S.of(context).notValidAddress
+                            : null,
                         onSaved: (input) => address.address = input,
                       ),
                     ),
@@ -104,8 +116,11 @@ class DeliveryAddressDialog {
       hintStyle: Theme.of(context).textTheme.bodyText2.merge(
             TextStyle(color: Theme.of(context).focusColor),
           ),
-      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
-      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor)),
+      enabledBorder: UnderlineInputBorder(
+          borderSide:
+              BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
+      focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).hintColor)),
       floatingLabelBehavior: FloatingLabelBehavior.auto,
       labelStyle: Theme.of(context).textTheme.bodyText2.merge(
             TextStyle(color: Theme.of(context).hintColor),

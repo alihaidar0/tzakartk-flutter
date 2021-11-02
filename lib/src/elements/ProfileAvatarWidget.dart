@@ -5,6 +5,7 @@ import '../models/user.dart';
 
 class ProfileAvatarWidget extends StatelessWidget {
   final User user;
+
   ProfileAvatarWidget({
     Key key,
     this.user,
@@ -16,7 +17,8 @@ class ProfileAvatarWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 30),
       decoration: BoxDecoration(
         color: Theme.of(context).accentColor,
-        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
       ),
       child: Column(
         children: <Widget>[
@@ -50,7 +52,8 @@ class ProfileAvatarWidget extends StatelessWidget {
                       height: 135,
                       width: 135,
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.error_outline),
                   ),
                 ),
 //              SizedBox(
@@ -69,11 +72,17 @@ class ProfileAvatarWidget extends StatelessWidget {
           ),
           Text(
             user.name,
-            style: Theme.of(context).textTheme.headline5.merge(TextStyle(color: Theme.of(context).primaryColor)),
+            style: Theme.of(context)
+                .textTheme
+                .headline5
+                .merge(TextStyle(color: Theme.of(context).primaryColor)),
           ),
           Text(
             user.address,
-            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+            style: Theme.of(context)
+                .textTheme
+                .caption
+                .merge(TextStyle(color: Theme.of(context).primaryColor)),
           ),
         ],
       ),

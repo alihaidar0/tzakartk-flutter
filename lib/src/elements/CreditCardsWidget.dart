@@ -28,7 +28,10 @@ class CreditCardsWidget extends StatelessWidget {
             color: Theme.of(context).primaryColor.withOpacity(0.8),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.15), blurRadius: 20, offset: Offset(0, 5)),
+              BoxShadow(
+                  color: Theme.of(context).hintColor.withOpacity(0.15),
+                  blurRadius: 20,
+                  offset: Offset(0, 5)),
             ],
           ),
         ),
@@ -40,7 +43,10 @@ class CreditCardsWidget extends StatelessWidget {
             color: Theme.of(context).primaryColor.withOpacity(0.8),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.15), blurRadius: 20, offset: Offset(0, 5)),
+              BoxShadow(
+                  color: Theme.of(context).hintColor.withOpacity(0.15),
+                  blurRadius: 20,
+                  offset: Offset(0, 5)),
             ],
           ),
         ),
@@ -52,7 +58,10 @@ class CreditCardsWidget extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.15), blurRadius: 20, offset: Offset(0, 5)),
+              BoxShadow(
+                  color: Theme.of(context).hintColor.withOpacity(0.15),
+                  blurRadius: 20,
+                  offset: Offset(0, 5)),
             ],
           ),
           child: Padding(
@@ -88,7 +97,10 @@ class CreditCardsWidget extends StatelessWidget {
                 ),
                 Text(
                   Helper.getCreditCardNumber(creditCard.number),
-                  style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(letterSpacing: 1.4)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .merge(TextStyle(letterSpacing: 1.4)),
                 ),
                 SizedBox(height: 15),
                 Row(
@@ -109,11 +121,17 @@ class CreditCardsWidget extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       '${creditCard.expMonth}/${creditCard.expYear}',
-                      style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(letterSpacing: 1.4)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .merge(TextStyle(letterSpacing: 1.4)),
                     ),
                     Text(
                       creditCard.cvc,
-                      style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(letterSpacing: 1.4)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .merge(TextStyle(letterSpacing: 1.4)),
                     ),
                   ],
                 )

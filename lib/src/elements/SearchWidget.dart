@@ -43,8 +43,8 @@ class SearchModal extends ModalRoute<void> {
   }
 
   @override
-  Widget buildTransitions(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
     var begin = Offset(0.0, 1.0);
     var end = Offset.zero;
     var tween = Tween(begin: begin, end: end);

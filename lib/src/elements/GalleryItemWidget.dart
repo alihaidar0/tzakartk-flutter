@@ -18,7 +18,10 @@ class GalleryItemWidget extends StatelessWidget {
             margin: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 20),
             decoration: BoxDecoration(
               boxShadow: [
-                BoxShadow(color: Theme.of(context).accentColor.withOpacity(0.1), blurRadius: 15, offset: Offset(0, 5)),
+                BoxShadow(
+                    color: Theme.of(context).accentColor.withOpacity(0.1),
+                    blurRadius: 15,
+                    offset: Offset(0, 5)),
               ],
             ),
             child: ClipRRect(

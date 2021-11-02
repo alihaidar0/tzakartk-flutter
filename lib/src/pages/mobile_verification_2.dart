@@ -54,7 +54,8 @@ class _MobileVerification2State extends State<MobileVerification2> {
               textAlign: TextAlign.center,
               decoration: new InputDecoration(
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2)),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).focusColor.withOpacity(0.2)),
                 ),
                 focusedBorder: new UnderlineInputBorder(
                   borderSide: new BorderSide(
@@ -81,12 +82,18 @@ class _MobileVerification2State extends State<MobileVerification2> {
                 if (user != null) {
                   widget.onVerified;
                 } else {
-                  final AuthCredential credential = PhoneAuthProvider.credential(verificationId: currentUser.value.verificationId, smsCode: smsSent);
+                  final AuthCredential credential =
+                      PhoneAuthProvider.credential(
+                          verificationId: currentUser.value.verificationId,
+                          smsCode: smsSent);
 
-                  await FirebaseAuth.instance.signInWithCredential(credential).then((user) {
+                  await FirebaseAuth.instance
+                      .signInWithCredential(credential)
+                      .then((user) {
                     widget.onVerified;
                   }).catchError((e) {
-                    ScaffoldMessenger.of(widget.scaffoldKey?.currentContext).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(widget.scaffoldKey?.currentContext)
+                        .showSnackBar(SnackBar(
                       content: Text(e.toString()),
                     ));
                     print(e);
@@ -94,7 +101,11 @@ class _MobileVerification2State extends State<MobileVerification2> {
                 }
               },
               color: Theme.of(context).accentColor,
-              text: Text(S.of(context).verify.toUpperCase(), style: Theme.of(context).textTheme.headline6.merge(TextStyle(color: Theme.of(context).primaryColor))),
+              text: Text(S.of(context).verify.toUpperCase(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .merge(TextStyle(color: Theme.of(context).primaryColor))),
             ),
           ],
         ),

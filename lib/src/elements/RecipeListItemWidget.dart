@@ -11,7 +11,9 @@ class RecipeListItemWidget extends StatelessWidget {
           width: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
-            image: DecorationImage(image: AssetImage('assets/img/product3.jpg'), fit: BoxFit.cover),
+            image: DecorationImage(
+                image: AssetImage('assets/img/product3.jpg'),
+                fit: BoxFit.cover),
           ),
         ),
         SizedBox(width: 15),
@@ -24,7 +26,10 @@ class RecipeListItemWidget extends StatelessWidget {
                 'Gluten-free spaghetti with tomatoes',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
-                style: Theme.of(context).textTheme.headline6.merge(TextStyle(color: Theme.of(context).hintColor)),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .merge(TextStyle(color: Theme.of(context).hintColor)),
               ),
               Text(
                 '15 min video',

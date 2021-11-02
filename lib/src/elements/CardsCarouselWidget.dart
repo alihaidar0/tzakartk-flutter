@@ -10,7 +10,8 @@ class CardsCarouselWidget extends StatefulWidget {
   List<Market> marketsList;
   String heroTag;
 
-  CardsCarouselWidget({Key key, this.marketsList, this.heroTag}) : super(key: key);
+  CardsCarouselWidget({Key key, this.marketsList, this.heroTag})
+      : super(key: key);
 
   @override
   _CardsCarouselWidgetState createState() => _CardsCarouselWidgetState();
@@ -41,7 +42,9 @@ class _CardsCarouselWidgetState extends State<CardsCarouselWidget> {
                           heroTag: widget.heroTag,
                         ));
                   },
-                  child: CardWidget(market: widget.marketsList.elementAt(index), heroTag: widget.heroTag),
+                  child: CardWidget(
+                      market: widget.marketsList.elementAt(index),
+                      heroTag: widget.heroTag),
                 );
               },
             ),

@@ -54,19 +54,26 @@ class _PagesWidgetState extends State<PagesWidget> {
       widget.currentTab = tabItem;
       switch (tabItem) {
         case 0:
-          widget.currentPage = NotificationsWidget(parentScaffoldKey: widget.scaffoldKey);
+          widget.currentPage =
+              NotificationsWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
         case 1:
-          widget.currentPage = MapWidget(parentScaffoldKey: widget.scaffoldKey, routeArgument: widget.routeArgument);
+          widget.currentPage = MapWidget(
+              parentScaffoldKey: widget.scaffoldKey,
+              routeArgument: widget.routeArgument);
           break;
         case 2:
-          widget.currentPage = HomeWidget(parentScaffoldKey: widget.scaffoldKey);
+          widget.currentPage =
+              HomeWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
         case 3:
-          widget.currentPage = OrdersWidget(parentScaffoldKey: widget.scaffoldKey);
+          widget.currentPage =
+              OrdersWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
         case 4:
-          widget.currentPage = MessagesWidget(parentScaffoldKey: widget.scaffoldKey); //FavoritesWidget(parentScaffoldKey: widget.scaffoldKey);
+          widget.currentPage = MessagesWidget(
+              parentScaffoldKey: widget
+                  .scaffoldKey); //FavoritesWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
       }
     });
@@ -80,7 +87,8 @@ class _PagesWidgetState extends State<PagesWidget> {
         key: widget.scaffoldKey,
         drawer: DrawerWidget(),
         endDrawer: FilterWidget(onFilter: (filter) {
-          Navigator.of(context).pushReplacementNamed('/Pages', arguments: widget.currentTab);
+          Navigator.of(context)
+              .pushReplacementNamed('/Pages', arguments: widget.currentTab);
         }),
         body: widget.currentPage,
         bottomNavigationBar: BottomNavigationBar(
@@ -100,11 +108,15 @@ class _PagesWidgetState extends State<PagesWidget> {
           // this will be set when a new tab is tapped
           items: [
             BottomNavigationBarItem(
-              icon: Icon(widget.currentTab == 0 ? Icons.notifications : Icons.notifications_outlined),
+              icon: Icon(widget.currentTab == 0
+                  ? Icons.notifications
+                  : Icons.notifications_outlined),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: Icon(widget.currentTab == 1 ? Icons.location_on : Icons.location_on_outlined),
+              icon: Icon(widget.currentTab == 1
+                  ? Icons.location_on
+                  : Icons.location_on_outlined),
               label: '',
             ),
             BottomNavigationBarItem(
@@ -119,18 +131,29 @@ class _PagesWidgetState extends State<PagesWidget> {
                       Radius.circular(50),
                     ),
                     boxShadow: [
-                      BoxShadow(color: Theme.of(context).accentColor.withOpacity(0.4), blurRadius: 40, offset: Offset(0, 15)),
-                      BoxShadow(color: Theme.of(context).accentColor.withOpacity(0.4), blurRadius: 13, offset: Offset(0, 3))
+                      BoxShadow(
+                          color: Theme.of(context).accentColor.withOpacity(0.4),
+                          blurRadius: 40,
+                          offset: Offset(0, 15)),
+                      BoxShadow(
+                          color: Theme.of(context).accentColor.withOpacity(0.4),
+                          blurRadius: 13,
+                          offset: Offset(0, 3))
                     ],
                   ),
-                  child: new Icon(widget.currentTab == 2 ? Icons.home : Icons.home_outlined, color: Theme.of(context).primaryColor),
+                  child: new Icon(
+                      widget.currentTab == 2 ? Icons.home : Icons.home_outlined,
+                      color: Theme.of(context).primaryColor),
                 )),
             BottomNavigationBarItem(
-              icon: new Icon(widget.currentTab == 3 ? Icons.local_mall : Icons.local_mall_outlined),
+              icon: new Icon(widget.currentTab == 3
+                  ? Icons.local_mall
+                  : Icons.local_mall_outlined),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: new Icon(widget.currentTab == 4 ? Icons.chat : Icons.chat_outlined),
+              icon: new Icon(
+                  widget.currentTab == 4 ? Icons.chat : Icons.chat_outlined),
               label: '',
             ),
           ],

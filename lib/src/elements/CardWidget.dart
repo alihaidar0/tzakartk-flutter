@@ -13,6 +13,7 @@ class CardWidget extends StatelessWidget {
   String heroTag;
 
   CardWidget({Key key, this.market, this.heroTag}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +23,10 @@ class CardWidget extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: [
-          BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 15, offset: Offset(0, 5)),
+          BoxShadow(
+              color: Theme.of(context).focusColor.withOpacity(0.1),
+              blurRadius: 15,
+              offset: Offset(0, 5)),
         ],
       ),
       child: Column(
@@ -38,7 +42,9 @@ class CardWidget extends StatelessWidget {
               Hero(
                 tag: this.heroTag + market.id,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
                   child: CachedNetworkImage(
                     height: 150,
                     width: double.infinity,
@@ -50,7 +56,8 @@ class CardWidget extends StatelessWidget {
                       width: double.infinity,
                       height: 150,
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.error_outline),
                   ),
                 ),
               ),
@@ -59,29 +66,43 @@ class CardWidget extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-                    decoration: BoxDecoration(color: market.closed ? Colors.grey : Colors.green, borderRadius: BorderRadius.circular(24)),
+                    decoration: BoxDecoration(
+                        color: market.closed ? Colors.grey : Colors.green,
+                        borderRadius: BorderRadius.circular(24)),
                     child: market.closed
                         ? Text(
                             S.of(context).closed,
-                            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                            style: Theme.of(context).textTheme.caption.merge(
+                                TextStyle(
+                                    color: Theme.of(context).primaryColor)),
                           )
                         : Text(
                             S.of(context).open,
-                            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                            style: Theme.of(context).textTheme.caption.merge(
+                                TextStyle(
+                                    color: Theme.of(context).primaryColor)),
                           ),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-                    decoration: BoxDecoration(color: Helper.canDelivery(market) ? Colors.green : Colors.orange, borderRadius: BorderRadius.circular(24)),
+                    decoration: BoxDecoration(
+                        color: Helper.canDelivery(market)
+                            ? Colors.green
+                            : Colors.orange,
+                        borderRadius: BorderRadius.circular(24)),
                     child: Helper.canDelivery(market)
                         ? Text(
                             S.of(context).delivery,
-                            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                            style: Theme.of(context).textTheme.caption.merge(
+                                TextStyle(
+                                    color: Theme.of(context).primaryColor)),
                           )
                         : Text(
                             S.of(context).pickup,
-                            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                            style: Theme.of(context).textTheme.caption.merge(
+                                TextStyle(
+                                    color: Theme.of(context).primaryColor)),
                           ),
                   ),
                 ],
@@ -114,7 +135,8 @@ class CardWidget extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       Row(
-                        children: Helper.getStarsList(double.parse(market.rate)),
+                        children:
+                            Helper.getStarsList(double.parse(market.rate)),
                       ),
                     ],
                   ),
@@ -127,15 +149,22 @@ class CardWidget extends StatelessWidget {
                         elevation: 0,
                         padding: EdgeInsets.all(0),
                         onPressed: () {
-                          Navigator.of(context).pushNamed('/Pages', arguments: new RouteArgument(id: '1', param: market));
+                          Navigator.of(context).pushNamed('/Pages',
+                              arguments:
+                                  new RouteArgument(id: '1', param: market));
                         },
-                        child: Icon(Icons.directions_outlined, color: Theme.of(context).primaryColor),
+                        child: Icon(Icons.directions_outlined,
+                            color: Theme.of(context).primaryColor),
                         color: Theme.of(context).accentColor,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
                       ),
                       market.distance > 0
                           ? Text(
-                              Helper.getDistance(market.distance, Helper.of(context).trans(setting.value.distanceUnit)),
+                              Helper.getDistance(
+                                  market.distance,
+                                  Helper.of(context)
+                                      .trans(setting.value.distanceUnit)),
                               overflow: TextOverflow.fade,
                               maxLines: 1,
                               softWrap: false,

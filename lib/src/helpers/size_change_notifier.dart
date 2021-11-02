@@ -35,7 +35,8 @@ class LayoutSizeChangeNotification extends LayoutChangedNotification {
 class LayoutSizeChangeNotifier extends SingleChildRenderObjectWidget {
   /// Creates a [SizeChangedLayoutNotifier] that dispatches layout changed
   /// notifications when [child] changes layout size.
-  const LayoutSizeChangeNotifier({Key key, Widget child}) : super(key: key, child: child);
+  const LayoutSizeChangeNotifier({Key key, Widget child})
+      : super(key: key, child: child);
 
   @override
   _SizeChangeRenderWithCallback createRenderObject(BuildContext context) {
@@ -46,7 +47,8 @@ class LayoutSizeChangeNotifier extends SingleChildRenderObjectWidget {
 }
 
 class _SizeChangeRenderWithCallback extends RenderProxyBox {
-  _SizeChangeRenderWithCallback({RenderBox child, @required this.onLayoutChangedCallback})
+  _SizeChangeRenderWithCallback(
+      {RenderBox child, @required this.onLayoutChangedCallback})
       : assert(onLayoutChangedCallback != null),
         super(child);
 

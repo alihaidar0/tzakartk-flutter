@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'size_change_notifier.dart';
 
 class ActionItems extends Object {
-  ActionItems({@required this.icon, @required this.onPress, this.backgroudColor: Colors.grey}) {
+  ActionItems(
+      {@required this.icon,
+      @required this.onPress,
+      this.backgroudColor: Colors.grey}) {
     assert(icon != null);
     assert(onPress != null);
   }
@@ -17,7 +20,12 @@ class ActionItems extends Object {
 }
 
 class OnSlide extends StatefulWidget {
-  OnSlide({Key key, @required this.items, @required this.child, this.backgroundColor: Colors.white}) : super(key: key) {
+  OnSlide(
+      {Key key,
+      @required this.items,
+      @required this.child,
+      this.backgroundColor: Colors.white})
+      : super(key: key) {
     assert(items.length <= 6);
   }
 
@@ -44,13 +52,19 @@ class _OnSlideState extends State<OnSlide> {
 
   bool _handleScrollNotification(dynamic notification) {
     if (notification is ScrollEndNotification) {
-      if (notification.metrics.pixels >= (widget.items.length * 70.0) / 2 && notification.metrics.pixels < widget.items.length * 70.0) {
+      if (notification.metrics.pixels >= (widget.items.length * 70.0) / 2 &&
+          notification.metrics.pixels < widget.items.length * 70.0) {
         scheduleMicrotask(() {
-          controller.animateTo(widget.items.length * 60.0, duration: new Duration(milliseconds: 600), curve: Curves.decelerate);
+          controller.animateTo(widget.items.length * 60.0,
+              duration: new Duration(milliseconds: 600),
+              curve: Curves.decelerate);
         });
-      } else if (notification.metrics.pixels > 0.0 && notification.metrics.pixels < (widget.items.length * 70.0) / 2) {
+      } else if (notification.metrics.pixels > 0.0 &&
+          notification.metrics.pixels < (widget.items.length * 70.0) / 2) {
         scheduleMicrotask(() {
-          controller.animateTo(0.0, duration: new Duration(milliseconds: 600), curve: Curves.decelerate);
+          controller.animateTo(0.0,
+              duration: new Duration(milliseconds: 600),
+              curve: Curves.decelerate);
         });
       }
     }

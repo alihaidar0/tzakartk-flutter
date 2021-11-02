@@ -8,7 +8,8 @@ class ProductGridItemWidget extends StatefulWidget {
   final Product product;
   final VoidCallback onPressed;
 
-  ProductGridItemWidget({Key key, this.heroTag, this.product, this.onPressed}) : super(key: key);
+  ProductGridItemWidget({Key key, this.heroTag, this.product, this.onPressed})
+      : super(key: key);
 
   @override
   _ProductGridItemWidgetState createState() => _ProductGridItemWidgetState();
@@ -21,7 +22,9 @@ class _ProductGridItemWidgetState extends State<ProductGridItemWidget> {
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context).pushNamed('/Product', arguments: new RouteArgument(heroTag: this.widget.heroTag, id: this.widget.product.id));
+        Navigator.of(context).pushNamed('/Product',
+            arguments: new RouteArgument(
+                heroTag: this.widget.heroTag, id: this.widget.product.id));
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,
@@ -34,7 +37,9 @@ class _ProductGridItemWidgetState extends State<ProductGridItemWidget> {
                   tag: widget.heroTag + widget.product.id,
                   child: Container(
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage(this.widget.product.image.thumb), fit: BoxFit.cover),
+                      image: DecorationImage(
+                          image: NetworkImage(this.widget.product.image.thumb),
+                          fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),

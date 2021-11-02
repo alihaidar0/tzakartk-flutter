@@ -58,7 +58,8 @@ class SplashScreenState extends StateMVC<SplashScreen> {
               ),
               SizedBox(height: 50),
               CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).hintColor),
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(Theme.of(context).hintColor),
               ),
             ],
           ),

@@ -29,7 +29,9 @@ class _HomeSliderWidgetState extends State<HomeSliderWidget> {
     return widget.slides == null || widget.slides.isEmpty
         ? HomeSliderLoaderWidget()
         : Stack(
-            alignment: _alignmentDirectional ?? Helper.getAlignmentDirectional(widget.slides.elementAt(0).textPosition),
+            alignment: _alignmentDirectional ??
+                Helper.getAlignmentDirectional(
+                    widget.slides.elementAt(0).textPosition),
             fit: StackFit.passthrough,
             children: <Widget>[
               CarouselSlider(
@@ -41,7 +43,8 @@ class _HomeSliderWidgetState extends State<HomeSliderWidget> {
                   onPageChanged: (index, reason) {
                     setState(() {
                       _current = index;
-                      _alignmentDirectional = Helper.getAlignmentDirectional(widget.slides.elementAt(index).textPosition);
+                      _alignmentDirectional = Helper.getAlignmentDirectional(
+                          widget.slides.elementAt(index).textPosition);
                     });
                   },
                 ),
@@ -49,17 +52,24 @@ class _HomeSliderWidgetState extends State<HomeSliderWidget> {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 20),
                         height: 140,
                         decoration: BoxDecoration(
                           boxShadow: [
-                            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), blurRadius: 15, offset: Offset(0, 2)),
+                            BoxShadow(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.15),
+                                blurRadius: 15,
+                                offset: Offset(0, 2)),
                           ],
                         ),
                         child: Stack(
                           children: [
                             ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                               child: CachedNetworkImage(
                                 height: 140,
                                 width: double.infinity,
@@ -71,51 +81,75 @@ class _HomeSliderWidgetState extends State<HomeSliderWidget> {
                                   width: double.infinity,
                                   height: 140,
                                 ),
-                                errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error_outline),
                               ),
                             ),
                             Container(
-                              alignment: Helper.getAlignmentDirectional(slide.textPosition),
+                              alignment: Helper.getAlignmentDirectional(
+                                  slide.textPosition),
                               width: double.infinity,
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Container(
                                 width: config.App(context).appWidth(40),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     if (slide.text != null && slide.text != '')
                                       Text(
                                         slide.text,
-                                        style: Theme.of(context).textTheme.headline6.merge(
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6
+                                            .merge(
                                               TextStyle(
                                                 fontSize: 14,
                                                 height: 1,
-                                                color: Helper.of(context).getColorFromHex(slide.textColor),
+                                                color: Helper.of(context)
+                                                    .getColorFromHex(
+                                                        slide.textColor),
                                               ),
                                             ),
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.fade,
                                         maxLines: 3,
                                       ),
-                                    if (slide.button != null && slide.button != '')
+                                    if (slide.button != null &&
+                                        slide.button != '')
                                       MaterialButton(
                                         elevation: 0,
                                         onPressed: () {
                                           if (slide.market.id != 'null') {
-                                            Navigator.of(context).pushNamed('/Details', arguments: RouteArgument(id: '0', param: slide.market.id, heroTag: 'home_slide'));
-                                          } else if (slide.product.id != 'null') {
-                                            Navigator.of(context).pushNamed('/Product', arguments: RouteArgument(id: slide.product.id, heroTag: 'home_slide'));
+                                            Navigator.of(context).pushNamed(
+                                                '/Details',
+                                                arguments: RouteArgument(
+                                                    id: '0',
+                                                    param: slide.market.id,
+                                                    heroTag: 'home_slide'));
+                                          } else if (slide.product.id !=
+                                              'null') {
+                                            Navigator.of(context).pushNamed(
+                                                '/Product',
+                                                arguments: RouteArgument(
+                                                    id: slide.product.id,
+                                                    heroTag: 'home_slide'));
                                           }
                                         },
-                                        padding: EdgeInsets.symmetric(vertical: 5),
-                                        color: Helper.of(context).getColorFromHex(slide.buttonColor),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 5),
+                                        color: Helper.of(context)
+                                            .getColorFromHex(slide.buttonColor),
                                         shape: StadiumBorder(),
                                         child: Text(
                                           slide.button,
                                           textAlign: TextAlign.start,
-                                          style: TextStyle(color: Theme.of(context).primaryColor),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
                                         ),
                                       ),
                                   ],
@@ -137,14 +171,18 @@ class _HomeSliderWidgetState extends State<HomeSliderWidget> {
                     return Container(
                       width: 20.0,
                       height: 3.0,
-                      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(
                             Radius.circular(8),
                           ),
                           color: _current == widget.slides.indexOf(slide)
-                              ? Helper.of(context).getColorFromHex(slide.indicatorColor)
-                              : Helper.of(context).getColorFromHex(slide.indicatorColor).withOpacity(0.3)),
+                              ? Helper.of(context)
+                                  .getColorFromHex(slide.indicatorColor)
+                              : Helper.of(context)
+                                  .getColorFromHex(slide.indicatorColor)
+                                  .withOpacity(0.3)),
                     );
                   }).toList(),
                 ),

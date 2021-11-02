@@ -17,7 +17,8 @@ class OptionItemWidget extends StatefulWidget {
   _OptionItemWidgetState createState() => _OptionItemWidgetState();
 }
 
-class _OptionItemWidgetState extends State<OptionItemWidget> with SingleTickerProviderStateMixin {
+class _OptionItemWidgetState extends State<OptionItemWidget>
+    with SingleTickerProviderStateMixin {
   Animation animation;
   AnimationController animationController;
   Animation<double> sizeCheckAnimation;
@@ -28,8 +29,10 @@ class _OptionItemWidgetState extends State<OptionItemWidget> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(duration: Duration(milliseconds: 350), vsync: this);
-    CurvedAnimation curve = CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+    animationController =
+        AnimationController(duration: Duration(milliseconds: 350), vsync: this);
+    CurvedAnimation curve =
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
     animation = Tween(begin: 0.0, end: 60.0).animate(curve)
       ..addListener(() {
         setState(() {});
@@ -81,7 +84,9 @@ class _OptionItemWidgetState extends State<OptionItemWidget> with SingleTickerPr
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(60)),
-                  image: DecorationImage(image: NetworkImage(widget.option.image?.thumb), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image: NetworkImage(widget.option.image?.thumb),
+                      fit: BoxFit.cover),
                 ),
               ),
               Container(
@@ -89,14 +94,18 @@ class _OptionItemWidgetState extends State<OptionItemWidget> with SingleTickerPr
                 width: animation.value,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(60)),
-                  color: Theme.of(context).accentColor.withOpacity(opacityAnimation.value),
+                  color: Theme.of(context)
+                      .accentColor
+                      .withOpacity(opacityAnimation.value),
                 ),
                 child: Transform.rotate(
                   angle: rotateCheckAnimation.value,
                   child: Icon(
                     Icons.check,
                     size: sizeCheckAnimation.value,
-                    color: Theme.of(context).primaryColor.withOpacity(opacityCheckAnimation.value),
+                    color: Theme.of(context)
+                        .primaryColor
+                        .withOpacity(opacityCheckAnimation.value),
                   ),
                 ),
               ),
@@ -127,7 +136,8 @@ class _OptionItemWidgetState extends State<OptionItemWidget> with SingleTickerPr
                   ),
                 ),
                 SizedBox(width: 8),
-                Helper.getPrice(widget.option.price, context, style: Theme.of(context).textTheme.headline4),
+                Helper.getPrice(widget.option.price, context,
+                    style: Theme.of(context).textTheme.headline4),
               ],
             ),
           )
