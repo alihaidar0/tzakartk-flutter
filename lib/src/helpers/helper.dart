@@ -15,8 +15,6 @@ import 'package:html/parser.dart';
 
 import '../../generated/l10n.dart';
 import '../elements/CircularLoadingWidget.dart';
-import '../models/cart.dart';
-import '../models/market.dart';
 import '../models/order.dart';
 import '../models/product_order.dart';
 import '../repository/settings_repository.dart';
@@ -37,7 +35,7 @@ class Helper {
   }
 
   static int getIntData(Map<String, dynamic> data) {
-    return (data['data'] as int) ?? 0;
+    return (int.parse(data['data'])) ?? 0;
   }
 
   static bool getBoolData(Map<String, dynamic> data) {
@@ -64,9 +62,11 @@ class Helper {
     final Marker marker = Marker(
         markerId: MarkerId(res['id']),
         icon: BitmapDescriptor.fromBytes(markerIcon),
-//        onTap: () {
-//          //print(res.name);
-//        },
+        onTap: () {
+          /// I HID THIS ""START""
+          //print(res.name);
+          /// I HID THIS ""END""
+        },
         anchor: Offset(0.5, 0.5),
         infoWindow: InfoWindow(
             title: res['name'],
@@ -220,36 +220,39 @@ class Helper {
     return distance != null ? distance.toStringAsFixed(2) + " " + unit : "";
   }
 
-  static bool canDelivery(Market _market, {List<Cart> carts}) {
-    bool _can = true;
-    String _unit = setting.value.distanceUnit;
-    double _deliveryRange = _market.deliveryRange;
-    double _distance = _market.distance;
-    carts?.forEach((Cart _cart) {
-      _can &= _cart.product.deliverable;
-    });
-
-    if (_unit == 'km') {
-      _deliveryRange /= 1.60934;
-    }
-    if (_distance == 0 && !deliveryAddress.value.isUnknown()) {
-      _distance = sqrt(pow(
-              69.1 *
-                  (double.parse(_market.latitude) -
-                      deliveryAddress.value.latitude),
-              2) +
-          pow(
-              69.1 *
-                  (deliveryAddress.value.longitude -
-                      double.parse(_market.longitude)) *
-                  cos(double.parse(_market.latitude) / 57.3),
-              2));
-    }
-    _can &= _market.availableForDelivery &&
-        (_distance < _deliveryRange) &&
-        !deliveryAddress.value.isUnknown();
-    return _can;
-  }
+  /// I HID THIS FOR MARKET
+  // static bool canDelivery(Market _market, {List<Cart> carts}) {
+  //   bool _can = true;
+  //   String _unit = setting.value.distanceUnit;
+  //   double _deliveryRange = _market.deliveryRange;
+  //   double _distance = _market.distance;
+  //   carts?.forEach((Cart _cart) {
+  //     /// I HID THIS ""START""
+  //     // _can &= _cart.product.deliverable;
+  //     /// I HID THIS ""END""
+  //   });
+  //
+  //   if (_unit == 'km') {
+  //     _deliveryRange /= 1.60934;
+  //   }
+  //   if (_distance == 0 && !deliveryAddress.value.isUnknown()) {
+  //     _distance = sqrt(pow(
+  //             69.1 *
+  //                 (double.parse(_market.latitude) -
+  //                     deliveryAddress.value.latitude),
+  //             2) +
+  //         pow(
+  //             69.1 *
+  //                 (deliveryAddress.value.longitude -
+  //                     double.parse(_market.longitude)) *
+  //                 cos(double.parse(_market.latitude) / 57.3),
+  //             2));
+  //   }
+  //   _can &= _market.availableForDelivery &&
+  //       (_distance < _deliveryRange) &&
+  //       !deliveryAddress.value.isUnknown();
+  //   return _can;
+  // }
 
   static String skipHtml(String htmlString) {
     try {

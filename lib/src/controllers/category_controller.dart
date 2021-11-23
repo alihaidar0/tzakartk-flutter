@@ -27,6 +27,9 @@ class CategoryController extends ControllerMVC {
         products.add(_product);
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getProductsByCategory with SnackBar #########");
+      print("##################");
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
       ));
@@ -44,6 +47,9 @@ class CategoryController extends ControllerMVC {
     stream.listen((Category _category) {
       setState(() => category = _category);
     }, onError: (a) {
+      print("##################");
+      print("######### Error getCategory with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
@@ -64,32 +70,14 @@ class CategoryController extends ControllerMVC {
     });
   }
 
-  bool isSameMarkets(Product product) {
+  bool isSameShop(Product product) {
     if (carts.isNotEmpty) {
-      return carts[0].product?.market?.id == product.market?.id;
+      return carts[0].product?.category?.id == product.category?.id;
     }
     return true;
   }
 
-  /*void addToCart(Product product, {bool reset = false}) async {
-    setState(() {
-      this.loadCart = true;
-    });
-    var _cart = new Cart();
-    _cart.product = product;
-    _cart.options = [];
-    _cart.quantity = 1;
-    addCart(_cart, reset).then((value) {
-      setState(() {
-        this.loadCart = false;
-      });
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).this_product_was_added_to_cart),
-      ));
-    });
-  }*/
-
-  void addToCart(Product product, {bool reset = false}) async {
+  void addToCart(Product product) async {
     setState(() {
       this.loadCart = true;
     });
@@ -112,7 +100,7 @@ class CategoryController extends ControllerMVC {
       });
     } else {
       // the product doesnt exist in the cart add new one
-      addCart(_newCart, reset).then((value) {
+      addCart(_newCart).then((value) {
         setState(() {
           this.loadCart = false;
         });
@@ -126,12 +114,5 @@ class CategoryController extends ControllerMVC {
 
   Cart isExistInCart(Cart _cart) {
     return carts.firstWhere((Cart oldCart) => _cart.isSame(oldCart), orElse: () => null);
-  }
-
-  Future<void> refreshCategory() async {
-    products.clear();
-    category = new Category();
-    listenForProductsByCategory(message: S.of(state.context).category_refreshed_successfuly);
-    listenForCategory(message: S.of(state.context).category_refreshed_successfuly);
   }
 }

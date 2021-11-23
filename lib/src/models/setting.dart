@@ -22,10 +22,12 @@ class Setting {
   String scaffoldColor;
   String googleMapsKey;
   String fcmKey;
-  ValueNotifier<Locale> mobileLanguage = new ValueNotifier(Locale('en', ''));
+  ValueNotifier<Locale> mobileLanguage = new ValueNotifier(Locale("en", ''));
   String appVersion;
   bool enableVersion = true;
   List<String> homeSections = [];
+  String mobile_logo;
+  String on_loading_image;
 
   ValueNotifier<Brightness> brightness = new ValueNotifier(Brightness.light);
 
@@ -76,6 +78,8 @@ class Setting {
         homeSections.add(jsonMap['home_section_' + _i.toString()] != null
             ? jsonMap['home_section_' + _i.toString()]
             : 'empty');
+        mobile_logo = jsonMap['mobile_logo'] ?? null;
+        on_loading_image = jsonMap['on_loading_image'] ?? null;
       }
     } catch (e) {
       print(CustomTrace(StackTrace.current, message: e));

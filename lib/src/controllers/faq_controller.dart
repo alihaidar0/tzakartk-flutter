@@ -21,6 +21,9 @@ class FaqController extends ControllerMVC {
         faqs.add(_faq);
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getFaqCategories with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),

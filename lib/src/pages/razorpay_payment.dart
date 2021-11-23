@@ -54,8 +54,16 @@ class _RazorPayPaymentWidgetState extends StateMVC<RazorPayPaymentWidget> {
                 });
                 if (url ==
                     "${GlobalConfiguration().getValue('base_url')}payments/razorpay") {
+                  /// I HID THIS ""START""
+                  // Navigator.of(context)
+                  //     .pushReplacementNamed('/Pages', arguments: 3);
+                  /// I HID THIS ""END""
+                  ///
+                  /// I WROTE THIS ""START""
                   Navigator.of(context)
-                      .pushReplacementNamed('/Pages', arguments: 3);
+                      .pushReplacementNamed('/Pages', arguments: 2);
+
+                  /// I WROTE THIS ""END""
                 }
               },
               onPageFinished: (String url) {

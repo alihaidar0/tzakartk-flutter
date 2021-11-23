@@ -60,13 +60,17 @@ class ProductListItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          product.name,
+                          Localizations.localeOf(context).languageCode == "en"
+                              ? product.en_name
+                              : product.ar_name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                         Text(
-                          product.market.name,
+                          Localizations.localeOf(context).languageCode == "en"
+                              ? product.category.en_name
+                              : product.category.ar_name,
                           overflow: TextOverflow.fade,
                           softWrap: false,
                           style: Theme.of(context).textTheme.caption,

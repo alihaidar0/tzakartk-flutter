@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../helpers/helper.dart';
@@ -59,23 +58,23 @@ class _CartItemWidgetState extends State<CartItemWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                child: CachedNetworkImage(
-                  height: 90,
-                  width: 90,
-                  fit: BoxFit.cover,
-                  imageUrl: widget.cart.product.image.thumb,
-                  placeholder: (context, url) => Image.asset(
-                    'assets/img/loading.gif',
-                    fit: BoxFit.cover,
-                    height: 90,
-                    width: 90,
-                  ),
-                  errorWidget: (context, url, error) =>
-                      Icon(Icons.error_outline),
-                ),
-              ),
+              // ClipRRect(
+              //   borderRadius: BorderRadius.all(Radius.circular(5)),
+              //   child: CachedNetworkImage(
+              //     height: 90,
+              //     width: 90,
+              //     fit: BoxFit.cover,
+              //     imageUrl: widget.cart.product.image.thumb,
+              //     placeholder: (context, url) => Image.asset(
+              //       'assets/img/loading.gif',
+              //       fit: BoxFit.cover,
+              //       height: 90,
+              //       width: 90,
+              //     ),
+              //     errorWidget: (context, url, error) =>
+              //         Icon(Icons.error_outline),
+              //   ),
+              // ),
               SizedBox(width: 15),
               Flexible(
                 child: Row(
@@ -86,7 +85,9 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            widget.cart.product.name,
+                            Localizations.localeOf(context).languageCode == "en"
+                                ? widget.cart.product.en_name
+                                : widget.cart.product.ar_name,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: Theme.of(context).textTheme.subtitle1,
@@ -122,7 +123,10 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                                   : SizedBox(height: 0),
                             ],
                           ),
+
+                          /// I HID THIS ""START""
                           //Helper.getPrice(widget.cart.getProductPrice(), context, style: Theme.of(context).textTheme.headline4)
+                          /// I HID THIS ""END""
                         ],
                       ),
                     ),

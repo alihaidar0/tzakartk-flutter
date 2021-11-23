@@ -21,6 +21,9 @@ class OrderController extends ControllerMVC {
         orders.add(_order);
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getOrders with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),

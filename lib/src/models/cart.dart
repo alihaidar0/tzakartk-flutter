@@ -37,7 +37,7 @@ class Cart {
     var map = new Map<String, dynamic>();
     map["id"] = id;
     map["quantity"] = quantity;
-    map["product_id"] = product.id;
+    map["product_id"] = product.id.toString();
     map["user_id"] = userId;
     map["options"] = options.map((element) => element.id).toList();
     return map;

@@ -96,13 +96,15 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                       },
                       padding: EdgeInsets.symmetric(vertical: 5),
                       shape: StadiumBorder(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: Helper.getStarsList(
-                            double.parse(_con
-                                .order.productOrders[0].product.market.rate),
-                            size: 35),
-                      ),
+
+                      /// I HID THIS FOR MARKET
+                      // child: Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: Helper.getStarsList(
+                      //       double.parse(_con
+                      //           .order.productOrders[0].product.market.rate),
+                      //       size: 35),
+                      // ),
                     ),
                   ],
                 ),

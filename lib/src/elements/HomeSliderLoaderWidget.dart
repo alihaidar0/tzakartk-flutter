@@ -11,7 +11,10 @@ class HomeSliderLoaderWidget extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         boxShadow: [
-          BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), blurRadius: 15, offset: Offset(0, 2)),
+          BoxShadow(
+              color: Theme.of(context).focusColor.withOpacity(0.15),
+              blurRadius: 15,
+              offset: Offset(0, 2)),
         ],
       ),
       child: ClipRRect(

@@ -1,37 +1,34 @@
 import '../models/category.dart';
-import '../models/market.dart';
 import '../models/media.dart';
 import '../models/option.dart';
 import '../models/option_group.dart';
-import '../models/review.dart';
 import 'coupon.dart';
 
 class Product {
   String id;
-  String name;
   double price;
   double discountPrice;
-  Media image;
-  List<Media> images;
-  String description;
-  String ingredients;
   String capacity;
-  String unit;
   String packageItemsCount;
+  String unit;
   bool featured;
-  bool deliverable;
-  Market market;
+  String category_id;
+  String en_name;
+  String ar_name;
+  String en_description;
+  String ar_description;
+  bool has_media;
   Category category;
   List<Option> options;
+  List<Media> images;
+  Media image;
   List<OptionGroup> optionGroups;
-  List<Review> productReviews;
 
   Product();
 
   Product.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
-      name = jsonMap['name'];
       price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0.0;
       discountPrice = jsonMap['discount_price'] != null
           ? jsonMap['discount_price'].toDouble()
@@ -42,27 +39,19 @@ class Product {
           : jsonMap['price'] != null
               ? jsonMap['price'].toDouble()
               : 0.0;
-      description = jsonMap['description'];
       capacity = jsonMap['capacity'].toString();
-      unit = jsonMap['unit'] != null ? jsonMap['unit'].toString() : '';
       packageItemsCount = jsonMap['package_items_count'].toString();
+      unit = jsonMap['unit'] != null ? jsonMap['unit'].toString() : '';
       featured = jsonMap['featured'] ?? false;
-      deliverable = jsonMap['deliverable'] ?? false;
-      market = jsonMap['market'] != null
-          ? Market.fromJSON(jsonMap['market'])
-          : Market.fromJSON({});
+      category_id = jsonMap['category_id'].toString();
+      en_name = jsonMap['en_name'];
+      ar_name = jsonMap['ar_name'];
+      en_description = jsonMap['en_description'];
+      ar_description = jsonMap['ar_description'];
+      has_media = jsonMap['has_media'] ?? false;
       category = jsonMap['category'] != null
           ? Category.fromJSON(jsonMap['category'])
           : Category.fromJSON({});
-      image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
-          ? Media.fromJSON(jsonMap['media'][0])
-          : new Media();
-      images = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
-          ? List.from(jsonMap['media'])
-              .map((element) => Media.fromJSON(element))
-              .toSet()
-              .toList()
-          : [];
       options =
           jsonMap['options'] != null && (jsonMap['options'] as List).length > 0
               ? List.from(jsonMap['options'])
@@ -70,6 +59,15 @@ class Product {
                   .toSet()
                   .toList()
               : [];
+      images = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
+          ? List.from(jsonMap['media'])
+              .map((element) => Media.fromJSON(element))
+              .toSet()
+              .toList()
+          : [];
+      image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
+          ? Media.fromJSON(jsonMap['media'][0])
+          : new Media();
       optionGroups = jsonMap['option_groups'] != null &&
               (jsonMap['option_groups'] as List).length > 0
           ? List.from(jsonMap['option_groups'])
@@ -77,31 +75,25 @@ class Product {
               .toSet()
               .toList()
           : [];
-      productReviews = jsonMap['product_reviews'] != null &&
-              (jsonMap['product_reviews'] as List).length > 0
-          ? List.from(jsonMap['product_reviews'])
-              .map((element) => Review.fromJSON(element))
-              .toSet()
-              .toList()
-          : [];
     } catch (e) {
       id = '';
-      name = '';
       price = 0.0;
       discountPrice = 0.0;
-      description = '';
       capacity = '';
-      unit = '';
       packageItemsCount = '';
+      unit = '';
       featured = false;
-      deliverable = false;
-      market = Market.fromJSON({});
+      category_id = '';
+      en_name = '';
+      ar_name = '';
+      en_description = '';
+      ar_description = '';
+      has_media = false;
       category = Category.fromJSON({});
-      image = new Media();
-      images = [];
       options = [];
       optionGroups = [];
-      productReviews = [];
+      images = [];
+      image = new Media();
       print(e);
     }
   }
@@ -109,20 +101,15 @@ class Product {
   Map toMap() {
     var map = new Map<String, dynamic>();
     map["id"] = id;
-    map["name"] = name;
     map["price"] = price;
     map["discountPrice"] = discountPrice;
-    map["description"] = description;
     map["capacity"] = capacity;
     map["package_items_count"] = packageItemsCount;
+    map["en_name"] = en_name;
+    map["ar_name"] = ar_name;
+    map["en_description"] = en_description;
+    map["ar_description"] = ar_description;
     return map;
-  }
-
-  double getRate() {
-    double _rate = 0;
-    productReviews.forEach((e) => _rate += double.parse(e.rate));
-    _rate = _rate > 0 ? (_rate / productReviews.length) : 0;
-    return _rate;
   }
 
   @override
@@ -144,11 +131,15 @@ class Product {
             if (element.discountableId == id) {
               coupon = _couponDiscountPrice(coupon);
             }
-          } else if (element.discountableType == "App\\Models\\Market") {
-            if (element.discountableId == market.id) {
-              coupon = _couponDiscountPrice(coupon);
-            }
-          } else if (element.discountableType == "App\\Models\\Category") {
+          }
+
+          /// I HID THIS FOR MARKET
+          // else if (element.discountableType == "App\\Models\\Market") {
+          //   if (element.discountableId == market.id) {
+          //     coupon = _couponDiscountPrice(coupon);
+          //   }
+          // }
+          else if (element.discountableType == "App\\Models\\Category") {
             if (element.discountableId == category.id) {
               coupon = _couponDiscountPrice(coupon);
             }
@@ -170,4 +161,7 @@ class Product {
     if (price < 0) price = 0;
     return coupon;
   }
+
+  @override
+  String toString() => "name= $en_name, check= $options";
 }

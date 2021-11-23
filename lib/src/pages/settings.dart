@@ -4,10 +4,9 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import '../../generated/l10n.dart';
 import '../controllers/settings_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
-import '../elements/MobileVerificationBottomSheetWidget.dart';
+import '../elements/EmailVerificationBottomSheetWidget.dart';
 import '../elements/PaymentSettingsDialog.dart';
 import '../elements/ProfileSettingsDialog.dart';
-import '../elements/SearchBarWidget.dart';
 import '../helpers/helper.dart';
 import '../repository/user_repository.dart';
 
@@ -45,10 +44,6 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                 padding: EdgeInsets.symmetric(vertical: 7),
                 child: Column(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: SearchBarWidget(),
-                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 20),
@@ -121,7 +116,7 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                                       .scaffoldKey.currentState
                                       .showBottomSheet(
                                     (context) =>
-                                        MobileVerificationBottomSheetWidget(
+                                        EmailVerificationBottomSheetWidget(
                                             scaffoldKey: _con.scaffoldKey,
                                             user: currentUser.value),
                                     shape: RoundedRectangleBorder(

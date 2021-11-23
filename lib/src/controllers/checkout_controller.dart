@@ -37,8 +37,9 @@ class CheckoutController extends CartController {
   void addOrder(List<Cart> carts) async {
     Order _order = new Order();
     _order.productOrders = <ProductOrder>[];
-    _order.tax = carts[0].product.market.defaultTax;
-    _order.deliveryFee = payment.method == 'Pay on Pickup' ? 0 : carts[0].product.market.deliveryFee;
+    /// I HID THIS FOR MARKET
+    // _order.tax = carts[0].product.market.defaultTax;
+    // _order.deliveryFee = payment.method == 'Pay on Pickup' ? 0 : carts[0].product.market.deliveryFee;
     OrderStatus _orderStatus = new OrderStatus();
     _orderStatus.id = '1'; // TODO default order status Id
     _order.orderStatus = _orderStatus;

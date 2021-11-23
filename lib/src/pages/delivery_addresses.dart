@@ -55,7 +55,10 @@ class _DeliveryAddressesWidgetState extends StateMVC<DeliveryAddressesWidget> {
         ],
       ),
       floatingActionButton:
-          _con.cart != null && _con.cart.product.market.availableForDelivery
+
+          /// I HID THIS FOR MARKET
+          //     _con.cart != null && _con.cart.product.market.availableForDelivery
+          _con.cart != null
               ? FloatingActionButton(
                   onPressed: () async {
                     LocationResult result = await showLocationPicker(

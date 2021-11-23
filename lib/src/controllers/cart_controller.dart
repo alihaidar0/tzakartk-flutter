@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
-import '../helpers/helper.dart';
 import '../models/cart.dart';
 import '../models/coupon.dart';
 import '../repository/cart_repository.dart';
@@ -34,6 +33,9 @@ class CartController extends ControllerMVC {
         });
       }
     }, onError: (a) {
+      print("##################");
+      print("######### Error getCart with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
@@ -60,6 +62,9 @@ class CartController extends ControllerMVC {
         this.cartCount = _count;
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getCartCount with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
@@ -81,7 +86,9 @@ class CartController extends ControllerMVC {
     removeCart(_cart).then((value) {
       calculateSubtotal();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).the_product_was_removed_from_your_cart(_cart.product.name)),
+        content: Text(S
+            .of(state.context)
+            .the_product_was_removed_from_your_cart(_cart.product.en_name)),
       ));
     });
   }
@@ -97,11 +104,13 @@ class CartController extends ControllerMVC {
       cartPrice *= cart.quantity;
       subTotal += cartPrice;
     });
-    if (Helper.canDelivery(carts[0].product.market, carts: carts)) {
-      deliveryFee = carts[0].product.market.deliveryFee;
-    }
-    taxAmount = (subTotal + deliveryFee) * carts[0].product.market.defaultTax / 100;
-    total = subTotal + taxAmount + deliveryFee;
+
+    /// I HID THIS FOR MARKET
+    // if (Helper.canDelivery(carts[0].product.market, carts: carts)) {
+    //   deliveryFee = carts[0].product.market.deliveryFee;
+    // }
+    // taxAmount = (subTotal + deliveryFee) * carts[0].product.market.defaultTax / 100;
+    // total = subTotal + taxAmount + deliveryFee;
     setState(() {});
   }
 
@@ -111,6 +120,9 @@ class CartController extends ControllerMVC {
     stream.listen((Coupon _coupon) async {
       coupon = _coupon;
     }, onError: (a) {
+      print("##################");
+      print("######### Error verifyCoupon with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
@@ -148,15 +160,18 @@ class CartController extends ControllerMVC {
           },
         ),
       ));
-    } else {
-      if (carts[0].product.market.closed) {
-        ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-          content: Text(S.of(state.context).this_market_is_closed_),
-        ));
-      } else {
-        Navigator.of(state.context).pushNamed('/DeliveryPickup');
-      }
     }
+
+    /// I HID THIS FOR MARKET
+    // else {
+    //   if (carts[0].product.market.closed) {
+    //     ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+    //       content: Text(S.of(state.context).this_market_is_closed_),
+    //     ));
+    //   } else {
+    //     Navigator.of(state.context).pushNamed('/DeliveryPickup');
+    //   }
+    // }
   }
 
   Color getCouponIconColor() {

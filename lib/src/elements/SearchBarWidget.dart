@@ -28,9 +28,12 @@ class SearchBarWidget extends StatelessWidget {
               padding: const EdgeInsets.only(right: 12, left: 0),
               child: Icon(Icons.search, color: Theme.of(context).accentColor),
             ),
+            SizedBox(
+              width: 24,
+            ),
             Expanded(
               child: Text(
-                S.of(context).search_for_markets_or_products,
+                S.of(context).search,
                 maxLines: 1,
                 softWrap: false,
                 overflow: TextOverflow.fade,
@@ -41,34 +44,6 @@ class SearchBarWidget extends StatelessWidget {
               ),
             ),
             SizedBox(width: 8),
-            InkWell(
-              onTap: () {
-                onClickFilter('e');
-              },
-              child: Container(
-                padding: const EdgeInsets.only(
-                    right: 10, left: 10, top: 5, bottom: 5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  color: Theme.of(context).focusColor.withOpacity(0.1),
-                ),
-                child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 4,
-                  children: [
-                    Text(
-                      S.of(context).filter,
-                      style: TextStyle(color: Theme.of(context).hintColor),
-                    ),
-                    Icon(
-                      Icons.filter_list,
-                      color: Theme.of(context).hintColor,
-                      size: 21,
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
       ),

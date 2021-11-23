@@ -3,14 +3,14 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/category_controller.dart';
-import '../elements/AddToCartAlertDialog.dart';
 import '../elements/CircularLoadingWidget.dart';
 import '../elements/DrawerWidget.dart';
-import '../elements/FilterWidget.dart';
 import '../elements/ProductGridItemWidget.dart';
 import '../elements/ProductListItemWidget.dart';
 import '../elements/SearchBarWidget.dart';
 import '../elements/ShoppingCartButtonWidget.dart';
+import '../models/category.dart';
+import '../models/product.dart';
 import '../models/route_argument.dart';
 import '../repository/user_repository.dart';
 
@@ -24,9 +24,7 @@ class CategoryWidget extends StatefulWidget {
 }
 
 class _CategoryWidgetState extends StateMVC<CategoryWidget> {
-  // TODO add layout in configuration file
   String layout = 'grid';
-
   CategoryController _con;
 
   _CategoryWidgetState() : super(CategoryController()) {
@@ -41,15 +39,20 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
     super.initState();
   }
 
+  Future<void> _refreshHome() async {
+    setState(() {
+      _con.products = <Product>[];
+      _con.category = new Category();
+      _con.listenForProductsByCategory(id: widget.routeArgument.id);
+      _con.listenForCategory(id: widget.routeArgument.id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _con.scaffoldKey,
       drawer: DrawerWidget(),
-      endDrawer: FilterWidget(onFilter: (filter) {
-        Navigator.of(context).pushReplacementNamed('/Category',
-            arguments: RouteArgument(id: widget.routeArgument.id));
-      }),
       appBar: AppBar(
         leading: new IconButton(
           icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
@@ -84,7 +87,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: _con.refreshCategory,
+        onRefresh: _refreshHome,
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(vertical: 10),
           child: Column(
@@ -103,12 +106,10 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                 padding: const EdgeInsets.only(left: 20, right: 10),
                 child: ListTile(
                   contentPadding: EdgeInsets.symmetric(vertical: 0),
-                  leading: Icon(
-                    Icons.category_outlined,
-                    color: Theme.of(context).hintColor,
-                  ),
                   title: Text(
-                    _con.category?.name ?? '',
+                    Localizations.localeOf(context).languageCode == "en"
+                        ? _con.category?.en_name ?? ''
+                        : _con.category?.ar_name ?? '',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headline4,
@@ -177,49 +178,51 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 20,
                         padding: EdgeInsets.symmetric(horizontal: 20),
-                        // Create a grid with 2 columns. If you change the scrollDirection to
-                        // horizontal, this produces 2 rows.
                         crossAxisCount: MediaQuery.of(context).orientation ==
                                 Orientation.portrait
                             ? 2
                             : 4,
-                        // Generate 100 widgets that display their index in the List.
-                        children: List.generate(_con.products.length, (index) {
-                          return ProductGridItemWidget(
+                        children: List.generate(
+                          _con.products.length,
+                          (index) {
+                            return ProductGridItemWidget(
                               heroTag: 'category_grid',
                               product: _con.products.elementAt(index),
                               onPressed: () {
                                 if (currentUser.value.apiToken == null) {
                                   Navigator.of(context).pushNamed('/Login');
                                 } else {
-                                  if (_con.isSameMarkets(
-                                      _con.products.elementAt(index))) {
-                                    _con.addToCart(
-                                        _con.products.elementAt(index));
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        // return object of type Dialog
-                                        return AddToCartAlertDialogWidget(
-                                            oldProduct: _con.carts
-                                                .elementAt(0)
-                                                ?.product,
-                                            newProduct:
-                                                _con.products.elementAt(index),
-                                            onPressed: (product,
-                                                {reset: true}) {
-                                              return _con.addToCart(
-                                                  _con.products
-                                                      .elementAt(index),
-                                                  reset: true);
-                                            });
-                                      },
-                                    );
-                                  }
+                                  _con.addToCart(
+                                    _con.products.elementAt(index),
+                                  );
+                                  // if (_con.isSameShop(
+                                  //     _con.products.elementAt(index))) {
+                                  //   _con.addToCart(
+                                  //       _con.products.elementAt(index));
+                                  // } else {
+                                  //   showDialog(
+                                  //     context: context,
+                                  //     builder: (BuildContext context) {
+                                  //       return AddToCartAlertDialogWidget(
+                                  //         oldProduct:
+                                  //             _con.carts.elementAt(0)?.product,
+                                  //         newProduct:
+                                  //             _con.products.elementAt(index),
+                                  //         onPressed: (product, {reset: true}) {
+                                  //           return _con.addToCart(
+                                  //             _con.products.elementAt(index),
+                                  //             reset: true,
+                                  //           );
+                                  //         },
+                                  //       );
+                                  //     },
+                                  //   );
+                                  // }
                                 }
-                              });
-                        }),
+                              },
+                            );
+                          },
+                        ),
                       ),
                     )
             ],

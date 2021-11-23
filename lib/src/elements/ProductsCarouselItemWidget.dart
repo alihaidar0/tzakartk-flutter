@@ -80,13 +80,17 @@ class ProductsCarouselItemWidget extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Text(
-                    this.product.name,
+                    this.product.en_name,
                     overflow: TextOverflow.fade,
                     softWrap: false,
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Text(
-                    product.market.name,
+                    /// I HID THIS FOR MARKET
+                    // product.market.name,
+                    Localizations.localeOf(context).languageCode == "en"
+                        ? product.category.en_name
+                        : product.category.ar_name,
                     overflow: TextOverflow.fade,
                     softWrap: false,
                     style: Theme.of(context).textTheme.caption,

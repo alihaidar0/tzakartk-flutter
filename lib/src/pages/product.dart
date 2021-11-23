@@ -6,10 +6,8 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/product_controller.dart';
-import '../elements/AddToCartAlertDialog.dart';
 import '../elements/CircularLoadingWidget.dart';
 import '../elements/OptionItemWidget.dart';
-import '../elements/ReviewsListWidget.dart';
 import '../elements/ShoppingCartFloatButtonWidget.dart';
 import '../helpers/helper.dart';
 import '../models/media.dart';
@@ -39,20 +37,25 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
   void initState() {
     _con.listenForProduct(productId: widget.routeArgument.id);
     _con.listenForCart();
-    _con.listenForFavorite(productId: widget.routeArgument.id);
     super.initState();
+  }
+
+  Future<void> _refreshHome() async {
+    setState(() {
+      _con.product = null;
+      _con.listenForProduct(productId: widget.routeArgument.id);
+      _con.listenForCart();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _con.scaffoldKey,
-      body: _con.product == null ||
-              _con.product?.image == null ||
-              _con.product?.images == null
+      body: _con.product == null
           ? CircularLoadingWidget(height: 500)
           : RefreshIndicator(
-              onRefresh: _con.refreshProduct,
+              onRefresh: _refreshHome,
               child: Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
@@ -77,7 +80,9 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                               children: <Widget>[
                                 CarouselSlider(
                                   options: CarouselOptions(
-                                    autoPlay: true,
+                                    autoPlay: _con.product.images.length > 1
+                                        ? true
+                                        : false,
                                     autoPlayInterval: Duration(seconds: 7),
                                     height: 300,
                                     viewportFraction: 1.0,
@@ -110,7 +115,8 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                   }).toList(),
                                 ),
                                 Container(
-                                  //margin: EdgeInsets.symmetric(vertical: 22, horizontal: 42),
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 22, horizontal: 42),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children:
@@ -150,13 +156,17 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            _con.product?.name ?? '',
+                                            Localizations.localeOf(context)
+                                                        .languageCode ==
+                                                    "en"
+                                                ? _con.product?.en_name ?? ''
+                                                : _con.product?.en_name ?? '',
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 2,
                                             style: Theme.of(context)
@@ -164,7 +174,15 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                 .headline3,
                                           ),
                                           Text(
-                                            _con.product?.market?.name ?? '',
+                                            Localizations.localeOf(context)
+                                                        .languageCode ==
+                                                    "en"
+                                                ? _con.product.category
+                                                        .en_name ??
+                                                    ''
+                                                : _con.product.category
+                                                        .en_name ??
+                                                    '',
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 2,
                                             style: Theme.of(context)
@@ -194,169 +212,172 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyText2
-                                                      .merge(TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .lineThrough)))
+                                                      .merge(
+                                                        TextStyle(
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough),
+                                                      ),
+                                                )
                                               : SizedBox(height: 0),
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 3),
-                                      decoration: BoxDecoration(
-                                          color: Helper.canDelivery(
-                                                      _con.product.market) &&
-                                                  _con.product.deliverable
-                                              ? Colors.green
-                                              : Colors.orange,
-                                          borderRadius:
-                                              BorderRadius.circular(24)),
-                                      child: Helper.canDelivery(
-                                                  _con.product.market) &&
-                                              _con.product.deliverable
-                                          ? Text(
-                                              S.of(context).deliverable,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .caption
-                                                  .merge(TextStyle(
+                                _con.product.capacity != null &&
+                                        _con.product.capacity != 'null' &&
+                                        _con.product.capacity != '' &&
+                                        _con.product.unit != null &&
+                                        _con.product.unit != 'null' &&
+                                        _con.product.unit != '' &&
+                                        _con.product.packageItemsCount !=
+                                            null &&
+                                        _con.product.packageItemsCount !=
+                                            'null' &&
+                                        _con.product.packageItemsCount != ''
+                                    ? Row(
+                                        children: <Widget>[
+                                          _con.product.capacity != null &&
+                                                  _con.product.capacity !=
+                                                      'null' &&
+                                                  _con.product.capacity != '' &&
+                                                  _con.product.unit != null &&
+                                                  _con.product.unit != 'null' &&
+                                                  _con.product.unit != ''
+                                              ? Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 3),
+                                                  decoration: BoxDecoration(
+                                                    color: Theme.of(context)
+                                                        .focusColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            24),
+                                                  ),
+                                                  child: Text(
+                                                    _con.product.capacity +
+                                                        " " +
+                                                        _con.product.unit,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .caption
+                                                        .merge(TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor)),
+                                                  ),
+                                                )
+                                              : SizedBox(
+                                                  height: 0,
+                                                  width: 0,
+                                                ),
+                                          SizedBox(height: 0, width: 5),
+                                          _con.product.packageItemsCount !=
+                                                      null &&
+                                                  _con.product
+                                                          .packageItemsCount !=
+                                                      'null' &&
+                                                  _con.product
+                                                          .packageItemsCount !=
+                                                      ''
+                                              ? Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 3),
+                                                  decoration: BoxDecoration(
                                                       color: Theme.of(context)
-                                                          .primaryColor)),
-                                            )
-                                          : Text(
-                                              S.of(context).not_deliverable,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .caption
-                                                  .merge(TextStyle(
-                                                      color: Theme.of(context)
-                                                          .primaryColor)),
-                                            ),
-                                    ),
-                                    Expanded(child: SizedBox(height: 0)),
-                                    Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 3),
-                                        decoration: BoxDecoration(
-                                            color: Theme.of(context).focusColor,
-                                            borderRadius:
-                                                BorderRadius.circular(24)),
-                                        child: Text(
-                                          _con.product.capacity +
-                                              " " +
-                                              _con.product.unit,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption
-                                              .merge(TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor)),
-                                        )),
-                                    SizedBox(width: 5),
-                                    Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 3),
-                                        decoration: BoxDecoration(
-                                            color: Theme.of(context).focusColor,
-                                            borderRadius:
-                                                BorderRadius.circular(24)),
-                                        child: Text(
-                                          _con.product.packageItemsCount +
-                                              " " +
-                                              S.of(context).items,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption
-                                              .merge(TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor)),
-                                        )),
-                                  ],
-                                ),
+                                                          .focusColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              24)),
+                                                  child: Text(
+                                                    _con.product
+                                                            .packageItemsCount +
+                                                        " " +
+                                                        S.of(context).items,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .caption
+                                                        .merge(TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor)),
+                                                  ),
+                                                )
+                                              : SizedBox(
+                                                  height: 0,
+                                                  width: 0,
+                                                ),
+                                        ],
+                                      )
+                                    : SizedBox(
+                                        height: 0,
+                                        width: 0,
+                                      ),
                                 Divider(height: 20),
-                                Text(Helper.skipHtml(_con.product.description)),
-                                if (_con.product.optionGroups.isNotEmpty)
-                                  ListTile(
-                                    dense: true,
-                                    contentPadding:
-                                        EdgeInsets.symmetric(vertical: 10),
-                                    leading: Icon(
-                                      Icons.add_circle_outline,
-                                      color: Theme.of(context).hintColor,
-                                    ),
-                                    title: Text(
-                                      S.of(context).options,
-                                      style:
-                                          Theme.of(context).textTheme.subtitle1,
-                                    ),
-                                    subtitle: Text(
-                                      S
-                                          .of(context)
-                                          .select_options_to_add_them_on_the_product,
-                                      style:
-                                          Theme.of(context).textTheme.caption,
-                                    ),
+                                Text(
+                                  Helper.skipHtml(
+                                    Localizations.localeOf(context)
+                                                .languageCode ==
+                                            'en'
+                                        ? _con.product.en_description
+                                        : _con.product.ar_description,
                                   ),
-                                _con.product.optionGroups?.isNotEmpty ?? false
+                                ),
+                                _con.product.optionGroups.isEmpty ||
+                                        _con.product.optionGroups == null
                                     ? CircularLoadingWidget(height: 100)
                                     : ListView.separated(
                                         padding: EdgeInsets.all(0),
                                         itemBuilder:
                                             (context, optionGroupIndex) {
-                                          var optionGroup = _con
+                                          var _optionGroup = _con
                                               .product.optionGroups
                                               .elementAt(optionGroupIndex);
-                                          return Wrap(
+                                          return Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
-                                              ListTile(
-                                                dense: true,
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 0),
-                                                leading: Icon(
-                                                  Icons.add_circle_outline,
-                                                  color: Theme.of(context)
-                                                      .hintColor,
-                                                ),
-                                                title: Text(
-                                                  optionGroup.name,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .subtitle1,
-                                                ),
+                                              Text(
+                                                Localizations.localeOf(context)
+                                                            .languageCode ==
+                                                        'en'
+                                                    ? _optionGroup.en_name
+                                                    : _optionGroup.ar_name,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline4,
                                               ),
-                                              ListView.separated(
-                                                padding: EdgeInsets.all(0),
-                                                itemBuilder:
-                                                    (context, optionIndex) {
-                                                  return OptionItemWidget(
-                                                    option: _con.product.options
+                                              Wrap(
+                                                children: List.generate(
+                                                  _con.product.options
+                                                      .where((option) =>
+                                                          option
+                                                              .optionGroupId ==
+                                                          _optionGroup.id)
+                                                      .length,
+                                                  (optionIndex) {
+                                                    var _option = _con
+                                                        .product.options
                                                         .where((option) =>
                                                             option
                                                                 .optionGroupId ==
-                                                            optionGroup.id)
-                                                        .elementAt(optionIndex),
-                                                    onChanged:
-                                                        _con.calculateTotal,
-                                                  );
-                                                },
-                                                separatorBuilder:
-                                                    (context, index) {
-                                                  return SizedBox(height: 20);
-                                                },
-                                                itemCount: _con.product.options
-                                                    .where((option) =>
-                                                        option.optionGroupId ==
-                                                        optionGroup.id)
-                                                    .length,
-                                                primary: false,
-                                                shrinkWrap: true,
+                                                            _optionGroup.id)
+                                                        .elementAt(optionIndex);
+                                                    return OptionItemWidget(
+                                                        optionGroup:
+                                                            _optionGroup,
+                                                        options: _con
+                                                            .product.options,
+                                                        option: _option,
+                                                        onChanged: _con
+                                                            .calculateTotal);
+                                                  },
+                                                ),
                                               ),
                                             ],
                                           );
@@ -369,23 +390,6 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                         primary: false,
                                         shrinkWrap: true,
                                       ),
-                                ListTile(
-                                  dense: true,
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 10),
-                                  leading: Icon(
-                                    Icons.recent_actors_outlined,
-                                    color: Theme.of(context).hintColor,
-                                  ),
-                                  title: Text(
-                                    S.of(context).reviews,
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1,
-                                  ),
-                                ),
-                                ReviewsListWidget(
-                                  reviewsList: _con.product.productReviews,
-                                ),
                               ],
                             ),
                           ),
@@ -395,7 +399,8 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                   ),
                   Positioned(
                     top: 32,
-                    right: 20,
+                    right: Localizations.localeOf(context).languageCode == 'en'? 20 :null,
+                    left: Localizations.localeOf(context).languageCode == 'en'? null :20,
                     child: _con.loadCart
                         ? SizedBox(
                             width: 60,
@@ -412,22 +417,23 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                   Positioned(
                     bottom: 0,
                     child: Container(
-                      height: 150,
+                      height: 130,
                       padding:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                       decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              topLeft: Radius.circular(20)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.15),
-                                offset: Offset(0, -2),
-                                blurRadius: 5.0)
-                          ]),
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            topLeft: Radius.circular(20)),
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                Theme.of(context).focusColor.withOpacity(0.15),
+                            offset: Offset(0, -2),
+                            blurRadius: 5.0,
+                          ),
+                        ],
+                      ),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 40,
                         child: Column(
@@ -456,10 +462,11 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                       icon: Icon(Icons.remove_circle_outline),
                                       color: Theme.of(context).hintColor,
                                     ),
-                                    Text(_con.quantity.toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle1),
+                                    Text(
+                                      _con.quantity.toString(),
+                                      style:
+                                          Theme.of(context).textTheme.subtitle1,
+                                    ),
                                     IconButton(
                                       onPressed: () {
                                         _con.incrementQuantity();
@@ -474,132 +481,93 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 10),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: _con.favorite?.id != null
-                                      ? OutlineButton(
-                                          onPressed: () {
-                                            _con.removeFromFavorite(
-                                                _con.favorite);
-                                          },
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 14),
-                                          color: Theme.of(context).primaryColor,
-                                          shape: StadiumBorder(),
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .accentColor),
-                                          child: Icon(
-                                            Icons.favorite,
-                                            color:
-                                                Theme.of(context).accentColor,
-                                          ))
-                                      : MaterialButton(
-                                          elevation: 0,
-                                          onPressed: () {
-                                            if (currentUser.value.apiToken ==
-                                                null) {
-                                              Navigator.of(context)
-                                                  .pushNamed("/Login");
-                                            } else {
-                                              _con.addToFavorite(_con.product);
-                                            }
-                                          },
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 14),
-                                          color: Theme.of(context).accentColor,
-                                          shape: StadiumBorder(),
-                                          child: Icon(
-                                            Icons.favorite_outline,
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              child: Stack(
+                                fit: StackFit.loose,
+                                alignment: AlignmentDirectional.centerEnd,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width - 110,
+                                    child: MaterialButton(
+                                      elevation: 0,
+                                      onPressed: () {
+                                        if (currentUser.value.apiToken ==
+                                            null) {
+                                          Navigator.of(context)
+                                              .pushNamed("/Login");
+                                        } else {
+                                          _con.addToCart(_con.product);
+                                          // if (_con.isSameShop(_con.product)) {
+                                          //   _con.addToCart(_con.product);
+                                          // } else {
+                                          //   showDialog(
+                                          //     context: context,
+                                          //     builder: (BuildContext context) {
+                                          //       return AddToCartAlertDialogWidget(
+                                          //         oldProduct: _con.carts
+                                          //             .elementAt(0)
+                                          //             ?.product,
+                                          //         newProduct: _con.product,
+                                          //         onPressed: (product,
+                                          //             {reset: true}) {
+                                          //           return _con.addToCart(
+                                          //             _con.product,
+                                          //             reset: true,
+                                          //           );
+                                          //         },
+                                          //       );
+                                          //     },
+                                          //   );
+                                          // }
+                                        }
+                                      },
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 14),
+                                      color: Theme.of(context).accentColor,
+                                      shape: StadiumBorder(),
+                                      child: Container(
+                                        width: double.infinity,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                        ),
+                                        child: Text(
+                                          S.of(context).add_to_cart,
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
                                             color:
                                                 Theme.of(context).primaryColor,
-                                          )),
-                                ),
-                                SizedBox(width: 10),
-                                Stack(
-                                  fit: StackFit.loose,
-                                  alignment: AlignmentDirectional.centerEnd,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width -
-                                          110,
-                                      child: MaterialButton(
-                                        elevation: 0,
-                                        onPressed: () {
-                                          if (currentUser.value.apiToken ==
-                                              null) {
-                                            Navigator.of(context)
-                                                .pushNamed("/Login");
-                                          } else {
-                                            if (_con
-                                                .isSameMarkets(_con.product)) {
-                                              _con.addToCart(_con.product);
-                                            } else {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  // return object of type Dialog
-                                                  return AddToCartAlertDialogWidget(
-                                                      oldProduct: _con.carts
-                                                          .elementAt(0)
-                                                          ?.product,
-                                                      newProduct: _con.product,
-                                                      onPressed: (product,
-                                                          {reset: true}) {
-                                                        return _con.addToCart(
-                                                            _con.product,
-                                                            reset: true);
-                                                      });
-                                                },
-                                              );
-                                            }
-                                          }
-                                        },
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 14),
-                                        color: Theme.of(context).accentColor,
-                                        shape: StadiumBorder(),
-                                        child: Container(
-                                          width: double.infinity,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Text(
-                                            S.of(context).add_to_cart,
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor),
                                           ),
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: Helper.getPrice(
-                                        _con.total,
-                                        context,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4
-                                            .merge(TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor)),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: Helper.getPrice(
+                                      _con.total,
+                                      context,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline4
+                                          .merge(
+                                            TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                          ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                            SizedBox(height: 10),
                           ],
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

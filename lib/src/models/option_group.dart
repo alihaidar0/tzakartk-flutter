@@ -1,16 +1,19 @@
 class OptionGroup {
   String id;
-  String name;
+  String en_name;
+  String ar_name;
 
   OptionGroup();
 
   OptionGroup.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
-      name = jsonMap['name'];
+      en_name = jsonMap['en_name'];
+      ar_name = jsonMap['ar_name'];
     } catch (e) {
       id = '';
-      name = '';
+      en_name = '';
+      ar_name = '';
       print(e);
     }
   }
@@ -18,7 +21,8 @@ class OptionGroup {
   Map toMap() {
     var map = new Map<String, dynamic>();
     map["id"] = id;
-    map["name"] = name;
+    map["en_name"] = en_name;
+    map["ar_name"] = ar_name;
     return map;
   }
 

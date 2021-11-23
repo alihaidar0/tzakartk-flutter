@@ -48,6 +48,9 @@ class FilterController extends ControllerMVC {
         fields.add(_field);
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getFields with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),

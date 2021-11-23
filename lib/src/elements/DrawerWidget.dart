@@ -160,7 +160,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 2);
+              Navigator.of(context).pushNamed('/Pages', arguments: 1);
             },
             leading: Icon(
               Icons.home_outlined,
@@ -186,7 +186,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 3);
+              Navigator.of(context).pushNamed('/Pages', arguments: 2);
             },
             leading: Icon(
               Icons.local_mall_outlined,
@@ -197,32 +197,39 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 4);
-            },
-            leading: Icon(
-              Icons.favorite_outline,
-              color: Theme.of(context).focusColor.withOpacity(1),
-            ),
-            title: Text(
-              S.of(context).favorite_products,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 4);
-            },
-            leading: Icon(
-              Icons.chat_outlined,
-              color: Theme.of(context).focusColor.withOpacity(1),
-            ),
-            title: Text(
-              S.of(context).messages,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ),
+
+          /// I HID THIS ""START""
+          // ListTile(
+          //   onTap: () {
+          //     /// I HID THIS ""START""
+          //     // Navigator.of(context).pushNamed('/Pages', arguments: 4);
+          //     /// I HID THIS ""END""
+          //   },
+          //   leading: Icon(
+          //     Icons.favorite_outline,
+          //     color: Theme.of(context).focusColor.withOpacity(1),
+          //   ),
+          //   title: Text(
+          //     S.of(context).favorite_products,
+          //     style: Theme.of(context).textTheme.subtitle1,
+          //   ),
+          // ),
+          // ListTile(
+          //   onTap: () {
+          //     /// I HID THIS ""START""
+          //     // Navigator.of(context).pushNamed('/Pages', arguments: 4);
+          //     /// I HID THIS ""END""
+          //   },
+          //   leading: Icon(
+          //     Icons.chat_outlined,
+          //     color: Theme.of(context).focusColor.withOpacity(1),
+          //   ),
+          //   title: Text(
+          //     S.of(context).messages,
+          //     style: Theme.of(context).textTheme.subtitle1,
+          //   ),
+          // ),
+          /// I HID THIS ""END""
           ListTile(
             dense: true,
             title: Text(
@@ -303,9 +310,18 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
             onTap: () {
               if (currentUser.value.apiToken != null) {
                 logout().then((value) {
+                  /// I HID THIS ""START""
+                  // Navigator.of(context).pushNamedAndRemoveUntil(
+                  //     '/Pages', (Route<dynamic> route) => false,
+                  //     arguments: 2);
+                  /// I HID THIS ""END""
+                  ///
+                  /// I WROTE THIS ""START""
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       '/Pages', (Route<dynamic> route) => false,
-                      arguments: 2);
+                      arguments: 1);
+
+                  /// I WROTE THIS ""END""
                 });
               } else {
                 Navigator.of(context).pushNamed('/Login');

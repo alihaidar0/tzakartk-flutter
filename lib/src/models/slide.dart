@@ -1,5 +1,4 @@
 import '../helpers/custom_trace.dart';
-import '../models/market.dart';
 import '../models/media.dart';
 import 'product.dart';
 
@@ -16,7 +15,8 @@ class Slide {
   Media image;
   String imageFit;
   Product product;
-  Market market;
+
+  // Market market;
   bool enabled;
 
   Slide();
@@ -45,9 +45,9 @@ class Slide {
           ? jsonMap['image_fit'].toString()
           : 'cover';
       enabled = jsonMap['enabled'] ?? false;
-      market = jsonMap['market'] != null
-          ? Market.fromJSON(jsonMap['market'])
-          : Market.fromJSON({});
+      // market = jsonMap['market'] != null
+      //     ? Market.fromJSON(jsonMap['market'])
+      //     : Market.fromJSON({});
       product = jsonMap['product'] != null
           ? Product.fromJSON(jsonMap['product'])
           : Product.fromJSON({});
@@ -66,7 +66,7 @@ class Slide {
       indicatorColor = '';
       imageFit = '';
       enabled = false;
-      market = Market.fromJSON({});
+      // market = Market.fromJSON({});
       product = Product.fromJSON({});
       image = Media();
       print(CustomTrace(StackTrace.current, message: e));

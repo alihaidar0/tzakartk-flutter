@@ -24,6 +24,9 @@ class TrackingController extends ControllerMVC {
         order = _order;
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getOrder with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
@@ -44,7 +47,11 @@ class TrackingController extends ControllerMVC {
       setState(() {
         orderStatus.add(_orderStatus);
       });
-    }, onError: (a) {}, onDone: () {});
+    }, onError: (a) {
+      print("##################");
+      print("######### Error getOrderStatus #########");
+      print("##################");
+    }, onDone: () {});
   }
 
   List<Step> getTrackingSteps(BuildContext context) {

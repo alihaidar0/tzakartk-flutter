@@ -26,6 +26,9 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
         addresses.add(_address);
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error userRepo.getAddresses with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),

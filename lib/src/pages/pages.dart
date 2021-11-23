@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../elements/DrawerWidget.dart';
-import '../elements/FilterWidget.dart';
 import '../helpers/helper.dart';
 import '../models/route_argument.dart';
 import '../pages/home.dart';
-import '../pages/map.dart';
 import '../pages/notifications.dart';
 import '../pages/orders.dart';
-import 'messages.dart';
 
 // ignore: must_be_immutable
 class PagesWidget extends StatefulWidget {
@@ -27,7 +24,7 @@ class PagesWidget extends StatefulWidget {
         currentTab = int.parse(currentTab.id);
       }
     } else {
-      currentTab = 2;
+      currentTab = 1;
     }
   }
 
@@ -58,22 +55,12 @@ class _PagesWidgetState extends State<PagesWidget> {
               NotificationsWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
         case 1:
-          widget.currentPage = MapWidget(
-              parentScaffoldKey: widget.scaffoldKey,
-              routeArgument: widget.routeArgument);
-          break;
-        case 2:
           widget.currentPage =
               HomeWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
-        case 3:
+        case 2:
           widget.currentPage =
               OrdersWidget(parentScaffoldKey: widget.scaffoldKey);
-          break;
-        case 4:
-          widget.currentPage = MessagesWidget(
-              parentScaffoldKey: widget
-                  .scaffoldKey); //FavoritesWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
       }
     });
@@ -86,10 +73,6 @@ class _PagesWidgetState extends State<PagesWidget> {
       child: Scaffold(
         key: widget.scaffoldKey,
         drawer: DrawerWidget(),
-        endDrawer: FilterWidget(onFilter: (filter) {
-          Navigator.of(context)
-              .pushReplacementNamed('/Pages', arguments: widget.currentTab);
-        }),
         body: widget.currentPage,
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -105,18 +88,11 @@ class _PagesWidgetState extends State<PagesWidget> {
           onTap: (int i) {
             this._selectTab(i);
           },
-          // this will be set when a new tab is tapped
           items: [
             BottomNavigationBarItem(
               icon: Icon(widget.currentTab == 0
                   ? Icons.notifications
                   : Icons.notifications_outlined),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(widget.currentTab == 1
-                  ? Icons.location_on
-                  : Icons.location_on_outlined),
               label: '',
             ),
             BottomNavigationBarItem(
@@ -142,18 +118,13 @@ class _PagesWidgetState extends State<PagesWidget> {
                     ],
                   ),
                   child: new Icon(
-                      widget.currentTab == 2 ? Icons.home : Icons.home_outlined,
+                      widget.currentTab == 1 ? Icons.home : Icons.home_outlined,
                       color: Theme.of(context).primaryColor),
                 )),
             BottomNavigationBarItem(
-              icon: new Icon(widget.currentTab == 3
+              icon: new Icon(widget.currentTab == 2
                   ? Icons.local_mall
                   : Icons.local_mall_outlined),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(
-                  widget.currentTab == 4 ? Icons.chat : Icons.chat_outlined),
               label: '',
             ),
           ],

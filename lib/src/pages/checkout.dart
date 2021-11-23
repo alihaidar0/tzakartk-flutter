@@ -168,21 +168,25 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
                                   style: Theme.of(context).textTheme.bodyText1,
                                 ),
                               ),
-                              Helper.getPrice(
-                                  _con.carts[0].product.market.deliveryFee,
-                                  context,
-                                  style: Theme.of(context).textTheme.subtitle1)
+
+                              /// I HID THIS FOR MARKET
+                              // Helper.getPrice(
+                              //     _con.carts[0].product.market.deliveryFee,
+                              //     context,
+                              //     style: Theme.of(context).textTheme.subtitle1)
                             ],
                           ),
                           SizedBox(height: 3),
                           Row(
                             children: <Widget>[
                               Expanded(
-                                child: Text(
-                                  "${S.of(context).tax} (${_con.carts[0].product.market.defaultTax}%)",
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                              ),
+
+                                  /// I HID THIS FOR MARKET
+                                  // child: Text(
+                                  //   "${S.of(context).tax} (${_con.carts[0].product.market.defaultTax}%)",
+                                  //   style: Theme.of(context).textTheme.bodyText1,
+                                  // ),
+                                  ),
                               Helper.getPrice(_con.taxAmount, context,
                                   style: Theme.of(context).textTheme.subtitle1)
                             ],

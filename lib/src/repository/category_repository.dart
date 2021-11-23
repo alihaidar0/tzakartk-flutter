@@ -9,36 +9,15 @@ import '../helpers/helper.dart';
 import '../models/category.dart';
 import '../models/filter.dart';
 
-Future<Stream<Category>> getCategories() async {
-  Uri uri = Helper.getUri('api/categories');
-  Map<String, dynamic> _queryParams = {};
+Future<Stream<Category>> getCategories(String cityId) async {
+  Uri uri = Helper.getUri('api/parents');
+  Map<String, dynamic> _queryParams = {"city_id": cityId};
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Filter filter = Filter.fromJSON(json.decode(prefs.getString('filter') ?? '{}'));
   filter.delivery = false;
   filter.open = false;
 
   _queryParams.addAll(filter.toQuery());
-  uri = uri.replace(queryParameters: _queryParams);
-  try {
-    final client = new http.Client();
-    final streamedRest = await client.send(http.Request('get', uri));
-
-    return streamedRest.stream
-        .transform(utf8.decoder)
-        .transform(json.decoder)
-        .map((data) => Helper.getData(data))
-        .expand((data) => (data as List))
-        .map((data) => Category.fromJSON(data));
-  } catch (e) {
-    print(CustomTrace(StackTrace.current, message: uri.toString()).toString());
-    return new Stream.value(new Category.fromJSON({}));
-  }
-}
-
-Future<Stream<Category>> getCategoriesOfMarket(String marketId) async {
-  Uri uri = Helper.getUri('api/categories');
-  Map<String, dynamic> _queryParams = {'market_id': marketId};
-
   uri = uri.replace(queryParameters: _queryParams);
   try {
     final client = new http.Client();
@@ -65,6 +44,27 @@ Future<Stream<Category>> getCategory(String id) async {
     return streamedRest.stream.transform(utf8.decoder).transform(json.decoder).map((data) => Helper.getData(data)).map((data) => Category.fromJSON(data));
   } catch (e) {
     print(CustomTrace(StackTrace.current, message: url).toString());
+    return new Stream.value(new Category.fromJSON({}));
+  }
+}
+
+Future<Stream<Category>> getCategoriesOfMarket(String marketId) async {
+  Uri uri = Helper.getUri('api/categories');
+  Map<String, dynamic> _queryParams = {'market_id': marketId};
+
+  uri = uri.replace(queryParameters: _queryParams);
+  try {
+    final client = new http.Client();
+    final streamedRest = await client.send(http.Request('get', uri));
+
+    return streamedRest.stream
+        .transform(utf8.decoder)
+        .transform(json.decoder)
+        .map((data) => Helper.getData(data))
+        .expand((data) => (data as List))
+        .map((data) => Category.fromJSON(data));
+  } catch (e) {
+    print(CustomTrace(StackTrace.current, message: uri.toString()).toString());
     return new Stream.value(new Category.fromJSON({}));
   }
 }

@@ -2,11 +2,15 @@ import '../models/media.dart';
 
 class Option {
   String id;
-  String optionGroupId;
   String name;
-  double price;
-  Media image;
+  String ar_name;
   String description;
+  double price;
+  String product_id;
+  String optionGroupId;
+  bool has_media;
+  Media image;
+
   bool checked;
 
   Option();
@@ -14,24 +18,30 @@ class Option {
   Option.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
+      name = jsonMap['name'].toString();
+      ar_name = jsonMap['ar_name'].toString();
+      description = jsonMap['description'];
+      price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0;
+      product_id = jsonMap['product_id'].toString();
       optionGroupId = jsonMap['option_group_id'] != null
           ? jsonMap['option_group_id'].toString()
           : '0';
-      name = jsonMap['name'].toString();
-      price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0;
-      description = jsonMap['description'];
-      checked = false;
+      has_media = false;
       image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
           ? Media.fromJSON(jsonMap['media'][0])
           : new Media();
+      checked = false;
     } catch (e) {
       id = '';
-      optionGroupId = '0';
       name = '';
-      price = 0.0;
+      ar_name = '';
       description = '';
-      checked = false;
+      price = 0.0;
+      product_id = '';
+      optionGroupId = '0';
+      has_media = false;
       image = new Media();
+      checked = false;
       print(e);
     }
   }
@@ -52,4 +62,7 @@ class Option {
 
   @override
   int get hashCode => this.id.hashCode;
+
+  @override
+  String toString() => "name= $name, checked= $checked";
 }

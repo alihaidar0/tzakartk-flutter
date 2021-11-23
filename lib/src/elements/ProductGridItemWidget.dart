@@ -47,16 +47,20 @@ class _ProductGridItemWidgetState extends State<ProductGridItemWidget> {
               ),
               SizedBox(height: 5),
               Text(
-                widget.product.name,
+                Localizations.localeOf(context).languageCode == "en"
+                    ? widget.product.en_name
+                    : widget.product.ar_name,
                 style: Theme.of(context).textTheme.bodyText1,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 2),
               Text(
-                widget.product.market.name,
+                Localizations.localeOf(context).languageCode == "en"
+                    ? widget.product.category.en_name
+                    : widget.product.category.ar_name,
                 style: Theme.of(context).textTheme.caption,
                 overflow: TextOverflow.ellipsis,
-              )
+              ),
             ],
           ),
           Container(

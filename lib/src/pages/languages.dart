@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
-import '../elements/SearchBarWidget.dart';
 import '../elements/ShoppingCartButtonWidget.dart';
 import '../models/language.dart';
 import '../repository/settings_repository.dart' as settingRepo;
@@ -47,10 +46,6 @@ class _LanguagesWidgetState extends State<LanguagesWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SearchBarWidget(),
-            ),
             SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),

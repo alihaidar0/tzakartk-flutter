@@ -3,77 +3,97 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../helpers/helper.dart';
 import '../models/category.dart';
-import '../models/market.dart';
-import '../models/product.dart';
-import '../models/review.dart';
-import '../models/slide.dart';
+import '../models/city.dart';
+import '../models/country.dart';
+import '../models/sub_category.dart';
+import '../repository/banner_slider_repository.dart';
 import '../repository/category_repository.dart';
-import '../repository/market_repository.dart';
-import '../repository/product_repository.dart';
+import '../repository/city_repository.dart';
+import '../repository/country_repository.dart';
 import '../repository/settings_repository.dart';
-import '../repository/slider_repository.dart';
+import '../repository/sub_category_repository.dart';
 
 class HomeController extends ControllerMVC {
+  List<String> bannerSlider = <String>[];
+  List<Country> countries = <Country>[];
+  List<City> cities = <City>[];
   List<Category> categories = <Category>[];
-  List<Slide> slides = <Slide>[];
-  List<Market> topMarkets = <Market>[];
-  List<Market> popularMarkets = <Market>[];
-  List<Review> recentReviews = <Review>[];
-  List<Product> trendingProducts = <Product>[];
+  List<SubCategory> subCategories = <SubCategory>[];
 
   HomeController() {
-    listenForTopMarkets();
-    listenForSlides();
-    listenForTrendingProducts();
-    listenForCategories();
-    listenForPopularMarkets();
-    listenForRecentReviews();
+    listenForBanners();
+    listenForCountries();
   }
 
-  Future<void> listenForSlides() async {
-    final Stream<Slide> stream = await getSlides();
-    stream.listen((Slide _slide) {
-      setState(() => slides.add(_slide));
+  Future<void> listenForBanners() async {
+    final Stream<String> stream = await getBanners();
+    stream.listen((String _banner) {
+      setState(() => bannerSlider.add(_banner));
     }, onError: (a) {
+      print("##################");
+      print("######### Error getBanners #########");
+      print("##################");
+      print(a);
+    }, onDone: () {
+    });
+  }
+
+  Future<void> listenForCountries() async {
+    final Stream<Country> stream = await getCountries();
+    stream.listen((Country _country) {
+      setState(() => countries.add(_country));
+    }, onError: (a) {
+      print("##################");
+      print("######### Error getCountries #########");
+      print("##################");
       print(a);
     }, onDone: () {});
   }
 
-  Future<void> listenForCategories() async {
-    final Stream<Category> stream = await getCategories();
+  Future<void> listenForCities(String countryId) async {
+    final Stream<City> stream = await getCities(countryId);
+    stream.listen((City _city) {
+      setState(() => cities.add(_city));
+    }, onError: (a) {
+      print("##################");
+      print("######### Error getCities #########");
+      print("##################");
+      print(a);
+    }, onDone: () {});
+  }
+
+  Future<void> listenForCategories(String cityId) async {
+    final Stream<Category> stream = await getCategories(cityId);
     stream.listen((Category _category) {
       setState(() => categories.add(_category));
     }, onError: (a) {
+      print("##################");
+      print("######### Error getCategories #########");
+      print("##################");
       print(a);
     }, onDone: () {});
   }
 
-  Future<void> listenForTopMarkets() async {
-    final Stream<Market> stream = await getNearMarkets(deliveryAddress.value, deliveryAddress.value);
-    stream.listen((Market _market) {
-      setState(() => topMarkets.add(_market));
-    }, onError: (a) {}, onDone: () {});
-  }
-
-  Future<void> listenForPopularMarkets() async {
-    final Stream<Market> stream = await getPopularMarkets(deliveryAddress.value);
-    stream.listen((Market _market) {
-      setState(() => popularMarkets.add(_market));
-    }, onError: (a) {}, onDone: () {});
-  }
-
-  Future<void> listenForRecentReviews() async {
-    final Stream<Review> stream = await getRecentReviews();
-    stream.listen((Review _review) {
-      setState(() => recentReviews.add(_review));
-    }, onError: (a) {}, onDone: () {});
-  }
-
-  Future<void> listenForTrendingProducts() async {
-    final Stream<Product> stream = await getTrendingProducts(deliveryAddress.value);
-    stream.listen((Product _product) {
-      setState(() => trendingProducts.add(_product));
+  Future<void> listenForSubCategories(String parentId) async {
+    final Stream<SubCategory> stream = await getSubCategories(parentId);
+    stream.listen((SubCategory _subCategory) {
+      setState(() => subCategories.add(_subCategory));
     }, onError: (a) {
+      print("##################");
+      print("######### Error getSubCategories #########");
+      print("##################");
+      print(a);
+    }, onDone: () {});
+  }
+
+  Future<void> listenForSubCategoriesByCity(String cityId) async {
+    final Stream<SubCategory> stream = await getSubCategoriesByCity(cityId);
+    stream.listen((SubCategory _subCategory) {
+      setState(() => subCategories.add(_subCategory));
+    }, onError: (a) {
+      print("##################");
+      print("######### Error getSubCategoriesByCity #########");
+      print("##################");
       print(a);
     }, onDone: () {});
   }
@@ -92,18 +112,13 @@ class HomeController extends ControllerMVC {
 
   Future<void> refreshHome() async {
     setState(() {
-      slides = <Slide>[];
+      bannerSlider = <String>[];
+      countries = <Country>[];
+      cities = <City>[];
       categories = <Category>[];
-      topMarkets = <Market>[];
-      popularMarkets = <Market>[];
-      recentReviews = <Review>[];
-      trendingProducts = <Product>[];
+      subCategories = <SubCategory>[];
     });
-    await listenForSlides();
-    await listenForTopMarkets();
-    await listenForTrendingProducts();
-    await listenForCategories();
-    await listenForPopularMarkets();
-    await listenForRecentReviews();
+    await listenForBanners();
+    await listenForCountries();
   }
 }

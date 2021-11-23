@@ -24,7 +24,31 @@ class _HelpWidgetState extends StateMVC<HelpWidget> {
   @override
   Widget build(BuildContext context) {
     return _con.faqs.isEmpty
-        ? CircularLoadingWidget(height: 500)
+        ? Scaffold(
+            drawer: DrawerWidget(),
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).focusColor,
+              elevation: 0,
+              centerTitle: true,
+              iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+              title: Text(
+                S.of(context).faq,
+                style: Theme.of(context).textTheme.headline6.merge(TextStyle(
+                    letterSpacing: 1.3, color: Theme.of(context).primaryColor)),
+              ),
+              actions: <Widget>[
+                new ShoppingCartButtonWidget(
+                    iconColor: Theme.of(context).primaryColor,
+                    labelColor: Theme.of(context).accentColor),
+              ],
+            ),
+            body: Container(
+              height: double.infinity,
+              child: CircularLoadingWidget(
+                height: 200,
+              ),
+            ),
+          )
         : DefaultTabController(
             length: _con.faqs.length,
             child: Scaffold(

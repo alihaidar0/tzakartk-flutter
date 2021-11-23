@@ -24,7 +24,14 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
   void initState() {
     super.initState();
     if (userRepo.currentUser.value.apiToken != null) {
-      Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
+      /// I HID THIS ""START""
+      // Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
+      /// I HID THIS ""END""
+      ///
+      /// I WROTE THIS ""START""
+      Navigator.of(context).pushReplacementNamed('/Pages', arguments: 1);
+
+      /// I WROTE THIS ""END""
     }
   }
 
@@ -184,8 +191,16 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                       MaterialButton(
                         elevation: 0,
                         onPressed: () {
+                          /// I HID THIS ""START""
+                          // Navigator.of(context)
+                          //     .pushReplacementNamed('/Pages', arguments: 2);
+                          /// I HID THIS ""END""
+                          ///
+                          /// I WROTE THIS ""START""
                           Navigator.of(context)
-                              .pushReplacementNamed('/Pages', arguments: 2);
+                              .pushReplacementNamed('/Pages', arguments: 1);
+
+                          /// I WROTE THIS ""END""
                         },
                         shape: StadiumBorder(),
                         textColor: Theme.of(context).hintColor,

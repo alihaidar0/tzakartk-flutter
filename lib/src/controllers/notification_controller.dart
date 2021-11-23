@@ -22,6 +22,9 @@ class NotificationController extends ControllerMVC {
         notifications.add(_notification);
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getNotifications with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),

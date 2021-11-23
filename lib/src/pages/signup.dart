@@ -4,7 +4,7 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import '../../generated/l10n.dart';
 import '../controllers/user_controller.dart';
 import '../elements/BlockButtonWidget.dart';
-import '../elements/MobileVerificationBottomSheetWidget.dart';
+import '../elements/EmailVerificationBottomSheetWidget.dart';
 import '../helpers/app_config.dart' as config;
 import '../helpers/helper.dart';
 
@@ -151,6 +151,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                           ),
                           SizedBox(height: 30),
                           TextFormField(
+                            textDirection: TextDirection.ltr,
                             keyboardType: TextInputType.phone,
                             onSaved: (input) => _con.user.phone = input,
                             validator: (input) {
@@ -166,6 +167,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                                   color: Theme.of(context).accentColor),
                               contentPadding: EdgeInsets.all(12),
                               hintText: '+1 623-648-8699',
+                              hintTextDirection: TextDirection.ltr,
                               hintStyle: TextStyle(
                                   color: Theme.of(context)
                                       .focusColor
@@ -251,9 +253,10 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                                     .scaffoldKey.currentState
                                     .showBottomSheet(
                                   (context) =>
-                                      MobileVerificationBottomSheetWidget(
-                                          scaffoldKey: _con.scaffoldKey,
-                                          user: _con.user),
+                                      EmailVerificationBottomSheetWidget(
+                                    scaffoldKey: _con.scaffoldKey,
+                                    user: _con.user,
+                                  ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: new BorderRadius.only(
                                         topLeft: Radius.circular(10),

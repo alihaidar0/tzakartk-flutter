@@ -635,11 +635,31 @@ class S {
     );
   }
 
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `English`
   String get english {
     return Intl.message(
       'English',
       name: 'english',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Arabic`
+  String get arabic {
+    return Intl.message(
+      'Arabic',
+      name: 'arabic',
       desc: '',
       args: [],
     );
@@ -2564,6 +2584,136 @@ class S {
       args: [],
     );
   }
+
+  /// `City`
+  String get city {
+    return Intl.message(
+      'City',
+      name: 'city',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cities`
+  String get cities {
+    return Intl.message(
+      'Cities',
+      name: 'cities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Country`
+  String get country {
+    return Intl.message(
+      'Country',
+      name: 'country',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Countries`
+  String get countries {
+    return Intl.message(
+      'Countries',
+      name: 'countries',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a city`
+  String get pleaseSelectACity {
+    return Intl.message(
+      'Please select a city',
+      name: 'pleaseSelectACity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a city from cities dropdown`
+  String get pleaseSelectACityFromCitiesDropdown {
+    return Intl.message(
+      'Please select a city from cities dropdown',
+      name: 'pleaseSelectACityFromCitiesDropdown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a Country`
+  String get pleaseSelectACountry {
+    return Intl.message(
+      'Please select a Country',
+      name: 'pleaseSelectACountry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no products`
+  String get thereAreNoProducts {
+    return Intl.message(
+      'There are no products',
+      name: 'thereAreNoProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are not faq`
+  String get thereAreNotFaq {
+    return Intl.message(
+      'There are not faq',
+      name: 'thereAreNotFaq',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shops`
+  String get shops {
+    return Intl.message(
+      'Shops',
+      name: 'shops',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a category from product categories slide`
+  String get pleaseSelectACategoryFromProductCategoriesSlid {
+    return Intl.message(
+      'Please select a category from product categories slide',
+      name: 'pleaseSelectACategoryFromProductCategoriesSlid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ok`
+  String get ok {
+    return Intl.message(
+      'Ok',
+      name: 'ok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -2573,12 +2723,6 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
       Locale.fromSubtags(languageCode: 'ar'),
-      Locale.fromSubtags(languageCode: 'es'),
-      Locale.fromSubtags(languageCode: 'fr'),
-      Locale.fromSubtags(languageCode: 'fr', countryCode: 'CA'),
-      Locale.fromSubtags(languageCode: 'in'),
-      Locale.fromSubtags(languageCode: 'ko'),
-      Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),
     ];
   }
 

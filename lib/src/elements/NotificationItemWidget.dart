@@ -11,12 +11,20 @@ class NotificationItemWidget extends StatelessWidget {
   final VoidCallback onMarkAsUnRead;
   final VoidCallback onRemoved;
 
-  NotificationItemWidget({Key key, this.notification, this.onMarkAsRead, this.onMarkAsUnRead, this.onRemoved}) : super(key: key);
+  NotificationItemWidget(
+      {Key key,
+      this.notification,
+      this.onMarkAsRead,
+      this.onMarkAsUnRead,
+      this.onRemoved})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return OnSlide(
-      backgroundColor: notification.read ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).primaryColor,
+      backgroundColor: notification.read
+          ? Theme.of(context).scaffoldBackgroundColor
+          : Theme.of(context).primaryColor,
       items: <ActionItems>[
         ActionItems(
             icon: notification.read
@@ -39,7 +47,8 @@ class NotificationItemWidget extends StatelessWidget {
         new ActionItems(
             icon: Padding(
               padding: const EdgeInsets.only(right: 10),
-              child: new Icon(Icons.delete_outline, color: Theme.of(context).accentColor),
+              child: new Icon(Icons.delete_outline,
+                  color: Theme.of(context).accentColor),
             ),
             onPress: () {
               onRemoved();
@@ -59,10 +68,13 @@ class NotificationItemWidget extends StatelessWidget {
                   height: 75,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
-                        Theme.of(context).focusColor.withOpacity(0.7),
-                        Theme.of(context).focusColor.withOpacity(0.05),
-                      ])),
+                      gradient: LinearGradient(
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                          colors: [
+                            Theme.of(context).focusColor.withOpacity(0.7),
+                            Theme.of(context).focusColor.withOpacity(0.05),
+                          ])),
                   child: Icon(
                     Icons.notifications_outlined,
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -76,7 +88,9 @@ class NotificationItemWidget extends StatelessWidget {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.15),
+                      color: Theme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.15),
                       borderRadius: BorderRadius.circular(150),
                     ),
                   ),
@@ -88,7 +102,9 @@ class NotificationItemWidget extends StatelessWidget {
                     width: 120,
                     height: 120,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.15),
+                      color: Theme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.15),
                       borderRadius: BorderRadius.circular(150),
                     ),
                   ),
@@ -107,10 +123,15 @@ class NotificationItemWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     textAlign: TextAlign.justify,
-                    style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(fontWeight: notification.read ? FontWeight.w300 : FontWeight.w600)),
+                    style: Theme.of(context).textTheme.bodyText1.merge(
+                        TextStyle(
+                            fontWeight: notification.read
+                                ? FontWeight.w300
+                                : FontWeight.w600)),
                   ),
                   Text(
-                    DateFormat('yyyy-MM-dd | HH:mm').format(notification.createdAt),
+                    DateFormat('yyyy-MM-dd | HH:mm')
+                        .format(notification.createdAt),
                     style: Theme.of(context).textTheme.caption,
                   )
                 ],

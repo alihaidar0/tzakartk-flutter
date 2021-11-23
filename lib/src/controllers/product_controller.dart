@@ -3,8 +3,6 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
 import '../models/cart.dart';
-import '../models/favorite.dart';
-import '../models/option.dart';
 import '../models/product.dart';
 import '../repository/cart_repository.dart';
 import '../repository/product_repository.dart';
@@ -14,7 +12,6 @@ class ProductController extends ControllerMVC {
   double quantity = 1;
   double total = 0;
   List<Cart> carts = [];
-  Favorite favorite;
   bool loadCart = false;
   int current = 0;
   GlobalKey<ScaffoldState> scaffoldKey;
@@ -28,6 +25,9 @@ class ProductController extends ControllerMVC {
     stream.listen((Product _product) {
       setState(() => product = _product);
     }, onError: (a) {
+      print("##################");
+      print("######### Error getProduct with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
@@ -42,15 +42,6 @@ class ProductController extends ControllerMVC {
     });
   }
 
-  void listenForFavorite({String productId}) async {
-    final Stream<Favorite> stream = await isFavoriteProduct(productId);
-    stream.listen((Favorite _favorite) {
-      setState(() => favorite = _favorite);
-    }, onError: (a) {
-      print(a);
-    });
-  }
-
   void listenForCart() async {
     final Stream<Cart> stream = await getCart();
     stream.listen((Cart _cart) {
@@ -58,23 +49,19 @@ class ProductController extends ControllerMVC {
     });
   }
 
-  bool isSameMarkets(Product product) {
-    if (carts.isNotEmpty) {
-      return carts[0].product?.market?.id == product.market?.id;
-    }
-    return true;
-  }
-
-  void addToCart(Product product, {bool reset = false}) async {
+  void addToCart(Product product) async {
     setState(() {
       this.loadCart = true;
     });
     var _newCart = new Cart();
     _newCart.product = product;
-    _newCart.options = product.options.where((element) => element.checked).toList();
+    _newCart.options =
+        product.options.where((element) => element.checked).toList();
     _newCart.quantity = this.quantity;
-    // if product exist in the cart then increment quantity
     var _oldCart = isExistInCart(_newCart);
+    print("######### carts #########");
+    print("${carts.length}");
+    print("##################");
     if (_oldCart != null) {
       _oldCart.quantity += this.quantity;
       updateCart(_oldCart).then((value) {
@@ -88,7 +75,8 @@ class ProductController extends ControllerMVC {
       });
     } else {
       // the product doesnt exist in the cart add new one
-      addCart(_newCart, reset).then((value) {
+      // carts.add(_newCart);
+      addCart(_newCart).then((value) {
         setState(() {
           this.loadCart = false;
         });
@@ -101,41 +89,8 @@ class ProductController extends ControllerMVC {
   }
 
   Cart isExistInCart(Cart _cart) {
-    return carts.firstWhere((Cart oldCart) => _cart.isSame(oldCart), orElse: () => null);
-  }
-
-  void addToFavorite(Product product) async {
-    var _favorite = new Favorite();
-    _favorite.product = product;
-    _favorite.options = product.options.where((Option _option) {
-      return _option.checked;
-    }).toList();
-    addFavorite(_favorite).then((value) {
-      setState(() {
-        this.favorite = value;
-      });
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).thisProductWasAddedToFavorite),
-      ));
-    });
-  }
-
-  void removeFromFavorite(Favorite _favorite) async {
-    removeFavorite(_favorite).then((value) {
-      setState(() {
-        this.favorite = new Favorite();
-      });
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).thisProductWasRemovedFromFavorites),
-      ));
-    });
-  }
-
-  Future<void> refreshProduct() async {
-    var _id = product.id;
-    product = new Product();
-    listenForFavorite(productId: _id);
-    listenForProduct(productId: _id, message: S.of(state.context).productRefreshedSuccessfuly);
+    return carts.firstWhere((Cart oldCart) => _cart.isSame(oldCart),
+        orElse: () => null);
   }
 
   void calculateTotal() {
@@ -159,5 +114,13 @@ class ProductController extends ControllerMVC {
       --this.quantity;
       calculateTotal();
     }
+  }
+
+  Future<void> refreshProduct() async {
+    var _id = product.id;
+    product = new Product();
+    listenForProduct(
+        productId: _id,
+        message: S.of(state.context).productRefreshedSuccessfuly);
   }
 }

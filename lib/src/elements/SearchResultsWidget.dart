@@ -3,10 +3,6 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/search_controller.dart';
-import '../elements/CardWidget.dart';
-import '../elements/CircularLoadingWidget.dart';
-import '../elements/ProductItemWidget.dart';
-import '../models/route_argument.dart';
 
 class SearchResultWidget extends StatefulWidget {
   final String heroTag;
@@ -87,72 +83,72 @@ class _SearchResultWidgetState extends StateMVC<SearchResultWidget> {
               ),
             ),
           ),
-          _con.markets.isEmpty && _con.products.isEmpty
-              ? CircularLoadingWidget(height: 288)
-              : Expanded(
-                  child: ListView(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: ListTile(
-                          dense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 0),
-                          title: Text(
-                            S.of(context).products_results,
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                        ),
-                      ),
-                      ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: _con.products.length,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 10);
-                        },
-                        itemBuilder: (context, index) {
-                          return ProductItemWidget(
-                            heroTag: 'search_list',
-                            product: _con.products.elementAt(index),
-                          );
-                        },
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 20, left: 20, right: 20),
-                        child: ListTile(
-                          dense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 0),
-                          title: Text(
-                            S.of(context).markets_results,
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                        ),
-                      ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: _con.markets.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed('/Details',
-                                  arguments: RouteArgument(
-                                    id: '0',
-                                    param: _con.markets.elementAt(index).id,
-                                    heroTag: widget.heroTag,
-                                  ));
-                            },
-                            child: CardWidget(
-                                market: _con.markets.elementAt(index),
-                                heroTag: widget.heroTag),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+          // _con.markets.isEmpty && _con.products.isEmpty
+          //     ? CircularLoadingWidget(height: 288)
+          //     : Expanded(
+          //         child: ListView(
+          //           children: <Widget>[
+          //             Padding(
+          //               padding: const EdgeInsets.only(left: 20, right: 20),
+          //               child: ListTile(
+          //                 dense: true,
+          //                 contentPadding: EdgeInsets.symmetric(vertical: 0),
+          //                 title: Text(
+          //                   S.of(context).products_results,
+          //                   style: Theme.of(context).textTheme.subtitle1,
+          //                 ),
+          //               ),
+          //             ),
+          //             ListView.separated(
+          //               scrollDirection: Axis.vertical,
+          //               shrinkWrap: true,
+          //               primary: false,
+          //               itemCount: _con.products.length,
+          //               separatorBuilder: (context, index) {
+          //                 return SizedBox(height: 10);
+          //               },
+          //               itemBuilder: (context, index) {
+          //                 return ProductItemWidget(
+          //                   heroTag: 'search_list',
+          //                   product: _con.products.elementAt(index),
+          //                 );
+          //               },
+          //             ),
+          //             Padding(
+          //               padding:
+          //                   const EdgeInsets.only(top: 20, left: 20, right: 20),
+          //               child: ListTile(
+          //                 dense: true,
+          //                 contentPadding: EdgeInsets.symmetric(vertical: 0),
+          //                 title: Text(
+          //                   S.of(context).markets_results,
+          //                   style: Theme.of(context).textTheme.subtitle1,
+          //                 ),
+          //               ),
+          //             ),
+          //             ListView.builder(
+          //               shrinkWrap: true,
+          //               primary: false,
+          //               itemCount: _con.markets.length,
+          //               itemBuilder: (context, index) {
+          //                 return GestureDetector(
+          //                   onTap: () {
+          //                     Navigator.of(context).pushNamed('/Details',
+          //                         arguments: RouteArgument(
+          //                           id: '0',
+          //                           param: _con.markets.elementAt(index).id,
+          //                           heroTag: widget.heroTag,
+          //                         ));
+          //                   },
+          //                   child: CardWidget(
+          //                       market: _con.markets.elementAt(index),
+          //                       heroTag: widget.heroTag),
+          //                 );
+          //               },
+          //             ),
+          //           ],
+          //         ),
+          //       ),
         ],
       ),
     );

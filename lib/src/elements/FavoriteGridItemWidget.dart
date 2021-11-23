@@ -42,13 +42,17 @@ class FavoriteGridItemWidget extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                favorite.product.name,
+                favorite.product.en_name,
                 style: Theme.of(context).textTheme.bodyText1,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 2),
               Text(
-                favorite.product.market.name,
+                /// I HID THIS FOR MARKET
+                // favorite.product.market.name,
+                Localizations.localeOf(context).languageCode == "en"
+                    ? favorite.product.category.en_name
+                    : favorite.product.category.ar_name,
                 style: Theme.of(context).textTheme.caption,
                 overflow: TextOverflow.ellipsis,
               )

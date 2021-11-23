@@ -43,6 +43,9 @@ class SplashScreenController extends ControllerMVC {
       }
     });
     Timer(Duration(seconds: 20), () {
+      print("##################");
+      print("######### over 20 second in loading Splash Screen #########");
+      print("##################");
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
       ));
@@ -65,7 +68,13 @@ class SplashScreenController extends ControllerMVC {
   Future notificationOnResume(Map<String, dynamic> message) async {
     try {
       if (message['data']['id'] == "orders") {
-        settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 3);
+        /// I HID THIS ""START""
+        // settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 3);
+        /// I HID THIS ""END""
+        ///
+        /// I WROTE THIS ""START""
+        settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 2);
+        /// I WROTE THIS ""END""
       }
     } catch (e) {
       print(CustomTrace(StackTrace.current, message: e));
@@ -78,7 +87,13 @@ class SplashScreenController extends ControllerMVC {
       if (messageId != message['google.message_id']) {
         if (message['data']['id'] == "orders") {
           await settingRepo.saveMessageId(message['google.message_id']);
-          settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 3);
+          /// I HID THIS ""START""
+          // settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 3);
+          /// I HID THIS ""END""
+          ///
+          /// I WROTE THIS ""START""
+          settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 2);
+          /// I WROTE THIS ""END""
         }
       }
     } catch (e) {

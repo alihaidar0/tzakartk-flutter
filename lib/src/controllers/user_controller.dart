@@ -37,7 +37,13 @@ class UserController extends ControllerMVC {
       Overlay.of(state.context).insert(loader);
       repository.login(user).then((value) {
         if (value != null && value.apiToken != null) {
-          Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+          /// I HID THIS ""START""
+          // Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
+          /// I HID THIS ""END""
+          ///
+          /// I WROTE THIS ""START""
+          Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
+          /// I WROTE THIS ""END""
         } else {
           ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
             content: Text(S.of(state.context).wrong_email_or_password),
@@ -66,7 +72,13 @@ class UserController extends ControllerMVC {
         MaterialPageRoute(
             builder: (context) => MobileVerification2(
                   onVerified: (v) {
-                    Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+                    /// I HID THIS ""START""
+                    // Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+                    /// I HID THIS ""END""
+                    ///
+                    /// I WROTE THIS ""START""
+                    Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
+                    /// I WROTE THIS ""END""
                   },
                 )),
       );
@@ -94,7 +106,13 @@ class UserController extends ControllerMVC {
     Overlay.of(state.context).insert(loader);
     repository.register(user).then((value) {
       if (value != null && value.apiToken != null) {
-        Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+        /// I HID THIS ""START""
+        // Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+        /// I HID THIS ""END""
+        ///
+        /// I WROTE THIS ""START""
+        Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
+        /// I WROTE THIS ""END""
       } else {
         ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
           content: Text(S.of(state.context).wrong_email_or_password),

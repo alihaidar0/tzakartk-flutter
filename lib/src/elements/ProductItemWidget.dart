@@ -66,23 +66,26 @@ class ProductItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          product.name,
+                          product.en_name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
-                        Row(
-                          children: Helper.getStarsList(product.getRate()),
-                        ),
-                        Text(
-                          product.options
-                              .map((e) => e.name)
-                              .toList()
-                              .join(', '),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: Theme.of(context).textTheme.caption,
-                        ),
+
+                        /// I HID THIS ""STRAT""
+                        // Row(
+                        //   children: Helper.getStarsList(product.getRate()),
+                        // ),
+                        // Text(
+                        //   product.options
+                        //       .map((e) => e.name)
+                        //       .toList()
+                        //       .join(', '),
+                        //   overflow: TextOverflow.ellipsis,
+                        //   maxLines: 2,
+                        //   style: Theme.of(context).textTheme.caption,
+                        // ),
+                        /// I HID THIS ""END""
                       ],
                     ),
                   ),

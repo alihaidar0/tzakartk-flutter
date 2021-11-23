@@ -11,7 +11,9 @@ class ChatMessageListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return currentUser.value.id == this.chat.userId ? getSentMessageLayout(context) : getReceivedMessageLayout(context);
+    return currentUser.value.id == this.chat.userId
+        ? getSentMessageLayout(context)
+        : getReceivedMessageLayout(context);
   }
 
   Widget getSentMessageLayout(context) {
@@ -20,7 +22,10 @@ class ChatMessageListItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).focusColor.withOpacity(0.2),
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15))),
         padding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
         margin: EdgeInsets.symmetric(vertical: 5),
         child: Row(
@@ -32,7 +37,11 @@ class ChatMessageListItem extends StatelessWidget {
               child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  new Text(this.chat.user.name, style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(fontWeight: FontWeight.w600))),
+                  new Text(this.chat.user.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .merge(TextStyle(fontWeight: FontWeight.w600))),
                   new Container(
                     margin: const EdgeInsets.only(top: 5.0),
                     child: new Text(chat.text),
@@ -55,7 +64,8 @@ class ChatMessageListItem extends StatelessWidget {
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error_outline),
                 ),
               ),
             ),
@@ -71,7 +81,10 @@ class ChatMessageListItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).accentColor,
-            borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15))),
         padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
         margin: EdgeInsets.symmetric(vertical: 5),
         child: Row(
@@ -94,7 +107,8 @@ class ChatMessageListItem extends StatelessWidget {
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error_outline),
                 ),
               ),
             ),
@@ -103,7 +117,10 @@ class ChatMessageListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   new Text(this.chat.user.name,
-                      style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor))),
+                      style: Theme.of(context).textTheme.bodyText1.merge(
+                          TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).primaryColor))),
                   new Container(
                     margin: const EdgeInsets.only(top: 5.0),
                     child: new Text(
