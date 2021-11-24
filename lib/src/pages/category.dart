@@ -195,36 +195,13 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                                   _con.addToCart(
                                     _con.products.elementAt(index),
                                   );
-                                  // if (_con.isSameShop(
-                                  //     _con.products.elementAt(index))) {
-                                  //   _con.addToCart(
-                                  //       _con.products.elementAt(index));
-                                  // } else {
-                                  //   showDialog(
-                                  //     context: context,
-                                  //     builder: (BuildContext context) {
-                                  //       return AddToCartAlertDialogWidget(
-                                  //         oldProduct:
-                                  //             _con.carts.elementAt(0)?.product,
-                                  //         newProduct:
-                                  //             _con.products.elementAt(index),
-                                  //         onPressed: (product, {reset: true}) {
-                                  //           return _con.addToCart(
-                                  //             _con.products.elementAt(index),
-                                  //             reset: true,
-                                  //           );
-                                  //         },
-                                  //       );
-                                  //     },
-                                  //   );
-                                  // }
                                 }
                               },
                             );
                           },
                         ),
                       ),
-                    )
+                    ),
             ],
           ),
         ),

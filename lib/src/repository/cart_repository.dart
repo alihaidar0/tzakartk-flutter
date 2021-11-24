@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
+import 'package:tzakartk/src/models/cart_price.dart';
 
 import '../helpers/helper.dart';
 import '../models/cart.dart';
@@ -19,7 +20,6 @@ Future<Stream<Cart>> getCart() async {
       '${GlobalConfiguration().getValue('api_base_url')}carts?${_apiToken}';
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
-  print(url);
   return streamedRest.stream
       .transform(utf8.decoder)
       .transform(json.decoder)
@@ -38,7 +38,6 @@ Future<Stream<int>> getCartCount() async {
   final String _apiToken = 'api_token=${_user.apiToken}';
   final String url =
       '${GlobalConfiguration().getValue('api_base_url')}carts/count?${_apiToken}';
-
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
@@ -50,6 +49,25 @@ Future<Stream<int>> getCartCount() async {
       );
 }
 
+Future<Stream<CartPrice>> getCartPrice() async {
+  User _user = userRepo.currentUser.value;
+  if (_user.apiToken == null) {
+    return new Stream.value(null);
+  }
+  final String _apiToken = 'api_token=${_user.apiToken}';
+  final String url =
+      '${GlobalConfiguration().getValue('api_base_url')}carts/totals?${_apiToken}';
+  final client = new http.Client();
+  final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
+  return streamedRest.stream
+      .transform(utf8.decoder)
+      .transform(json.decoder)
+      .map((data) => Helper.getData(data))
+      .map((data) {
+    return CartPrice.fromJSON(data);
+  });
+}
+
 Future<Cart> addCart(Cart cart) async {
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {
@@ -57,14 +75,10 @@ Future<Cart> addCart(Cart cart) async {
   }
   Map<String, dynamic> decodedJSON = {};
   final String _apiToken = 'api_token=${_user.apiToken}';
-  cart.userId = _user.id;
+  cart.user_id = _user.id;
   final String url =
       '${GlobalConfiguration().getValue('api_base_url')}carts?$_apiToken';
   final client = new http.Client();
-  print("######### body #########");
-  print("${url}");
-  print("${json.encode(cart.toMap())}");
-  print("##################");
   final response = await client.post(
     url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
@@ -84,7 +98,7 @@ Future<Cart> updateCart(Cart cart) async {
     return new Cart();
   }
   final String _apiToken = 'api_token=${_user.apiToken}';
-  cart.userId = _user.id;
+  cart.user_id = _user.id;
   final String url =
       '${GlobalConfiguration().getValue('api_base_url')}carts/${cart.id}?$_apiToken';
   final client = new http.Client();

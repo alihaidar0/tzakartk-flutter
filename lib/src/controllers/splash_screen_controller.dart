@@ -68,13 +68,7 @@ class SplashScreenController extends ControllerMVC {
   Future notificationOnResume(Map<String, dynamic> message) async {
     try {
       if (message['data']['id'] == "orders") {
-        /// I HID THIS ""START""
-        // settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 3);
-        /// I HID THIS ""END""
-        ///
-        /// I WROTE THIS ""START""
         settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 2);
-        /// I WROTE THIS ""END""
       }
     } catch (e) {
       print(CustomTrace(StackTrace.current, message: e));
@@ -87,13 +81,7 @@ class SplashScreenController extends ControllerMVC {
       if (messageId != message['google.message_id']) {
         if (message['data']['id'] == "orders") {
           await settingRepo.saveMessageId(message['google.message_id']);
-          /// I HID THIS ""START""
-          // settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 3);
-          /// I HID THIS ""END""
-          ///
-          /// I WROTE THIS ""START""
           settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 2);
-          /// I WROTE THIS ""END""
         }
       }
     } catch (e) {

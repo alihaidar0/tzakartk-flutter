@@ -31,14 +31,15 @@ class _OptionItemWidgetState extends State<OptionItemWidget> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: widget.option.checked
-            ? Theme.of(context).accentColor
-            : Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
-        border: Border.all(color: Colors.black,)
-      ),
+          color: widget.option.checked
+              ? Theme.of(context).accentColor
+              : Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+          border: Border.all(
+            color: Colors.black,
+          )),
       padding: EdgeInsets.all(8),
       margin: EdgeInsets.all(5),
       child: InkWell(

@@ -43,6 +43,7 @@ class ProductController extends ControllerMVC {
   }
 
   void listenForCart() async {
+    carts.clear();
     final Stream<Cart> stream = await getCart();
     stream.listen((Cart _cart) {
       carts.add(_cart);
@@ -59,9 +60,6 @@ class ProductController extends ControllerMVC {
         product.options.where((element) => element.checked).toList();
     _newCart.quantity = this.quantity;
     var _oldCart = isExistInCart(_newCart);
-    print("######### carts #########");
-    print("${carts.length}");
-    print("##################");
     if (_oldCart != null) {
       _oldCart.quantity += this.quantity;
       updateCart(_oldCart).then((value) {
@@ -74,8 +72,7 @@ class ProductController extends ControllerMVC {
         ));
       });
     } else {
-      // the product doesnt exist in the cart add new one
-      // carts.add(_newCart);
+      listenForCart();
       addCart(_newCart).then((value) {
         setState(() {
           this.loadCart = false;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import '../models/cart_price.dart';
 
 import '../../generated/l10n.dart';
 import '../models/cart.dart';
@@ -11,11 +12,13 @@ import '../repository/user_repository.dart';
 
 class CartController extends ControllerMVC {
   List<Cart> carts = <Cart>[];
-  double taxAmount = 0.0;
-  double deliveryFee = 0.0;
-  int cartCount = 0;
+  CartPrice cartPrice = new CartPrice();
   double subTotal = 0.0;
+  double deliveryFee = 0.0;
   double total = 0.0;
+  int cartCount = 0;
+  double taxAmount = 0.0;
+
   GlobalKey<ScaffoldState> scaffoldKey;
 
   CartController() {
@@ -42,7 +45,7 @@ class CartController extends ControllerMVC {
       ));
     }, onDone: () {
       if (carts.isNotEmpty) {
-        calculateSubtotal();
+        calculateCartPrice();
       }
       if (message != null) {
         ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
@@ -77,6 +80,7 @@ class CartController extends ControllerMVC {
       carts = [];
     });
     listenForCarts(message: S.of(state.context).carts_refreshed_successfuly);
+    listenForCartsCount();
   }
 
   void removeFromCart(Cart _cart) async {
@@ -84,7 +88,8 @@ class CartController extends ControllerMVC {
       this.carts.remove(_cart);
     });
     removeCart(_cart).then((value) {
-      calculateSubtotal();
+      calculateCartPrice();
+      listenForCartsCount();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S
             .of(state.context)
@@ -93,25 +98,23 @@ class CartController extends ControllerMVC {
     });
   }
 
-  void calculateSubtotal() async {
-    double cartPrice = 0;
-    subTotal = 0;
-    carts.forEach((cart) {
-      cartPrice = cart.product.price;
-      cart.options.forEach((element) {
-        cartPrice += element.price;
+  void calculateCartPrice() async {
+    final Stream<CartPrice> stream = await getCartPrice();
+    stream.listen((CartPrice _cartPrice) {
+      setState(() {
+        subTotal = _cartPrice.sub_total;
+        deliveryFee = _cartPrice.delivery_fee;
+        total = _cartPrice.total;
       });
-      cartPrice *= cart.quantity;
-      subTotal += cartPrice;
+    }, onError: (a) {
+      print("##################");
+      print("######### Error getCartCount with SnackBar #########");
+      print("##################");
+      print(a);
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S.of(state.context).verify_your_internet_connection),
+      ));
     });
-
-    /// I HID THIS FOR MARKET
-    // if (Helper.canDelivery(carts[0].product.market, carts: carts)) {
-    //   deliveryFee = carts[0].product.market.deliveryFee;
-    // }
-    // taxAmount = (subTotal + deliveryFee) * carts[0].product.market.defaultTax / 100;
-    // total = subTotal + taxAmount + deliveryFee;
-    setState(() {});
   }
 
   void doApplyCoupon(String code, {String message}) async {
@@ -136,7 +139,8 @@ class CartController extends ControllerMVC {
     if (cart.quantity <= 99) {
       ++cart.quantity;
       updateCart(cart);
-      calculateSubtotal();
+      calculateCartPrice();
+      listenForCartsCount();
     }
   }
 
@@ -144,7 +148,8 @@ class CartController extends ControllerMVC {
     if (cart.quantity > 1) {
       --cart.quantity;
       updateCart(cart);
-      calculateSubtotal();
+      calculateCartPrice();
+      listenForCartsCount();
     }
   }
 

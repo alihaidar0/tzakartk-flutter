@@ -166,7 +166,7 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                         .languageCode ==
                                                     "en"
                                                 ? _con.product?.en_name ?? ''
-                                                : _con.product?.en_name ?? '',
+                                                : _con.product?.ar_name ?? '',
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 2,
                                             style: Theme.of(context)
@@ -181,7 +181,7 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                         .en_name ??
                                                     ''
                                                 : _con.product.category
-                                                        .en_name ??
+                                                        .ar_name ??
                                                     '',
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 2,
@@ -226,15 +226,11 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                   ],
                                 ),
                                 _con.product.capacity != null &&
-                                        _con.product.capacity != 'null' &&
                                         _con.product.capacity != '' &&
                                         _con.product.unit != null &&
-                                        _con.product.unit != 'null' &&
                                         _con.product.unit != '' &&
                                         _con.product.packageItemsCount !=
                                             null &&
-                                        _con.product.packageItemsCount !=
-                                            'null' &&
                                         _con.product.packageItemsCount != ''
                                     ? Row(
                                         children: <Widget>[
@@ -399,8 +395,12 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                   ),
                   Positioned(
                     top: 32,
-                    right: Localizations.localeOf(context).languageCode == 'en'? 20 :null,
-                    left: Localizations.localeOf(context).languageCode == 'en'? null :20,
+                    right: Localizations.localeOf(context).languageCode == 'en'
+                        ? 20
+                        : null,
+                    left: Localizations.localeOf(context).languageCode == 'en'
+                        ? null
+                        : 20,
                     child: _con.loadCart
                         ? SizedBox(
                             width: 60,
@@ -499,28 +499,6 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                               .pushNamed("/Login");
                                         } else {
                                           _con.addToCart(_con.product);
-                                          // if (_con.isSameShop(_con.product)) {
-                                          //   _con.addToCart(_con.product);
-                                          // } else {
-                                          //   showDialog(
-                                          //     context: context,
-                                          //     builder: (BuildContext context) {
-                                          //       return AddToCartAlertDialogWidget(
-                                          //         oldProduct: _con.carts
-                                          //             .elementAt(0)
-                                          //             ?.product,
-                                          //         newProduct: _con.product,
-                                          //         onPressed: (product,
-                                          //             {reset: true}) {
-                                          //           return _con.addToCart(
-                                          //             _con.product,
-                                          //             reset: true,
-                                          //           );
-                                          //         },
-                                          //       );
-                                          //     },
-                                          //   );
-                                          // }
                                         }
                                       },
                                       padding:

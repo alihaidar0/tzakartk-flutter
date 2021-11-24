@@ -273,7 +273,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "verify" : MessageLookupByLibrary.simpleMessage("تحقق"),
     "verifyPhoneNumber" : MessageLookupByLibrary.simpleMessage("أكد رقم الهاتف"),
     "verify_your_internet_connection" : MessageLookupByLibrary.simpleMessage("تحقق من اتصالك بالإنترنت"),
-    "verify_your_quantity_and_click_checkout" : MessageLookupByLibrary.simpleMessage("تحقق من الكمية الخاصة بك وانقر فوق الخروج"),
+    "verify_your_quantity_and_click_checkout" : MessageLookupByLibrary.simpleMessage("تحقق من الكمية الخاصة بك وانقر فوق الدفع"),
     "version" : MessageLookupByLibrary.simpleMessage("الإصدار"),
     "view" : MessageLookupByLibrary.simpleMessage("رأي"),
     "viewDetails" : MessageLookupByLibrary.simpleMessage("عرض التفاصيل"),

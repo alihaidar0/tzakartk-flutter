@@ -64,17 +64,11 @@ class CategoryController extends ControllerMVC {
   }
 
   void listenForCart() async {
+    carts.clear();
     final Stream<Cart> stream = await getCart();
     stream.listen((Cart _cart) {
       carts.add(_cart);
     });
-  }
-
-  bool isSameShop(Product product) {
-    if (carts.isNotEmpty) {
-      return carts[0].product?.category?.id == product.category?.id;
-    }
-    return true;
   }
 
   void addToCart(Product product) async {
@@ -100,6 +94,7 @@ class CategoryController extends ControllerMVC {
       });
     } else {
       // the product doesnt exist in the cart add new one
+      listenForCart();
       addCart(_newCart).then((value) {
         setState(() {
           this.loadCart = false;

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../generated/l10n.dart';
 import '../controllers/cart_controller.dart';
 import '../helpers/helper.dart';
-import '../repository/settings_repository.dart' as settingRepo;
 
 class CartBottomDetailsWidget extends StatelessWidget {
   const CartBottomDetailsWidget({
@@ -19,7 +18,7 @@ class CartBottomDetailsWidget extends StatelessWidget {
     return _con.carts.isEmpty
         ? SizedBox(height: 0)
         : Container(
-            height: 200,
+            height: 150,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
@@ -46,9 +45,12 @@ class CartBottomDetailsWidget extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),
-                      Helper.getPrice(_con.subTotal, context,
-                          style: Theme.of(context).textTheme.subtitle1,
-                          zeroPlaceholder: '0')
+                      Helper.getPrice(
+                        _con.subTotal,
+                        context,
+                        style: Theme.of(context).textTheme.subtitle1,
+                        zeroPlaceholder: '0',
+                      ),
                     ],
                   ),
                   SizedBox(height: 5),
@@ -60,26 +62,11 @@ class CartBottomDetailsWidget extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),
-
-                      /// I HID THIS FOR MARKETv
-                      // if (Helper.canDelivery(_con.carts[0].product.market, carts: _con.carts))
-                      //   Helper.getPrice(_con.carts[0].product.market.deliveryFee, context, style: Theme.of(context).textTheme.subtitle1, zeroPlaceholder: S.of(context).free)
-                      // else
-                      //   Helper.getPrice(0, context, style: Theme.of(context).textTheme.subtitle1, zeroPlaceholder: S.of(context).free)
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          '${S.of(context).tax} (${settingRepo.setting.value.defaultTax}%)',
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ),
                       Helper.getPrice(
-                        _con.taxAmount,
+                        _con.deliveryFee,
                         context,
                         style: Theme.of(context).textTheme.subtitle1,
+                        zeroPlaceholder: S.of(context).free,
                       ),
                     ],
                   ),
