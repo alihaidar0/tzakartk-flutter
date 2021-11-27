@@ -1,7 +1,8 @@
 class Notification {
   String id;
   String type;
-  Map<String, dynamic> data;
+  String body;
+  String title;
   bool read;
   DateTime createdAt;
 
@@ -10,14 +11,16 @@ class Notification {
   Notification.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
-      type = jsonMap['type'] != null ? jsonMap['type'].toString() : '';
-      data = jsonMap['data'] != null ? {} : {};
+      type = jsonMap['type'];
+      body = jsonMap['body'];
+      title = jsonMap['title'];
       read = jsonMap['read_at'] != null ? true : false;
-      createdAt = DateTime.parse(jsonMap['created_at']);
+      createdAt = jsonMap['created_at'] != null?DateTime.parse(jsonMap['created_at']):new DateTime(0);
     } catch (e) {
       id = '';
       type = '';
-      data = {};
+      body = '';
+      title = '';
       read = false;
       createdAt = new DateTime(0);
       print(e);
@@ -30,4 +33,7 @@ class Notification {
     map["read_at"] = !read;
     return map;
   }
+
+  @override
+  String toString() => 'body =$body, title=$title, type=$type';
 }

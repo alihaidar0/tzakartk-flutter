@@ -16,6 +16,7 @@ class NotificationController extends ControllerMVC {
   }
 
   void listenForNotifications({String message}) async {
+    notifications.clear();
     final Stream<model.Notification> stream = await getNotifications();
     stream.listen((model.Notification _notification) {
       setState(() {

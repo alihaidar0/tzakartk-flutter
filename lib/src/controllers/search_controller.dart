@@ -1,9 +1,7 @@
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../models/address.dart';
-import '../models/market.dart';
 import '../models/product.dart';
-import '../repository/market_repository.dart';
 import '../repository/product_repository.dart';
 import '../repository/search_repository.dart';
 import '../repository/settings_repository.dart';
@@ -11,16 +9,15 @@ import '../repository/settings_repository.dart';
 class SearchController extends ControllerMVC {
   List<Product> products = <Product>[];
 
-  SearchController() {
-    listenForProducts();
-  }
+  SearchController() {}
 
-  void listenForProducts({String search}) async {
+  void listenForProducts({String id, String search, String categoryId}) async {
     if (search == null) {
       search = await getRecentSearch();
     }
     Address _address = deliveryAddress.value;
-    final Stream<Product> stream = await searchProducts(search, _address);
+    final Stream<Product> stream =
+        await searchProducts(search, _address, categoryId);
     stream.listen((Product _product) {
       setState(() => products.add(_product));
     }, onError: (a) {

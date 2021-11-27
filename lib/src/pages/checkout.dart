@@ -10,8 +10,6 @@ import '../models/route_argument.dart';
 import '../repository/settings_repository.dart';
 
 class CheckoutWidget extends StatefulWidget {
-//  RouteArgument routeArgument;
-//  CheckoutWidget({Key key, this.routeArgument}) : super(key: key);
   @override
   _CheckoutWidgetState createState() => _CheckoutWidgetState();
 }
@@ -51,7 +49,7 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
               fit: StackFit.expand,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 255),
+                  padding: const EdgeInsets.only(bottom: 185),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,7 +124,7 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
                 Positioned(
                   bottom: 0,
                   child: Container(
-                    height: 255,
+                    height: 185,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                     decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
@@ -168,30 +166,14 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
                                   style: Theme.of(context).textTheme.bodyText1,
                                 ),
                               ),
-
-                              /// I HID THIS FOR MARKET
-                              // Helper.getPrice(
-                              //     _con.carts[0].product.market.deliveryFee,
-                              //     context,
-                              //     style: Theme.of(context).textTheme.subtitle1)
+                              Helper.getPrice(
+                                _con.deliveryFee,
+                                context,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              )
                             ],
                           ),
                           SizedBox(height: 3),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-
-                                  /// I HID THIS FOR MARKET
-                                  // child: Text(
-                                  //   "${S.of(context).tax} (${_con.carts[0].product.market.defaultTax}%)",
-                                  //   style: Theme.of(context).textTheme.bodyText1,
-                                  // ),
-                                  ),
-                              Helper.getPrice(_con.taxAmount, context,
-                                  style: Theme.of(context).textTheme.subtitle1)
-                            ],
-                          ),
-                          Divider(height: 30),
                           Row(
                             children: <Widget>[
                               Expanded(

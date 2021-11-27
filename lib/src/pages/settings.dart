@@ -112,23 +112,24 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                               child: ProfileSettingsDialog(
                                 user: currentUser.value,
                                 onChanged: () {
-                                  var bottomSheetController = _con
-                                      .scaffoldKey.currentState
-                                      .showBottomSheet(
-                                    (context) =>
-                                        EmailVerificationBottomSheetWidget(
-                                            scaffoldKey: _con.scaffoldKey,
-                                            user: currentUser.value),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: new BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10)),
-                                    ),
-                                  );
-                                  bottomSheetController.closed.then((value) {
-                                    _con.update(currentUser.value);
-                                  });
-                                  //setState(() {});
+                                  /// I HID THIS FOR verifyPhone
+                                  // var bottomSheetController = _con
+                                  //     .scaffoldKey.currentState
+                                  //     .showBottomSheet(
+                                  //   (context) =>
+                                  //       EmailVerificationBottomSheetWidget(
+                                  //           scaffoldKey: _con.scaffoldKey,
+                                  //           user: currentUser.value),
+                                  //   shape: RoundedRectangleBorder(
+                                  //     borderRadius: new BorderRadius.only(
+                                  //         topLeft: Radius.circular(10),
+                                  //         topRight: Radius.circular(10)),
+                                  //   ),
+                                  // );
+                                  // bottomSheetController.closed.then((value) {
+                                  //   _con.update(currentUser.value);
+                                  // });
+                                  // //setState(() {});
                                 },
                               ),
                             ),

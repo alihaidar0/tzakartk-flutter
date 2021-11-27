@@ -97,9 +97,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SearchBarWidget(onClickFilter: (filter) {
-                  _con.scaffoldKey?.currentState?.openEndDrawer();
-                }),
+                child: SearchBarWidget(categoryId: _con?.category?.id.toString(),),
               ),
               SizedBox(height: 10),
               Padding(

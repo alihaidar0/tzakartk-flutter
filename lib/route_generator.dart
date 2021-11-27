@@ -4,6 +4,7 @@ import 'src/models/route_argument.dart';
 import 'src/pages/cart.dart';
 import 'src/pages/category.dart';
 import 'src/pages/checkout.dart';
+import 'src/pages/countries_and_cities.dart';
 import 'src/pages/delivery_addresses.dart';
 import 'src/pages/delivery_pickup.dart';
 import 'src/pages/forget_password.dart';
@@ -98,6 +99,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SettingsWidget());
       case '/SetGlobalsScreen':
         return MaterialPageRoute(builder: (_) => SetGlobalsScreen());
+      case '/CountriesAndCities':
+        return MaterialPageRoute(builder: (_) => CountriesAndCities());
 
       /// I HID THIS
       //   case '/Favorites':

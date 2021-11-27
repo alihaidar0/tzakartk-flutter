@@ -15,11 +15,7 @@ class User {
   String address;
   String bio;
   Media image;
-
-  // used for indicate if client logged in or not
   bool auth;
-
-//  String role;
 
   User();
 
@@ -71,7 +67,7 @@ class User {
       map["device_token"] = deviceToken;
     }
     map["phone"] = phone;
-    map["verifiedPhone"] = verifiedPhone;
+    // map["verifiedPhone"] = verifiedPhone;
     map["address"] = address;
     map["bio"] = bio;
     map["media"] = image?.toMap();

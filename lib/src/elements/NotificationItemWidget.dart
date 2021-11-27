@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
-import '../helpers/helper.dart';
 import '../helpers/swipe_widget.dart';
 import '../models/notification.dart' as model;
 
@@ -44,7 +43,7 @@ class NotificationItemWidget extends StatelessWidget {
               }
             },
             backgroudColor: Theme.of(context).scaffoldBackgroundColor),
-        new ActionItems(
+        ActionItems(
             icon: Padding(
               padding: const EdgeInsets.only(right: 10),
               child: new Icon(Icons.delete_outline,
@@ -67,14 +66,16 @@ class NotificationItemWidget extends StatelessWidget {
                   width: 75,
                   height: 75,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                          begin: Alignment.bottomLeft,
-                          end: Alignment.topRight,
-                          colors: [
-                            Theme.of(context).focusColor.withOpacity(0.7),
-                            Theme.of(context).focusColor.withOpacity(0.05),
-                          ])),
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        Theme.of(context).focusColor.withOpacity(0.7),
+                        Theme.of(context).focusColor.withOpacity(0.05),
+                      ],
+                    ),
+                  ),
                   child: Icon(
                     Icons.notifications_outlined,
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -119,15 +120,32 @@ class NotificationItemWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Text(
-                    Helper.of(context).trans(notification.type),
+                    // Helper.of(context).trans(notification.type),
+                    notification.title,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     textAlign: TextAlign.justify,
                     style: Theme.of(context).textTheme.bodyText1.merge(
-                        TextStyle(
+                          TextStyle(
                             fontWeight: notification.read
                                 ? FontWeight.w300
-                                : FontWeight.w600)),
+                                : FontWeight.w600,
+                          ),
+                        ),
+                  ),
+                  Text(
+                    // Helper.of(context).trans(notification.type),
+                    notification.body,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    textAlign: TextAlign.justify,
+                    style: Theme.of(context).textTheme.bodyText1.merge(
+                      TextStyle(
+                        fontWeight: notification.read
+                            ? FontWeight.w300
+                            : FontWeight.w600,
+                      ),
+                    ),
                   ),
                   Text(
                     DateFormat('yyyy-MM-dd | HH:mm')

@@ -28,6 +28,7 @@ class SplashScreenController extends ControllerMVC {
     super.initState();
     Firebase.initializeApp();
     firebaseMessaging.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
+    firebaseMessaging.subscribeToTopic('general');
     configureFirebase(firebaseMessaging);
     settingRepo.setting.addListener(() {
       if (settingRepo.setting.value.appName != null && settingRepo.setting.value.appName != '' && settingRepo.setting.value.mainColor != null) {

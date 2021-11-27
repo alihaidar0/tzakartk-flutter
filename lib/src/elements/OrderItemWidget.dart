@@ -6,7 +6,6 @@ import '../../generated/l10n.dart';
 import '../helpers/helper.dart';
 import '../models/order.dart';
 import '../models/route_argument.dart';
-import 'ProductOrderItemWidget.dart';
 
 class OrderItemWidget extends StatefulWidget {
   final bool expanded;
@@ -73,71 +72,72 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                       ],
                     ),
                     children: <Widget>[
-                      Column(
-                          children: List.generate(
-                        widget.order.productOrders.length,
-                        (indexProduct) {
-                          return ProductOrderItemWidget(
-                              heroTag: 'mywidget.orders',
-                              order: widget.order,
-                              productOrder: widget.order.productOrders
-                                  .elementAt(indexProduct));
-                        },
-                      )),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    S.of(context).delivery_fee,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                ),
-                                Helper.getPrice(
-                                    widget.order.deliveryFee, context,
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1)
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    '${S.of(context).tax} (${widget.order.tax}%)',
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                ),
-                                Helper.getPrice(
-                                    Helper.getTaxOrder(widget.order), context,
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1)
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    S.of(context).total,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                ),
-                                Helper.getPrice(
-                                    Helper.getTotalOrdersPrice(widget.order),
-                                    context,
-                                    style:
-                                        Theme.of(context).textTheme.headline4)
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
+                      // Column(
+                      //     children: List.generate(
+                      //   widget.order.productOrders.length,
+                      //   (indexProduct) {
+                      //     return ProductOrderItemWidget(
+                      //         heroTag: 'mywidget.orders',
+                      //         order: widget.order,
+                      //         productOrder: widget.order.productOrders
+                      //             .elementAt(indexProduct));
+                      //   },
+                      // )),
+                      // Padding(
+                      //   padding:
+                      //       EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      //   child: Column(
+                      //     children: <Widget>[
+                      //       Row(
+                      //         children: <Widget>[
+                      //           Expanded(
+                      //             child: Text(
+                      //               S.of(context).delivery_fee,
+                      //               style:
+                      //                   Theme.of(context).textTheme.bodyText1,
+                      //             ),
+                      //           ),
+                      //           Helper.getPrice(
+                      //             widget.order.deliveryFee,
+                      //             context,
+                      //             style: Theme.of(context).textTheme.subtitle1,
+                      //           )
+                      //         ],
+                      //       ),
+                      //       Row(
+                      //         children: <Widget>[
+                      //           Expanded(
+                      //             child: Text(
+                      //               '${S.of(context).tax} (${widget.order.tax}%)',
+                      //               style:
+                      //                   Theme.of(context).textTheme.bodyText1,
+                      //             ),
+                      //           ),
+                      //           Helper.getPrice(
+                      //               Helper.getTaxOrder(widget.order), context,
+                      //               style:
+                      //                   Theme.of(context).textTheme.subtitle1)
+                      //         ],
+                      //       ),
+                      //       Row(
+                      //         children: <Widget>[
+                      //           Expanded(
+                      //             child: Text(
+                      //               S.of(context).total,
+                      //               style:
+                      //                   Theme.of(context).textTheme.bodyText1,
+                      //             ),
+                      //           ),
+                      //           Helper.getPrice(
+                      //               Helper.getTotalOrdersPrice(widget.order),
+                      //               context,
+                      //               style:
+                      //                   Theme.of(context).textTheme.headline4)
+                      //         ],
+                      //       ),
+                      //     ],
+                      //   ),
+                      // )
                     ],
                   ),
                 ),

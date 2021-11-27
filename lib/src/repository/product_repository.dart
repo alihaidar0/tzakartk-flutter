@@ -27,23 +27,17 @@ Future<Stream<Product>> getProduct(String productId) async {
   }
 }
 
-Future<Stream<Product>> searchProducts(String search, Address address) async {
+Future<Stream<Product>> searchProducts(String search, Address address, String categoryId) async {
   Uri uri = Helper.getUri('api/products');
   Map<String, dynamic> _queryParams = {};
-  _queryParams['search'] = 'name:$search;description:$search';
-  _queryParams['searchFields'] = 'name:like;description:like';
-  _queryParams['limit'] = '5';
-  if (!address.isUnknown()) {
-    _queryParams['myLon'] = address.longitude.toString();
-    _queryParams['myLat'] = address.latitude.toString();
-    _queryParams['areaLon'] = address.longitude.toString();
-    _queryParams['areaLat'] = address.latitude.toString();
-  }
+  _queryParams['category_id'] = '$categoryId:';
+  _queryParams['searchFields[0]'] = 'en_name';
+  _queryParams['searchFields[1]'] = 'ar_name';
+  _queryParams['search'] = '$search';
   uri = uri.replace(queryParameters: _queryParams);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
-
     return streamedRest.stream
         .transform(utf8.decoder)
         .transform(json.decoder)

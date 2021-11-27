@@ -55,7 +55,6 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
       body: currentUser.value.apiToken == null
           ? PermissionDeniedWidget()
           : SingleChildScrollView(
-//              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
               child: Column(
                 children: <Widget>[
                   ProfileAvatarWidget(user: currentUser.value),
@@ -100,8 +99,9 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
                           itemBuilder: (context, index) {
                             var _order = _con.recentOrders.elementAt(index);
                             return OrderItemWidget(
-                                expanded: index == 0 ? true : false,
-                                order: _order);
+                              expanded: index == 0 ? true : false,
+                              order: _order,
+                            );
                           },
                           separatorBuilder: (context, index) {
                             return SizedBox(height: 20);

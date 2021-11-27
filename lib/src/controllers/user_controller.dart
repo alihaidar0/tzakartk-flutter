@@ -60,45 +60,46 @@ class UserController extends ControllerMVC {
     }
   }
 
-  Future<void> verifyPhone(model.User user) async {
-    final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
-      repository.currentUser.value.verificationId = verId;
-    };
-
-    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResent]) {
-      repository.currentUser.value.verificationId = verId;
-      Navigator.push(
-        scaffoldKey.currentContext,
-        MaterialPageRoute(
-            builder: (context) => MobileVerification2(
-                  onVerified: (v) {
-                    /// I HID THIS ""START""
-                    // Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
-                    /// I HID THIS ""END""
-                    ///
-                    /// I WROTE THIS ""START""
-                    Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
-                    /// I WROTE THIS ""END""
-                  },
-                )),
-      );
-    };
-    final PhoneVerificationCompleted _verifiedSuccess = (AuthCredential auth) {};
-    final PhoneVerificationFailed _verifyFailed = (FirebaseAuthException e) {
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(e.message),
-      ));
-      print(e.toString());
-    };
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: user.phone,
-      timeout: const Duration(seconds: 5),
-      verificationCompleted: _verifiedSuccess,
-      verificationFailed: _verifyFailed,
-      codeSent: smsCodeSent,
-      codeAutoRetrievalTimeout: autoRetrieve,
-    );
-  }
+  /// I HID THIS FOR verifyPhone
+  // Future<void> verifyPhone(model.User user) async {
+  //   final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
+  //     repository.currentUser.value.verificationId = verId;
+  //   };
+  //
+  //   final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResent]) {
+  //     repository.currentUser.value.verificationId = verId;
+  //     Navigator.push(
+  //       scaffoldKey.currentContext,
+  //       MaterialPageRoute(
+  //           builder: (context) => MobileVerification2(
+  //                 onVerified: (v) {
+  //                   /// I HID THIS ""START""
+  //                   // Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+  //                   /// I HID THIS ""END""
+  //                   ///
+  //                   /// I WROTE THIS ""START""
+  //                   Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
+  //                   /// I WROTE THIS ""END""
+  //                 },
+  //               )),
+  //     );
+  //   };
+  //   final PhoneVerificationCompleted _verifiedSuccess = (AuthCredential auth) {};
+  //   final PhoneVerificationFailed _verifyFailed = (FirebaseAuthException e) {
+  //     ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+  //       content: Text(e.message),
+  //     ));
+  //     print(e.toString());
+  //   };
+  //   await FirebaseAuth.instance.verifyPhoneNumber(
+  //     phoneNumber: user.phone,
+  //     timeout: const Duration(seconds: 5),
+  //     verificationCompleted: _verifiedSuccess,
+  //     verificationFailed: _verifyFailed,
+  //     codeSent: smsCodeSent,
+  //     codeAutoRetrievalTimeout: autoRetrieve,
+  //   );
+  // }
 
   void register() async {
     loader = Helper.overlayLoader(state.context);

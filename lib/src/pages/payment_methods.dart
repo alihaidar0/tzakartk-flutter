@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
 import '../elements/PaymentMethodListItemWidget.dart';
-import '../elements/SearchBarWidget.dart';
 import '../elements/ShoppingCartButtonWidget.dart';
 import '../models/payment_method.dart';
 import '../models/route_argument.dart';
@@ -60,11 +59,6 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SearchBarWidget(),
-            ),
-            SizedBox(height: 15),
             list.paymentsList.length > 0
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -81,7 +75,8 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
                         style: Theme.of(context).textTheme.headline4,
                       ),
                       subtitle: Text(
-                          S.of(context).select_your_preferred_payment_mode),
+                        S.of(context).select_your_preferred_payment_mode,
+                      ),
                     ),
                   )
                 : SizedBox(
@@ -98,43 +93,8 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
               },
               itemBuilder: (context, index) {
                 return PaymentMethodListItemWidget(
-                    paymentMethod: list.paymentsList.elementAt(index));
-              },
-            ),
-            list.cashList.length > 0
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
-                      leading: Icon(
-                        Icons.monetization_on_outlined,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      title: Text(
-                        S.of(context).cash_on_delivery,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                      subtitle: Text(
-                          S.of(context).select_your_preferred_payment_mode),
-                    ),
-                  )
-                : SizedBox(
-                    height: 0,
-                  ),
-            ListView.separated(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              primary: false,
-              itemCount: list.cashList.length,
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 10);
-              },
-              itemBuilder: (context, index) {
-                return PaymentMethodListItemWidget(
-                    paymentMethod: list.cashList.elementAt(index));
+                  paymentMethod: list.paymentsList.elementAt(index),
+                );
               },
             ),
           ],

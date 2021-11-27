@@ -4,7 +4,6 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import '../../generated/l10n.dart';
 import '../controllers/user_controller.dart';
 import '../elements/BlockButtonWidget.dart';
-import '../elements/EmailVerificationBottomSheetWidget.dart';
 import '../helpers/app_config.dart' as config;
 import '../helpers/helper.dart';
 
@@ -71,7 +70,6 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                     ),
                     padding: EdgeInsets.symmetric(vertical: 50, horizontal: 27),
                     width: config.App(context).appWidth(88),
-//              height: config.App(context).appHeight(55),
                     child: Form(
                       key: _con.loginFormKey,
                       child: Column(
@@ -249,42 +247,32 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                             onPressed: () {
                               if (_con.loginFormKey.currentState.validate()) {
                                 _con.loginFormKey.currentState.save();
-                                var bottomSheetController = _con
-                                    .scaffoldKey.currentState
-                                    .showBottomSheet(
-                                  (context) =>
-                                      EmailVerificationBottomSheetWidget(
-                                    scaffoldKey: _con.scaffoldKey,
-                                    user: _con.user,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10)),
-                                  ),
-                                );
-                                bottomSheetController.closed.then((value) {
-                                  _con.register();
-                                });
+
+                                /// I WROTE THIS
+                                _con.register();
+
+                                /// I HID THIS FOR verifyPhone
+                                // var bottomSheetController = _con
+                                //     .scaffoldKey.currentState
+                                //     .showBottomSheet(
+                                //   (context) =>
+                                //       EmailVerificationBottomSheetWidget(
+                                //     scaffoldKey: _con.scaffoldKey,
+                                //     user: _con.user,
+                                //   ),
+                                //   shape: RoundedRectangleBorder(
+                                //     borderRadius: new BorderRadius.only(
+                                //         topLeft: Radius.circular(10),
+                                //         topRight: Radius.circular(10)),
+                                //   ),
+                                // );
+                                // bottomSheetController.closed.then((value) {
+                                //   _con.register();
+                                // });
                               }
                             },
                           ),
                           SizedBox(height: 25),
-//                      MaterialButton(elevation:0,
-//                        onPressed: () {
-//                          Navigator.of(context).pushNamed('/MobileVerification');
-//                        },
-//                        padding: EdgeInsets.symmetric(vertical: 14),
-//                        color: Theme.of(context).accentColor.withOpacity(0.1),
-//                        shape: StadiumBorder(),
-//                        child: Text(
-//                          'Register with Google',
-//                          textAlign: TextAlign.start,
-//                          style: TextStyle(
-//                            color: Theme.of(context).accentColor,
-//                          ),
-//                        ),
-//                      ),
                         ],
                       ),
                     ),

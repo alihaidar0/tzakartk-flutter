@@ -149,7 +149,7 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                   Positioned(
                     bottom: 0,
                     child: Container(
-                      height: 255,
+                      height: 200,
                       padding:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                       decoration: BoxDecoration(
@@ -186,47 +186,21 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                               ],
                             ),
                             SizedBox(height: 3),
-                            _con.payment.method == 'Pay on Pickup'
-                                ? SizedBox(height: 0)
-                                : Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Text(
-                                          S.of(context).delivery_fee,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1,
-                                        ),
-                                      ),
-
-                                      /// I HID THIS FOR MARKET
-                                      // Helper.getPrice(
-                                      //     _con.carts[0].product.market
-                                      //         .deliveryFee,
-                                      //     context,
-                                      //     style: Theme.of(context)
-                                      //         .textTheme
-                                      //         .subtitle1)
-                                    ],
-                                  ),
-                            SizedBox(height: 3),
                             Row(
                               children: <Widget>[
                                 Expanded(
-
-                                    /// I HID THIS FOR MARKET
-                                    // child: Text(
-                                    //   "${S.of(context).tax} (${_con.carts[0].product.market.defaultTax}%)",
-                                    //   style:
-                                    //       Theme.of(context).textTheme.bodyText1,
-                                    // ),
-                                    ),
-                                Helper.getPrice(_con.taxAmount, context,
+                                  child: Text(
+                                    S.of(context).delivery_fee,
                                     style:
-                                        Theme.of(context).textTheme.subtitle1)
+                                    Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ),
+                                Helper.getPrice(_con.deliveryFee, context,
+                                    style:
+                                    Theme.of(context).textTheme.subtitle1)
                               ],
                             ),
-                            Divider(height: 30),
+                            Divider(height: 10),
                             Row(
                               children: <Widget>[
                                 Expanded(
@@ -247,17 +221,9 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                               child: MaterialButton(
                                 elevation: 0,
                                 onPressed: () {
-                                  /// I HID THIS ""START""
-                                  // Navigator.of(context)
-                                  //     .pushNamed('/Pages', arguments: 3);
-                                  /// I HID THIS ""END""
-                                  ///
-                                  /// I WROTE THIS ""START""
                                   Navigator.of(context)
                                       .pushNamed('/Pages', arguments: 2);
-
-                                  /// I WROTE THIS ""END""
-                                },
+                                  },
                                 padding: EdgeInsets.symmetric(vertical: 14),
                                 color: Theme.of(context).accentColor,
                                 shape: StadiumBorder(),

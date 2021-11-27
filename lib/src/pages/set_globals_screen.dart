@@ -5,7 +5,7 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../generated/l10n.dart';
-import '../controllers/set_globals_controller.dart';
+import '../controllers/countries_cities_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
 import '../helpers/helper.dart';
 import '../library/globals.dart' as globals;
@@ -27,12 +27,12 @@ class SetGlobalsScreen extends StatefulWidget {
 }
 
 class SetGlobalsScreenState extends StateMVC<SetGlobalsScreen> {
-  SetGlobalsController _con;
+  CountriesCitiesController _con;
   Country _selectedCountry;
   City _selectedCity;
   bool _load = false;
 
-  SetGlobalsScreenState() : super(SetGlobalsController()) {
+  SetGlobalsScreenState() : super(CountriesCitiesController()) {
     _con = controller;
   }
 

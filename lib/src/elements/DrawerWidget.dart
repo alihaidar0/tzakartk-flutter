@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
@@ -39,42 +38,44 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                       currentUser.value.email,
                       style: Theme.of(context).textTheme.caption,
                     ),
-                    currentAccountPicture: Stack(
-                      children: [
-                        SizedBox(
-                          width: 80,
-                          height: 80,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(80)),
-                            child: CachedNetworkImage(
-                              height: 80,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              imageUrl: currentUser.value.image.thumb,
-                              placeholder: (context, url) => Image.asset(
-                                'assets/img/loading.gif',
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: 80,
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error_outline),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: currentUser.value.verifiedPhone ?? false
-                              ? Icon(
-                                  Icons.check_circle,
-                                  color: Theme.of(context).accentColor,
-                                  size: 24,
-                                )
-                              : SizedBox(),
-                        )
-                      ],
-                    ),
+
+                    /// I HID THIS FOR PROFILE
+                    //       currentAccountPicture: Stack(
+                    //         children: [
+                    //           SizedBox(
+                    //             width: 80,
+                    //             height: 80,
+                    //             child: ClipRRect(
+                    //               borderRadius: BorderRadius.all(Radius.circular(80)),
+                    //               child: CachedNetworkImage(
+                    //                 height: 80,
+                    //                 width: double.infinity,
+                    //                 fit: BoxFit.cover,
+                    //                 imageUrl: currentUser.value.image.thumb,
+                    //                 placeholder: (context, url) => Image.asset(
+                    //                   'assets/img/loading.gif',
+                    //                   fit: BoxFit.cover,
+                    //                   width: double.infinity,
+                    //                   height: 80,
+                    //                 ),
+                    //                 errorWidget: (context, url, error) =>
+                    //                     Icon(Icons.error_outline),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //           Positioned(
+                    //             top: 0,
+                    //             right: 0,
+                    //             child: currentUser.value.verifiedPhone ?? false
+                    //                 ? Icon(
+                    //                     Icons.check_circle,
+                    //                     color: Theme.of(context).accentColor,
+                    //                     size: 24,
+                    //                   )
+                    //                 : SizedBox(),
+                    //           )
+                    //         ],
+                    //       ),
                   )
                 : Container(
                     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
@@ -197,39 +198,6 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
-
-          /// I HID THIS ""START""
-          // ListTile(
-          //   onTap: () {
-          //     /// I HID THIS ""START""
-          //     // Navigator.of(context).pushNamed('/Pages', arguments: 4);
-          //     /// I HID THIS ""END""
-          //   },
-          //   leading: Icon(
-          //     Icons.favorite_outline,
-          //     color: Theme.of(context).focusColor.withOpacity(1),
-          //   ),
-          //   title: Text(
-          //     S.of(context).favorite_products,
-          //     style: Theme.of(context).textTheme.subtitle1,
-          //   ),
-          // ),
-          // ListTile(
-          //   onTap: () {
-          //     /// I HID THIS ""START""
-          //     // Navigator.of(context).pushNamed('/Pages', arguments: 4);
-          //     /// I HID THIS ""END""
-          //   },
-          //   leading: Icon(
-          //     Icons.chat_outlined,
-          //     color: Theme.of(context).focusColor.withOpacity(1),
-          //   ),
-          //   title: Text(
-          //     S.of(context).messages,
-          //     style: Theme.of(context).textTheme.subtitle1,
-          //   ),
-          // ),
-          /// I HID THIS ""END""
           ListTile(
             dense: true,
             title: Text(
@@ -273,6 +241,19 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
+              Navigator.of(context).pushNamed('/CountriesAndCities');
+            },
+            leading: Icon(
+              Icons.location_city_outlined,
+              color: Theme.of(context).focusColor.withOpacity(1),
+            ),
+            title: Text(
+              S.of(context).countriesAndCities,
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+          ),
+          ListTile(
+            onTap: () {
               Navigator.of(context).pushNamed('/Languages');
             },
             leading: Icon(
@@ -310,18 +291,9 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
             onTap: () {
               if (currentUser.value.apiToken != null) {
                 logout().then((value) {
-                  /// I HID THIS ""START""
-                  // Navigator.of(context).pushNamedAndRemoveUntil(
-                  //     '/Pages', (Route<dynamic> route) => false,
-                  //     arguments: 2);
-                  /// I HID THIS ""END""
-                  ///
-                  /// I WROTE THIS ""START""
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       '/Pages', (Route<dynamic> route) => false,
                       arguments: 1);
-
-                  /// I WROTE THIS ""END""
                 });
               } else {
                 Navigator.of(context).pushNamed('/Login');

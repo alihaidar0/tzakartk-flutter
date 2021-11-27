@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../elements/SearchResultsWidget.dart';
 
 class SearchModal extends ModalRoute<void> {
+  final String categoryId;
+
+  SearchModal(this.categoryId);
+
   @override
   Duration get transitionDuration => Duration(milliseconds: 400);
 
@@ -37,6 +41,7 @@ class SearchModal extends ModalRoute<void> {
         minimum: EdgeInsets.only(top: 40),
         child: SearchResultWidget(
           heroTag: "search",
+          categoryId: this.categoryId,
         ),
       ),
     );

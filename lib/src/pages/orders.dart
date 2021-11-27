@@ -65,10 +65,6 @@ class _OrdersWidgetState extends StateMVC<OrdersWidget> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: SearchBarWidget(),
-                        ),
                         SizedBox(height: 20),
                         ListView.separated(
                           scrollDirection: Axis.vertical,

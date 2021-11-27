@@ -1,5 +1,6 @@
 {
   "search_for_markets_or_products": "ابحث عن الأسواق أو المنتجات",
+  "search_for_products": "ابحث عن المنتجات",
   "top_markets": "أهم الأسواق",
   "ordered_by_nearby_first": "تم طلبه مسبقًا أولاً",
   "trending_this_week": "تتجه هذا الأسبوع",
@@ -244,7 +245,7 @@
   "typeToStartChat": "Type to start chat",
   "makeItDefault": "Make it default",
   "notValidAddress": "عنوان غير صالح",
-  "swipeLeftTheNotificationToDeleteOrReadUnreadIt": "Swipe left the notification to delete or read / unread it",
+  "swipeLeftTheNotificationToDeleteOrReadUnreadIt": "امسح التنبيه لليسار لحذف او تعيين كمقروءة أو غير مقروءة",
   "thisNotificationHasMarkedAsUnread": "This notification has marked as unread",
   "notificationWasRemoved": "تم مسح التنبيه",
   "thisNotificationHasMarkedAsRead": "هذا التنبيه تم تعيينه كمقروء",
@@ -266,5 +267,7 @@
   "shops": "متاجر",
   "pleaseSelectACategoryFromProductCategoriesSlid": "الرجاء اختيار مئة من فئات المنتجات",
   "ok": "موافق",
-  "confirm": "تأكيد"
+  "confirm": "تأكيد",
+  "countriesAndCities": "البلدان والمدن",
+  "selectACountryAndACity": "اختر بلد ومدينة"
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../helpers/helper.dart';
@@ -58,23 +59,23 @@ class _CartItemWidgetState extends State<CartItemWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              // ClipRRect(
-              //   borderRadius: BorderRadius.all(Radius.circular(5)),
-              //   child: CachedNetworkImage(
-              //     height: 90,
-              //     width: 90,
-              //     fit: BoxFit.cover,
-              //     imageUrl: widget.cart.product.image.thumb,
-              //     placeholder: (context, url) => Image.asset(
-              //       'assets/img/loading.gif',
-              //       fit: BoxFit.cover,
-              //       height: 90,
-              //       width: 90,
-              //     ),
-              //     errorWidget: (context, url, error) =>
-              //         Icon(Icons.error_outline),
-              //   ),
-              // ),
+              ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                child: CachedNetworkImage(
+                  height: 90,
+                  width: 90,
+                  fit: BoxFit.cover,
+                  imageUrl: widget.cart.product.image.thumb,
+                  placeholder: (context, url) => Image.asset(
+                    'assets/img/loading.gif',
+                    fit: BoxFit.cover,
+                    height: 90,
+                    width: 90,
+                  ),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error_outline),
+                ),
+              ),
               SizedBox(width: 15),
               Flexible(
                 child: Row(
@@ -107,26 +108,12 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                             spacing: 5,
                             children: <Widget>[
                               Helper.getPrice(
-                                  widget.cart.product.price, context,
+                                  widget.cart.getProductPrice(),
+                                  context,
                                   style: Theme.of(context).textTheme.headline4,
                                   zeroPlaceholder: 'Free'),
-                              widget.cart.product.discountPrice > 0
-                                  ? Helper.getPrice(
-                                      widget.cart.product.discountPrice,
-                                      context,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          .merge(TextStyle(
-                                              decoration:
-                                                  TextDecoration.lineThrough)))
-                                  : SizedBox(height: 0),
                             ],
                           ),
-
-                          /// I HID THIS ""START""
-                          //Helper.getPrice(widget.cart.getProductPrice(), context, style: Theme.of(context).textTheme.headline4)
-                          /// I HID THIS ""END""
                         ],
                       ),
                     ),

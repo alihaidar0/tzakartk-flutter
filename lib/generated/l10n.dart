@@ -45,6 +45,16 @@ class S {
     );
   }
 
+  /// `Search for products`
+  String get search_for_products {
+    return Intl.message(
+      'Search for products',
+      name: 'search_for_products',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Top Markets`
   String get top_markets {
     return Intl.message(
@@ -2710,6 +2720,26 @@ class S {
     return Intl.message(
       'Confirm',
       name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Countries And Cities`
+  String get countriesAndCities {
+    return Intl.message(
+      'Countries And Cities',
+      name: 'countriesAndCities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `select a country and a city`
+  String get selectACountryAndACity {
+    return Intl.message(
+      'select a country and a city',
+      name: 'selectACountryAndACity',
       desc: '',
       args: [],
     );

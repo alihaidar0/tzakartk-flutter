@@ -67,6 +67,13 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                       shrinkWrap: false,
                       slivers: <Widget>[
                         SliverAppBar(
+                          leading: IconButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/Pages', arguments: 1);
+                            },
+                            icon: Icon(Icons.arrow_back,color: Colors.white,),
+                          ),
                           backgroundColor:
                               Theme.of(context).accentColor.withOpacity(0.9),
                           expandedHeight: 275,

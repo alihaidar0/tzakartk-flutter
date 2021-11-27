@@ -63,7 +63,9 @@ class ProductOrderItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          productOrder.product.en_name,
+                          Localizations.localeOf(context).languageCode == "en"
+                              ? productOrder.product.en_name
+                              : productOrder.product.ar_name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subtitle1,
@@ -72,20 +74,17 @@ class ProductOrderItemWidget extends StatelessWidget {
                           children: List.generate(productOrder.options.length,
                               (index) {
                             return Text(
-                              productOrder.options.elementAt(index).name + ', ',
+                              Localizations.localeOf(context).languageCode ==
+                                      "en"
+                                  ? productOrder.options.elementAt(index).name +
+                                      ', '
+                                  : productOrder.options
+                                          .elementAt(index)
+                                          .ar_name +
+                                      ', ',
                               style: Theme.of(context).textTheme.caption,
                             );
                           }),
-                        ),
-                        Text(
-                          /// I HID THIS FOR MARKET
-                          // productOrder.product.market.name,
-                          Localizations.localeOf(context).languageCode == "en"
-                              ? productOrder.product.category.en_name
-                              : productOrder.product.category.ar_name,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: Theme.of(context).textTheme.caption,
                         ),
                       ],
                     ),

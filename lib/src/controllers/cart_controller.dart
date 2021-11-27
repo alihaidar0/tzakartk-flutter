@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import '../models/cart_price.dart';
 
 import '../../generated/l10n.dart';
 import '../models/cart.dart';
+import '../models/cart_price.dart';
 import '../models/coupon.dart';
 import '../repository/cart_repository.dart';
 import '../repository/coupon_repository.dart';
@@ -154,29 +154,21 @@ class CartController extends ControllerMVC {
   }
 
   void goCheckout(BuildContext context) {
-    if (!currentUser.value.profileCompleted()) {
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).completeYourProfileDetailsToContinue),
-        action: SnackBarAction(
-          label: S.of(state.context).settings,
-          textColor: Theme.of(state.context).accentColor,
-          onPressed: () {
-            Navigator.of(state.context).pushNamed('/Settings');
-          },
-        ),
-      ));
-    }
-
-    /// I HID THIS FOR MARKET
-    // else {
-    //   if (carts[0].product.market.closed) {
-    //     ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-    //       content: Text(S.of(state.context).this_market_is_closed_),
-    //     ));
-    //   } else {
-    //     Navigator.of(state.context).pushNamed('/DeliveryPickup');
-    //   }
+    // if (!currentUser.value.profileCompleted()) {
+    //   ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+    //     content: Text(S.of(state.context).completeYourProfileDetailsToContinue),
+    //     action: SnackBarAction(
+    //       label: S.of(state.context).settings,
+    //       textColor: Theme.of(state.context).accentColor,
+    //       onPressed: () {
+    //         Navigator.of(state.context).pushNamed('/Settings');
+    //       },
+    //     ),
+    //   ));
+    // } else {
+    //   Navigator.of(state.context).pushNamed('/DeliveryPickup');
     // }
+    Navigator.of(state.context).pushNamed('/DeliveryPickup');
   }
 
   Color getCouponIconColor() {
