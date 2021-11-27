@@ -66,8 +66,9 @@ class ProductItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          Localizations.localeOf(context).languageCode == 'en'?
-                          product.en_name:product.ar_name,
+                          Localizations.localeOf(context).languageCode == 'en'
+                              ? product.en_name
+                              : product.ar_name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subtitle1,

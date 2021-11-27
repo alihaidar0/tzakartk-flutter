@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import '../elements/ProductItemWidget.dart';
-import '../elements/CircularLoadingWidget.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/search_controller.dart';
+import '../elements/CircularLoadingWidget.dart';
+import '../elements/ProductItemWidget.dart';
 
 class SearchResultWidget extends StatefulWidget {
   final String heroTag;
   final String categoryId;
 
-  SearchResultWidget({Key key, this.heroTag, this.categoryId}) : super(key: key);
+  SearchResultWidget({Key key, this.heroTag, this.categoryId})
+      : super(key: key);
 
   @override
   _SearchResultWidgetState createState() => _SearchResultWidgetState();
@@ -57,7 +58,8 @@ class _SearchResultWidgetState extends StateMVC<SearchResultWidget> {
             padding: const EdgeInsets.all(20),
             child: TextField(
               onSubmitted: (text) async {
-                await _con.listenForProducts(search: text, categoryId: widget.categoryId);
+                await _con.listenForProducts(
+                    search: text, categoryId: widget.categoryId);
                 _con.saveSearch(text);
               },
               autofocus: true,

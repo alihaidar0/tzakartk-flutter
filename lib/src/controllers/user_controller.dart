@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -6,7 +5,6 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import '../../generated/l10n.dart';
 import '../helpers/helper.dart';
 import '../models/user.dart' as model;
-import '../pages/mobile_verification_2.dart';
 import '../repository/user_repository.dart' as repository;
 
 class UserController extends ControllerMVC {
@@ -42,10 +40,13 @@ class UserController extends ControllerMVC {
           /// I HID THIS ""END""
           ///
           /// I WROTE THIS ""START""
-          Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
+          Navigator.of(scaffoldKey.currentContext)
+              .pushReplacementNamed('/Pages', arguments: 1);
+
           /// I WROTE THIS ""END""
         } else {
-          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
             content: Text(S.of(state.context).wrong_email_or_password),
           ));
         }
@@ -112,7 +113,9 @@ class UserController extends ControllerMVC {
         /// I HID THIS ""END""
         ///
         /// I WROTE THIS ""START""
-        Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
+        Navigator.of(scaffoldKey.currentContext)
+            .pushReplacementNamed('/Pages', arguments: 1);
+
         /// I WROTE THIS ""END""
       } else {
         ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
@@ -137,19 +140,24 @@ class UserController extends ControllerMVC {
       Overlay.of(state.context).insert(loader);
       repository.resetPassword(user).then((value) {
         if (value != null && value == true) {
-          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-            content: Text(S.of(state.context).your_reset_link_has_been_sent_to_your_email),
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
+            content: Text(S
+                .of(state.context)
+                .your_reset_link_has_been_sent_to_your_email),
             action: SnackBarAction(
               label: S.of(state.context).login,
               onPressed: () {
-                Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Login');
+                Navigator.of(scaffoldKey.currentContext)
+                    .pushReplacementNamed('/Login');
               },
             ),
             duration: Duration(seconds: 10),
           ));
         } else {
           loader.remove();
-          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
             content: Text(S.of(state.context).error_verify_email_settings),
           ));
         }

@@ -8,7 +8,6 @@ import '../models/coupon.dart';
 import '../repository/cart_repository.dart';
 import '../repository/coupon_repository.dart';
 import '../repository/settings_repository.dart';
-import '../repository/user_repository.dart';
 
 class CartController extends ControllerMVC {
   List<Cart> carts = <Cart>[];

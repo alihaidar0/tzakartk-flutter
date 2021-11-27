@@ -6,7 +6,6 @@ import '../controllers/faq_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
 import '../elements/DrawerWidget.dart';
 import '../elements/FaqItemWidget.dart';
-import '../elements/SearchBarWidget.dart';
 import '../elements/ShoppingCartButtonWidget.dart';
 
 class HelpWidget extends StatefulWidget {

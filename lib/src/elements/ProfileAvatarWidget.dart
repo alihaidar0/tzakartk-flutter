@@ -36,11 +36,12 @@ class ProfileAvatarWidget extends StatelessWidget {
                 height: 135,
                 width: 135,
               ),
-              errorWidget: (context, url, error) =>
-                  Icon(Icons.error_outline),
+              errorWidget: (context, url, error) => Icon(Icons.error_outline),
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Text(
             user.name,
             style: Theme.of(context)

@@ -75,7 +75,8 @@ class TrackingController extends ControllerMVC {
             child: Text(
               '${Helper.skipHtml(order.hint)}',
             )),
-        isActive: (int.tryParse(order.orderStatus.id)) >= (int.tryParse(_orderStatus.id)),
+        isActive: (int.tryParse(order.orderStatus.id)) >=
+            (int.tryParse(_orderStatus.id)),
       ));
     });
     return _orderStatusSteps;
@@ -99,7 +100,8 @@ class TrackingController extends ControllerMVC {
       orderStatus = [];
       listenForOrderStatus();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).orderThisorderidHasBeenCanceled(this.order.id)),
+        content: Text(
+            S.of(state.context).orderThisorderidHasBeenCanceled(this.order.id)),
       ));
     });
   }

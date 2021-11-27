@@ -27,7 +27,8 @@ Future<Stream<Product>> getProduct(String productId) async {
   }
 }
 
-Future<Stream<Product>> searchProducts(String search, Address address, String categoryId) async {
+Future<Stream<Product>> searchProducts(
+    String search, Address address, String categoryId) async {
   Uri uri = Helper.getUri('api/products');
   Map<String, dynamic> _queryParams = {};
   _queryParams['category_id'] = '$categoryId:';

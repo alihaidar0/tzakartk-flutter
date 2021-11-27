@@ -41,7 +41,8 @@ class NotificationController extends ControllerMVC {
 
   Future<void> refreshNotifications() async {
     notifications.clear();
-    listenForNotifications(message: S.of(state.context).notifications_refreshed_successfuly);
+    listenForNotifications(
+        message: S.of(state.context).notifications_refreshed_successfuly);
   }
 
   void doMarkAsReadNotifications(model.Notification _notification) async {

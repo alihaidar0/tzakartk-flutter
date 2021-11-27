@@ -192,12 +192,12 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                                   child: Text(
                                     S.of(context).delivery_fee,
                                     style:
-                                    Theme.of(context).textTheme.bodyText1,
+                                        Theme.of(context).textTheme.bodyText1,
                                   ),
                                 ),
                                 Helper.getPrice(_con.deliveryFee, context,
                                     style:
-                                    Theme.of(context).textTheme.subtitle1)
+                                        Theme.of(context).textTheme.subtitle1)
                               ],
                             ),
                             Divider(height: 10),
@@ -223,7 +223,7 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                                 onPressed: () {
                                   Navigator.of(context)
                                       .pushNamed('/Pages', arguments: 2);
-                                  },
+                                },
                                 padding: EdgeInsets.symmetric(vertical: 14),
                                 color: Theme.of(context).accentColor,
                                 shape: StadiumBorder(),

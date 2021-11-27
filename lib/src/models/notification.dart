@@ -15,7 +15,9 @@ class Notification {
       body = jsonMap['body'];
       title = jsonMap['title'];
       read = jsonMap['read_at'] != null ? true : false;
-      createdAt = jsonMap['created_at'] != null?DateTime.parse(jsonMap['created_at']):new DateTime(0);
+      createdAt = jsonMap['created_at'] != null
+          ? DateTime.parse(jsonMap['created_at'])
+          : new DateTime(0);
     } catch (e) {
       id = '';
       type = '';

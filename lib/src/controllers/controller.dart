@@ -7,6 +7,7 @@ import '../repository/user_repository.dart' as userRepo;
 
 class Controller extends AppConMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
+
   Controller() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
   }

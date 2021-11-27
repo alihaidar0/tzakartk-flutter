@@ -297,8 +297,7 @@ class CountriesAndCitiesState extends StateMVC<CountriesAndCities> {
                           child: MaterialButton(
                             elevation: 0,
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                            onPressed: () {
-                            },
+                            onPressed: () {},
                             child: CountryContainer(
                               null,
                               null,
@@ -367,9 +366,8 @@ class CountriesAndCitiesState extends StateMVC<CountriesAndCities> {
                           child: MaterialButton(
                             elevation: 0,
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                            onPressed: () {
-                            },
-                            child:CityContainer(
+                            onPressed: () {},
+                            child: CityContainer(
                               "",
                               35,
                               Colors.black38,

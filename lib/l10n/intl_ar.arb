@@ -257,7 +257,7 @@
   "verifyPhoneNumber": "أكد رقم الهاتف",
   "city": "مدينة",
   "cities": "مدن",
-  "country":"بلد",
+  "country": "بلد",
   "countries": "بلدان",
   "pleaseSelectACity": "الرجاء اختيار مدينة",
   "pleaseSelectACityFromCitiesDropdown": "الرجاء اختيار مدينة من قائمة المدن",

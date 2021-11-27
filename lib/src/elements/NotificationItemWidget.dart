@@ -140,12 +140,12 @@ class NotificationItemWidget extends StatelessWidget {
                     maxLines: 2,
                     textAlign: TextAlign.justify,
                     style: Theme.of(context).textTheme.bodyText1.merge(
-                      TextStyle(
-                        fontWeight: notification.read
-                            ? FontWeight.w300
-                            : FontWeight.w600,
-                      ),
-                    ),
+                          TextStyle(
+                            fontWeight: notification.read
+                                ? FontWeight.w300
+                                : FontWeight.w600,
+                          ),
+                        ),
                   ),
                   Text(
                     DateFormat('yyyy-MM-dd | HH:mm')

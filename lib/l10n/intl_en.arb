@@ -257,7 +257,7 @@
   "verifyPhoneNumber": "Verify Phone Number",
   "city": "City",
   "cities": "Cities",
-  "country":"Country",
+  "country": "Country",
   "countries": "Countries",
   "pleaseSelectACity": "Please select a city",
   "pleaseSelectACityFromCitiesDropdown": "Please select a city from cities dropdown",

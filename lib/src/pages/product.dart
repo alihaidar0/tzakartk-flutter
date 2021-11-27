@@ -72,7 +72,10 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                               Navigator.of(context)
                                   .pushReplacementNamed('/Pages', arguments: 1);
                             },
-                            icon: Icon(Icons.arrow_back,color: Colors.white,),
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
                           ),
                           backgroundColor:
                               Theme.of(context).accentColor.withOpacity(0.9),

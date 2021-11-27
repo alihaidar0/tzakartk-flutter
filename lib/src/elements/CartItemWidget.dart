@@ -108,8 +108,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                             spacing: 5,
                             children: <Widget>[
                               Helper.getPrice(
-                                  widget.cart.getProductPrice(),
-                                  context,
+                                  widget.cart.getProductPrice(), context,
                                   style: Theme.of(context).textTheme.headline4,
                                   zeroPlaceholder: 'Free'),
                             ],

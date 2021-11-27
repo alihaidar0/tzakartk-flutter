@@ -49,7 +49,8 @@ class OrderController extends ControllerMVC {
     }).whenComplete(() {
       //refreshOrders();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).orderThisorderidHasBeenCanceled(order.id)),
+        content:
+            Text(S.of(state.context).orderThisorderidHasBeenCanceled(order.id)),
       ));
     });
   }

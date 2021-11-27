@@ -13,7 +13,8 @@ Future<Stream<Category>> getCategories(String cityId) async {
   Uri uri = Helper.getUri('api/parents');
   Map<String, dynamic> _queryParams = {"city_id": cityId};
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  Filter filter = Filter.fromJSON(json.decode(prefs.getString('filter') ?? '{}'));
+  Filter filter =
+      Filter.fromJSON(json.decode(prefs.getString('filter') ?? '{}'));
   filter.delivery = false;
   filter.open = false;
 
@@ -36,12 +37,17 @@ Future<Stream<Category>> getCategories(String cityId) async {
 }
 
 Future<Stream<Category>> getCategory(String id) async {
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}categories/$id';
+  final String url =
+      '${GlobalConfiguration().getValue('api_base_url')}categories/$id';
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
-    return streamedRest.stream.transform(utf8.decoder).transform(json.decoder).map((data) => Helper.getData(data)).map((data) => Category.fromJSON(data));
+    return streamedRest.stream
+        .transform(utf8.decoder)
+        .transform(json.decoder)
+        .map((data) => Helper.getData(data))
+        .map((data) => Category.fromJSON(data));
   } catch (e) {
     print(CustomTrace(StackTrace.current, message: url).toString());
     return new Stream.value(new Category.fromJSON({}));
