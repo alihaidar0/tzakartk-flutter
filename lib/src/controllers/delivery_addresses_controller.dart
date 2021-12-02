@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
-import '../models/address.dart' as model;
+import '../models/address.dart';
 import '../models/cart.dart';
 import '../repository/cart_repository.dart';
 import '../repository/settings_repository.dart' as settingRepo;
 import '../repository/user_repository.dart' as userRepo;
 
 class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
-  List<model.Address> addresses = <model.Address>[];
+  List<Address> addresses = <Address>[];
   GlobalKey<ScaffoldState> scaffoldKey;
   Cart cart;
 
@@ -20,8 +20,9 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
   }
 
   void listenForAddresses({String message}) async {
-    final Stream<model.Address> stream = await userRepo.getAddresses();
-    stream.listen((model.Address _address) {
+    addresses.clear();
+    final Stream<Address> stream = await userRepo.getAddresses();
+    stream.listen((Address _address) {
       setState(() {
         addresses.add(_address);
       });
@@ -52,10 +53,10 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
   Future<void> refreshAddresses() async {
     addresses.clear();
     listenForAddresses(
-        message: S.of(state.context).addresses_refreshed_successfuly);
+        message: S.of(state.context).addresses_refreshed_successfully);
   }
 
-  Future<void> changeDeliveryAddress(model.Address address) async {
+  Future<void> changeDeliveryAddress(Address address) async {
     await settingRepo.changeCurrentLocation(address);
     setState(() {
       settingRepo.deliveryAddress.value = address;
@@ -64,32 +65,30 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
   }
 
   Future<void> changeDeliveryAddressToCurrentLocation() async {
-    model.Address _address = await settingRepo.setCurrentLocation();
+    Address _address = await settingRepo.setCurrentLocation();
     setState(() {
       settingRepo.deliveryAddress.value = _address;
     });
     settingRepo.deliveryAddress.notifyListeners();
   }
 
-  void addAddress(model.Address address) {
+  void addAddress(Address address) {
     userRepo.addAddress(address).then((value) {
-      setState(() {
-        this.addresses.insert(0, value);
-      });
+      listenForAddresses();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).new_address_added_successfully),
       ));
     });
   }
 
-  void chooseDeliveryAddress(model.Address address) {
+  void chooseDeliveryAddress(Address address) {
     setState(() {
       settingRepo.deliveryAddress.value = address;
     });
     settingRepo.deliveryAddress.notifyListeners();
   }
 
-  void updateAddress(model.Address address) {
+  void updateAddress(Address address) {
     userRepo.updateAddress(address).then((value) {
       setState(() {});
       addresses.clear();
@@ -98,7 +97,7 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
     });
   }
 
-  void removeDeliveryAddress(model.Address address) async {
+  void removeDeliveryAddress(Address address) async {
     userRepo.removeDeliveryAddress(address).then((value) {
       setState(() {
         this.addresses.remove(address);

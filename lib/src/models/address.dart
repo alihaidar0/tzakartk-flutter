@@ -1,17 +1,22 @@
-import 'package:location/location.dart';
-
 import '../helpers/custom_trace.dart';
 
 class Address {
   String id;
   String description;
   String address;
+  String receiver_name;
+  String receiver_phone;
   double latitude;
   double longitude;
   bool isDefault;
   String userId;
 
-  Address();
+  Address({
+    this.description,
+    this.address,
+    this.receiver_name,
+    this.receiver_phone,
+  });
 
   Address.fromJSON(Map<String, dynamic> jsonMap) {
     try {
@@ -20,6 +25,10 @@ class Address {
           ? jsonMap['description'].toString()
           : null;
       address = jsonMap['address'] != null ? jsonMap['address'] : null;
+      receiver_name =
+          jsonMap['receiver_name'] != null ? jsonMap['receiver_name'] : null;
+      receiver_phone =
+          jsonMap['receiver_phone'] != null ? jsonMap['receiver_phone'] : null;
       latitude = jsonMap['latitude'] != null ? jsonMap['latitude'] : null;
       longitude = jsonMap['longitude'] != null ? jsonMap['longitude'] : null;
       isDefault = jsonMap['is_default'] ?? false;
@@ -29,7 +38,7 @@ class Address {
   }
 
   bool isUnknown() {
-    return latitude == null || longitude == null;
+    return false;
   }
 
   Map toMap() {
@@ -37,6 +46,8 @@ class Address {
     map["id"] = id;
     map["description"] = description;
     map["address"] = address;
+    // map["receiver_name"] = receiver_name;
+    // map["receiver_phone"] = receiver_phone;
     map["latitude"] = latitude;
     map["longitude"] = longitude;
     map["is_default"] = isDefault;
@@ -44,10 +55,7 @@ class Address {
     return map;
   }
 
-  LocationData toLocationData() {
-    return LocationData.fromMap({
-      "latitude": latitude,
-      "longitude": longitude,
-    });
-  }
+  @override
+  String toString() =>
+      '$id, $description, $address, $receiver_name, $receiver_phone, $isDefault';
 }

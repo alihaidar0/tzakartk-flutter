@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:tzakartk/src/elements/ProductOrderItemWidget.dart';
 
 import '../../generated/l10n.dart';
 import '../helpers/helper.dart';
@@ -10,9 +11,8 @@ import '../models/route_argument.dart';
 class OrderItemWidget extends StatefulWidget {
   final bool expanded;
   final Order order;
-  final ValueChanged<void> onCanceled;
 
-  OrderItemWidget({Key key, this.expanded, this.order, this.onCanceled})
+  OrderItemWidget({Key key, this.expanded, this.order})
       : super(key: key);
 
   @override
@@ -72,72 +72,72 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                       ],
                     ),
                     children: <Widget>[
-                      // Column(
-                      //     children: List.generate(
-                      //   widget.order.productOrders.length,
-                      //   (indexProduct) {
-                      //     return ProductOrderItemWidget(
-                      //         heroTag: 'mywidget.orders',
-                      //         order: widget.order,
-                      //         productOrder: widget.order.productOrders
-                      //             .elementAt(indexProduct));
-                      //   },
-                      // )),
-                      // Padding(
-                      //   padding:
-                      //       EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      //   child: Column(
-                      //     children: <Widget>[
-                      //       Row(
-                      //         children: <Widget>[
-                      //           Expanded(
-                      //             child: Text(
-                      //               S.of(context).delivery_fee,
-                      //               style:
-                      //                   Theme.of(context).textTheme.bodyText1,
-                      //             ),
-                      //           ),
-                      //           Helper.getPrice(
-                      //             widget.order.deliveryFee,
-                      //             context,
-                      //             style: Theme.of(context).textTheme.subtitle1,
-                      //           )
-                      //         ],
-                      //       ),
-                      //       Row(
-                      //         children: <Widget>[
-                      //           Expanded(
-                      //             child: Text(
-                      //               '${S.of(context).tax} (${widget.order.tax}%)',
-                      //               style:
-                      //                   Theme.of(context).textTheme.bodyText1,
-                      //             ),
-                      //           ),
-                      //           Helper.getPrice(
-                      //               Helper.getTaxOrder(widget.order), context,
-                      //               style:
-                      //                   Theme.of(context).textTheme.subtitle1)
-                      //         ],
-                      //       ),
-                      //       Row(
-                      //         children: <Widget>[
-                      //           Expanded(
-                      //             child: Text(
-                      //               S.of(context).total,
-                      //               style:
-                      //                   Theme.of(context).textTheme.bodyText1,
-                      //             ),
-                      //           ),
-                      //           Helper.getPrice(
-                      //               Helper.getTotalOrdersPrice(widget.order),
-                      //               context,
-                      //               style:
-                      //                   Theme.of(context).textTheme.headline4)
-                      //         ],
-                      //       ),
-                      //     ],
-                      //   ),
-                      // )
+                      Column(
+                          children: List.generate(
+                        widget.order.productOrders.length,
+                        (indexProduct) {
+                          return ProductOrderItemWidget(
+                              heroTag: 'mywidget.orders',
+                              order: widget.order,
+                              productOrder: widget.order.productOrders
+                                  .elementAt(indexProduct));
+                        },
+                      )),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text(
+                                    S.of(context).delivery_fee,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ),
+                                Helper.getPrice(
+                                  widget.order.deliveryFee,
+                                  context,
+                                  style: Theme.of(context).textTheme.subtitle1,
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text(
+                                    '${S.of(context).tax} (${widget.order.tax}%)',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ),
+                                Helper.getPrice(
+                                    Helper.getTaxOrder(widget.order), context,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1)
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text(
+                                    S.of(context).total,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ),
+                                Helper.getPrice(
+                                    Helper.getTotalOrdersPrice(widget.order),
+                                    context,
+                                    style:
+                                        Theme.of(context).textTheme.headline4)
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -158,65 +158,6 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 0),
                     ),
-                    if (widget.order.canCancelOrder())
-                      MaterialButton(
-                        elevation: 0,
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              // return object of type Dialog
-                              return AlertDialog(
-                                title: Wrap(
-                                  spacing: 10,
-                                  children: <Widget>[
-                                    Icon(Icons.report_outlined,
-                                        color: Colors.orange),
-                                    Text(
-                                      S.of(context).confirmation,
-                                      style: TextStyle(color: Colors.orange),
-                                    ),
-                                  ],
-                                ),
-                                content: Text(S
-                                    .of(context)
-                                    .areYouSureYouWantToCancelThisOrder),
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 25),
-                                actions: <Widget>[
-                                  MaterialButton(
-                                    elevation: 0,
-                                    child: new Text(
-                                      S.of(context).yes,
-                                      style: TextStyle(
-                                          color: Theme.of(context).hintColor),
-                                    ),
-                                    onPressed: () {
-                                      widget.onCanceled(widget.order);
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  MaterialButton(
-                                    elevation: 0,
-                                    child: new Text(
-                                      S.of(context).close,
-                                      style: TextStyle(color: Colors.orange),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        textColor: Theme.of(context).hintColor,
-                        child: Wrap(
-                          children: <Widget>[Text(S.of(context).cancel + " ")],
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                      ),
                   ],
                 ),
               ),

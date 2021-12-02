@@ -151,7 +151,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                           TextFormField(
                             textDirection: TextDirection.ltr,
                             keyboardType: TextInputType.phone,
-                            onSaved: (input) => _con.user.phone = input,
+                            onSaved: (input) => _con.user.phone_number = input,
                             validator: (input) {
                               print(input.startsWith('\+'));
                               return !input.startsWith('\+') &&
@@ -247,28 +247,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                             onPressed: () {
                               if (_con.loginFormKey.currentState.validate()) {
                                 _con.loginFormKey.currentState.save();
-
-                                /// I WROTE THIS
                                 _con.register();
-
-                                /// I HID THIS FOR verifyPhone
-                                // var bottomSheetController = _con
-                                //     .scaffoldKey.currentState
-                                //     .showBottomSheet(
-                                //   (context) =>
-                                //       EmailVerificationBottomSheetWidget(
-                                //     scaffoldKey: _con.scaffoldKey,
-                                //     user: _con.user,
-                                //   ),
-                                //   shape: RoundedRectangleBorder(
-                                //     borderRadius: new BorderRadius.only(
-                                //         topLeft: Radius.circular(10),
-                                //         topRight: Radius.circular(10)),
-                                //   ),
-                                // );
-                                // bottomSheetController.closed.then((value) {
-                                //   _con.register();
-                                // });
                               }
                             },
                           ),

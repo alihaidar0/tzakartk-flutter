@@ -24,6 +24,7 @@ import 'src/pages/settings.dart';
 import 'src/pages/signup.dart';
 import 'src/pages/splash_screen.dart';
 import 'src/pages/tracking.dart';
+import 'src/pages/on_boarding.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -101,6 +102,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SetGlobalsScreen());
       case '/CountriesAndCities':
         return MaterialPageRoute(builder: (_) => CountriesAndCities());
+      case '/OnBoardingsScreens':
+        return MaterialPageRoute(builder: (_) => OnBoardingScreen());
 
       /// I HID THIS
       //   case '/Favorites':

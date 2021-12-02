@@ -66,8 +66,8 @@ class DeliveryAddressesItemWidget extends StatelessWidget {
               alignment: AlignmentDirectional.center,
               children: <Widget>[
                 Container(
-                  height: 60,
-                  width: 60,
+                  height: 70,
+                  width: 70,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       color: (address?.isDefault ?? false) ||

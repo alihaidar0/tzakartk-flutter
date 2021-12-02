@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:tzakartk/src/models/cart_price.dart';
 
 import '../helpers/helper.dart';
 import '../models/cart.dart';
+import '../models/cart_price.dart';
 import '../models/user.dart';
 import '../repository/user_repository.dart' as userRepo;
 

@@ -8,15 +8,16 @@ class NotificationItemWidget extends StatelessWidget {
   final model.Notification notification;
   final VoidCallback onMarkAsRead;
   final VoidCallback onMarkAsUnRead;
-  final VoidCallback onRemoved;
 
-  NotificationItemWidget(
-      {Key key,
-      this.notification,
-      this.onMarkAsRead,
-      this.onMarkAsUnRead,
-      this.onRemoved})
-      : super(key: key);
+  // final VoidCallback onRemoved;
+
+  NotificationItemWidget({
+    Key key,
+    this.notification,
+    this.onMarkAsRead,
+    this.onMarkAsUnRead,
+    // this.onRemoved,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +44,17 @@ class NotificationItemWidget extends StatelessWidget {
               }
             },
             backgroudColor: Theme.of(context).scaffoldBackgroundColor),
-        ActionItems(
-            icon: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: new Icon(Icons.delete_outline,
-                  color: Theme.of(context).accentColor),
-            ),
-            onPress: () {
-              onRemoved();
-            },
-            backgroudColor: Theme.of(context).scaffoldBackgroundColor),
+        // ActionItems(
+        //   icon: Padding(
+        //     padding: const EdgeInsets.only(right: 10),
+        //     child: new Icon(Icons.delete_outline,
+        //         color: Theme.of(context).accentColor),
+        //   ),
+        //   onPress: () {
+        //     onRemoved();
+        //   },
+        //   backgroudColor: Theme.of(context).scaffoldBackgroundColor,
+        // ),
       ],
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),

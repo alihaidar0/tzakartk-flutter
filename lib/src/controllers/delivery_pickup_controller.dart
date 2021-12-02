@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
@@ -68,23 +69,18 @@ class DeliveryPickupController extends CartController {
     });
   }
 
-  void togglePickUp() {
-    list.pickupList.forEach((element) {
-      if (element != getPickUpMethod()) {
-        element.selected = false;
-      }
-    });
-    setState(() {
-      getPickUpMethod().selected = !getPickUpMethod().selected;
-    });
-  }
-
   PaymentMethod getSelectedMethod() {
-    return list.pickupList.firstWhere((element) => element.selected);
+    return list.pickupList.firstWhereOrNull((element) => element.selected);
   }
 
   @override
   void goCheckout(BuildContext context) {
-    Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+    if (getSelectedMethod() == null) {
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S.of(state.context).select_your_delivery_address),
+      ));
+    } else {
+      Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+    }
   }
 }

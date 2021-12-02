@@ -39,6 +39,6 @@ class FaqController extends ControllerMVC {
 
   Future<void> refreshFaqs() async {
     faqs.clear();
-    listenForFaqs(message: S.of(state.context).faqsRefreshedSuccessfuly);
+    listenForFaqs(message: S.of(state.context).faqsRefreshedSuccessfully);
   }
 }

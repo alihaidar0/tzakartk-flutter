@@ -118,6 +118,6 @@ class ProductController extends ControllerMVC {
     product = new Product();
     listenForProduct(
         productId: _id,
-        message: S.of(state.context).productRefreshedSuccessfuly);
+        message: S.of(state.context).productRefreshedSuccessfully);
   }
 }

@@ -32,7 +32,13 @@ class SplashScreenState extends StateMVC<SplashScreen> {
       });
       if (progress == 100) {
         try {
-          Navigator.of(context).pushReplacementNamed('/SetGlobalsScreen');
+          _con.checkFirstSeen().then((value) {
+            if (value) {
+              Navigator.of(context).pushReplacementNamed('/SetGlobalsScreen');
+            } else {
+              Navigator.of(context).pushReplacementNamed('/OnBoardingsScreens');
+            }
+          });
         } catch (e) {}
       }
     });

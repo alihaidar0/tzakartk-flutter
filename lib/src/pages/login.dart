@@ -24,14 +24,7 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
   void initState() {
     super.initState();
     if (userRepo.currentUser.value.apiToken != null) {
-      /// I HID THIS ""START""
-      // Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
-      /// I HID THIS ""END""
-      ///
-      /// I WROTE THIS ""START""
       Navigator.of(context).pushReplacementNamed('/Pages', arguments: 1);
-
-      /// I WROTE THIS ""END""
     }
   }
 
@@ -85,7 +78,6 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                 padding:
                     EdgeInsets.only(top: 50, right: 27, left: 27, bottom: 20),
                 width: config.App(context).appWidth(88),
-//              height: config.App(context).appHeight(55),
                 child: Form(
                   key: _con.loginFormKey,
                   child: Column(

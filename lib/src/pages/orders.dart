@@ -75,9 +75,6 @@ class _OrdersWidgetState extends StateMVC<OrdersWidget> {
                             return OrderItemWidget(
                               expanded: index == 0 ? true : false,
                               order: _order,
-                              onCanceled: (e) {
-                                _con.doCancelOrder(_order);
-                              },
                             );
                           },
                           separatorBuilder: (context, index) {

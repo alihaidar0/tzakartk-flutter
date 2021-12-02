@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
@@ -12,7 +10,6 @@ import '../elements/ShoppingCartButtonWidget.dart';
 import '../models/address.dart';
 import '../models/payment_method.dart';
 import '../models/route_argument.dart';
-import '../repository/settings_repository.dart';
 
 class DeliveryAddressesWidget extends StatefulWidget {
   final RouteArgument routeArgument;
@@ -54,41 +51,30 @@ class _DeliveryAddressesWidgetState extends StateMVC<DeliveryAddressesWidget> {
               labelColor: Theme.of(context).accentColor),
         ],
       ),
-      floatingActionButton:
-
-          /// I HID THIS FOR MARKET
-          //     _con.cart != null && _con.cart.product.market.availableForDelivery
-          _con.cart != null
-              ? FloatingActionButton(
-                  onPressed: () async {
-                    LocationResult result = await showLocationPicker(
-                      context,
-                      setting.value.googleMapsKey,
-                      initialCenter: LatLng(
-                          deliveryAddress.value?.latitude ?? 0,
-                          deliveryAddress.value?.longitude ?? 0),
-                      //automaticallyAnimateToCurrentLocation: true,
-                      //mapStylePath: 'assets/mapStyle.json',
-                      myLocationButtonEnabled: true,
-                      //resultCardAlignment: Alignment.bottomCenter,
-                    );
-                    _con.addAddress(new Address.fromJSON({
-                      'address': result.address,
-                      'latitude': result.latLng.latitude,
-                      'longitude': result.latLng.longitude,
-                    }));
-                    print("result = $result");
-                    //setState(() => _pickedLocation = result);
-                  },
-                  backgroundColor: Theme.of(context).accentColor,
-                  child: Icon(
-                    Icons.add,
-                    color: Theme.of(context).primaryColor,
-                  ))
-              : SizedBox(height: 0),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          Address _newAddress = new Address(description: null ,address: null,receiver_name: null,receiver_phone: null);
+          DeliveryAddressDialog(
+            context: context,
+            address: _newAddress,
+            onChanged: (Address _address) {
+              print("######### address #########");
+              print("${_address}");
+              print("##################");
+              _con.addAddress(_address);
+            },
+          );
+        },
+        backgroundColor: Theme.of(context).accentColor,
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
       body: RefreshIndicator(
         onRefresh: _con.refreshAddresses,
         child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,

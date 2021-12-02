@@ -104,10 +104,6 @@ class _NotificationsWidgetState extends StateMVC<NotificationsWidget> {
                                 _con.doMarkAsUnReadNotifications(
                                     _con.notifications.elementAt(index));
                               },
-                              onRemoved: () {
-                                _con.doRemoveNotification(
-                                    _con.notifications.elementAt(index));
-                              },
                             );
                           },
                         ),

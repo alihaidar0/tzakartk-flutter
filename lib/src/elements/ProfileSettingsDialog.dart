@@ -73,15 +73,11 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                           decoration: getInputDecoration(
                               hintText: '+136 269 9765',
                               labelText: S.of(context).phoneNumber),
-                          initialValue: widget.user.phone,
+                          initialValue: widget.user.phone_number,
                           validator: (input) => input.trim().length < 3
                               ? S.of(context).not_a_valid_phone
                               : null,
-                          onSaved: (input) => widget.user.phone = input,
-                          onChanged: (input) => {
-                            widget.user.verifiedPhone = false,
-                            print(widget.user.verifiedPhone)
-                          },
+                          onSaved: (input) => widget.user.phone_number = input,
                         ),
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),

@@ -78,7 +78,7 @@ class CartController extends ControllerMVC {
     setState(() {
       carts = [];
     });
-    listenForCarts(message: S.of(state.context).carts_refreshed_successfuly);
+    listenForCarts(message: S.of(state.context).carts_refreshed_successfully);
     listenForCartsCount();
   }
 
@@ -153,20 +153,6 @@ class CartController extends ControllerMVC {
   }
 
   void goCheckout(BuildContext context) {
-    // if (!currentUser.value.profileCompleted()) {
-    //   ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-    //     content: Text(S.of(state.context).completeYourProfileDetailsToContinue),
-    //     action: SnackBarAction(
-    //       label: S.of(state.context).settings,
-    //       textColor: Theme.of(state.context).accentColor,
-    //       onPressed: () {
-    //         Navigator.of(state.context).pushNamed('/Settings');
-    //       },
-    //     ),
-    //   ));
-    // } else {
-    //   Navigator.of(state.context).pushNamed('/DeliveryPickup');
-    // }
     Navigator.of(state.context).pushNamed('/DeliveryPickup');
   }
 

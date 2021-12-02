@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:tzakartk/src/elements/ProductOrderItemWidget.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/tracking_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
+import '../elements/ProductOrderItemWidget.dart';
 import '../elements/ShoppingCartButtonWidget.dart';
 import '../helpers/helper.dart';
 import '../models/route_argument.dart';
@@ -54,7 +54,6 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
 
   @override
   Widget build(BuildContext context) {
-    //final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent, accentColor: Theme.of(context).accentColor);
     final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
     return Scaffold(
       key: _con.scaffoldKey,
@@ -201,116 +200,22 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                           ),
                                           children: <Widget>[
                                             Column(
-                                                children: List.generate(
-                                              _con.order.productOrders.length,
-                                              (indexProduct) {
-                                                return ProductOrderItemWidget(
-                                                  heroTag: 'my_order',
-                                                  order: _con.order,
-                                                  productOrder: _con
-                                                      .order.productOrders
-                                                      .elementAt(indexProduct),
-                                                );
-                                              },
-                                            )),
+                                              children: List.generate(
+                                                _con.order.productOrders.length,
+                                                (indexProduct) {
+                                                  return ProductOrderItemWidget(
+                                                    heroTag: 'my_order',
+                                                    order: _con.order,
+                                                    productOrder: _con
+                                                        .order.productOrders
+                                                        .elementAt(
+                                                            indexProduct),
+                                                  );
+                                                },
+                                              ),
+                                            ),
                                           ],
                                         ),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Wrap(
-                                        alignment: WrapAlignment.end,
-                                        children: <Widget>[
-                                          if (_con.order.canCancelOrder())
-                                            MaterialButton(
-                                              elevation: 0,
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertDialog(
-                                                      title: Wrap(
-                                                        spacing: 10,
-                                                        children: <Widget>[
-                                                          Icon(
-                                                              Icons
-                                                                  .report_outlined,
-                                                              color: Colors
-                                                                  .orange),
-                                                          Text(
-                                                            S
-                                                                .of(context)
-                                                                .confirmation,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .orange),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      content: Text(
-                                                        S
-                                                            .of(context)
-                                                            .areYouSureYouWantToCancelThisOrder,
-                                                      ),
-                                                      contentPadding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 30,
-                                                              vertical: 25),
-                                                      actions: <Widget>[
-                                                        MaterialButton(
-                                                          elevation: 0,
-                                                          child: new Text(
-                                                            S.of(context).yes,
-                                                            style: TextStyle(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .hintColor),
-                                                          ),
-                                                          onPressed: () {
-                                                            _con.doCancelOrder();
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                        ),
-                                                        MaterialButton(
-                                                          elevation: 0,
-                                                          child: new Text(
-                                                            S.of(context).close,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .orange),
-                                                          ),
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              textColor:
-                                                  Theme.of(context).hintColor,
-                                              child: Wrap(
-                                                children: <Widget>[
-                                                  Text(
-                                                      S
-                                                              .of(context)
-                                                              .cancelOrder +
-                                                          " ",
-                                                      style: TextStyle(
-                                                          height: 1.3)),
-                                                  Icon(Icons.clear)
-                                                ],
-                                              ),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 20),
-                                            ),
-                                        ],
                                       ),
                                     ),
                                   ],
@@ -368,7 +273,7 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                   },
                                   steps: _con.getTrackingSteps(context),
                                   currentStep: int.tryParse(
-                                          this._con.order.orderStatus.id) -
+                                          this._con.order.orderStatus.id,) -
                                       1,
                                 ),
                               ),

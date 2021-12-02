@@ -68,7 +68,7 @@ class FilterController extends ControllerMVC {
   Future<void> refreshFields() async {
     fields.clear();
     listenForFields(
-        message: S.of(state.context).addresses_refreshed_successfuly);
+        message: S.of(state.context).addresses_refreshed_successfully);
   }
 
   void clearFilter() {

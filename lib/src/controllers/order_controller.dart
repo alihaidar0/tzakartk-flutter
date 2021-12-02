@@ -37,26 +37,8 @@ class OrderController extends ControllerMVC {
     });
   }
 
-  void doCancelOrder(Order order) {
-    cancelOrder(order).then((value) {
-      setState(() {
-        order.active = false;
-      });
-    }).catchError((e) {
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(e),
-      ));
-    }).whenComplete(() {
-      //refreshOrders();
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content:
-            Text(S.of(state.context).orderThisorderidHasBeenCanceled(order.id)),
-      ));
-    });
-  }
-
   Future<void> refreshOrders() async {
     orders.clear();
-    listenForOrders(message: S.of(state.context).order_refreshed_successfuly);
+    listenForOrders(message: S.of(state.context).order_refreshed_successfully);
   }
 }

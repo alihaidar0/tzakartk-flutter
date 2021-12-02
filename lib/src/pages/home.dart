@@ -5,6 +5,7 @@ import '../../generated/l10n.dart';
 import '../controllers/home_controller.dart';
 import '../elements/CategoriesCarouselWidget.dart';
 import '../elements/HomeBannerSliderWidget.dart';
+import '../elements/HomeOurNewSliderWidget.dart';
 import '../elements/ShoppingCartButtonWidget.dart';
 import '../elements/SubCategoriesCarouselWidget.dart';
 import '../library/globals.dart' as globals;
@@ -103,6 +104,10 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                 HomeBannerSliderWidget(
                   slides: _con.bannerSlider,
                 ),
+                SizedBox(height: 20,),
+                HomeOurNewSliderWidget(
+                  slides: _con.ourNewSlider,
+                ),
                 ListTile(
                   dense: true,
                   contentPadding: EdgeInsets.only(
@@ -122,10 +127,10 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                         onPressed: (String categoryId) {
                           setState(() {
                             _con.subCategories.clear();
-                            if (categoryId != null) {
-                              _selectedCategoryId = categoryId;
-                              _con.listenForSubCategories(categoryId);
-                            }
+                            // if (categoryId != null) {
+                            //   _selectedCategoryId = categoryId;
+                            _con.listenForSubCategories(categoryId);
+                            // }
                           });
                         },
                       )

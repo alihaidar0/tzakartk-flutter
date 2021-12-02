@@ -124,22 +124,3 @@ Future<Order> addOrder(Order order, Payment payment) async {
   );
   return Order.fromJSON(json.decode(response.body)['data']);
 }
-
-Future<Order> cancelOrder(Order order) async {
-  print(order.toMap());
-  User _user = userRepo.currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}';
-  final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}orders/${order.id}?$_apiToken';
-  final client = new http.Client();
-  final response = await client.put(
-    url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(order.cancelMap()),
-  );
-  if (response.statusCode == 200) {
-    return Order.fromJSON(json.decode(response.body)['data']);
-  } else {
-    throw new Exception(response.body);
-  }
-}

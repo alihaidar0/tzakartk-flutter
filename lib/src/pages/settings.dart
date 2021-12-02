@@ -4,7 +4,6 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import '../../generated/l10n.dart';
 import '../controllers/settings_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
-import '../elements/PaymentSettingsDialog.dart';
 import '../elements/ProfileSettingsDialog.dart';
 import '../helpers/helper.dart';
 import '../repository/user_repository.dart';
@@ -42,42 +41,25 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
             : SingleChildScrollView(
                 padding: EdgeInsets.symmetric(vertical: 7),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 20),
-                      child: Row(
+                      child: Column(
                         children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  currentUser.value.name,
-                                  textAlign: TextAlign.left,
-                                  style: Theme.of(context).textTheme.headline3,
-                                ),
-                                Text(
-                                  currentUser.value.email,
-                                  style: Theme.of(context).textTheme.caption,
-                                )
-                              ],
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                            ),
+                          Text(
+                            currentUser.value.name,
+                            textAlign: TextAlign.left,
+                            style: Theme.of(context).textTheme.headline3,
                           ),
-                          SizedBox(
-                              width: 55,
-                              height: 55,
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(300),
-                                onTap: () {
-                                  Navigator.of(context).pushNamed('/Profile');
-                                },
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      currentUser.value.image.thumb),
-                                ),
-                              )),
+                          Text(
+                            currentUser.value.email,
+                            style: Theme.of(context).textTheme.caption,
+                          )
                         ],
+                        crossAxisAlignment: CrossAxisAlignment.start,
                       ),
                     ),
                     Container(
@@ -111,24 +93,8 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                               child: ProfileSettingsDialog(
                                 user: currentUser.value,
                                 onChanged: () {
-                                  /// I HID THIS FOR verifyPhone
-                                  // var bottomSheetController = _con
-                                  //     .scaffoldKey.currentState
-                                  //     .showBottomSheet(
-                                  //   (context) =>
-                                  //       EmailVerificationBottomSheetWidget(
-                                  //           scaffoldKey: _con.scaffoldKey,
-                                  //           user: currentUser.value),
-                                  //   shape: RoundedRectangleBorder(
-                                  //     borderRadius: new BorderRadius.only(
-                                  //         topLeft: Radius.circular(10),
-                                  //         topRight: Radius.circular(10)),
-                                  //   ),
-                                  // );
-                                  // bottomSheetController.closed.then((value) {
-                                  //   _con.update(currentUser.value);
-                                  // });
-                                  // //setState(() {});
+                                  _con.update(currentUser.value);
+                                  setState(() {});
                                 },
                               ),
                             ),
@@ -162,24 +128,14 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                           ListTile(
                             onTap: () {},
                             dense: true,
-                            title: Wrap(
-                              spacing: 8,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: [
-                                Text(
-                                  S.of(context).phone,
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                ),
-                                if (currentUser.value.verifiedPhone ?? false)
-                                  Icon(
-                                    Icons.check_circle_outline,
-                                    color: Theme.of(context).accentColor,
-                                    size: 22,
-                                  )
-                              ],
+                            title: Text(
+                              S.of(context).phone,
+                              style: Theme.of(context).textTheme.bodyText2,
                             ),
                             trailing: Text(
-                              currentUser.value.phone,
+                              currentUser.value.phone_number != null
+                                  ? currentUser.value.phone_number
+                                  : '',
                               style: TextStyle(
                                   color: Theme.of(context).focusColor),
                             ),
@@ -208,64 +164,11 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
                             trailing: Text(
-                              Helper.limitString(currentUser.value.bio),
+                              currentUser.value.bio != null
+                                  ? Helper.limitString(currentUser.value.bio)
+                                  : '',
                               overflow: TextOverflow.fade,
                               softWrap: false,
-                              style: TextStyle(
-                                  color: Theme.of(context).focusColor),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(6),
-                        boxShadow: [
-                          BoxShadow(
-                              color:
-                                  Theme.of(context).hintColor.withOpacity(0.15),
-                              offset: Offset(0, 3),
-                              blurRadius: 10)
-                        ],
-                      ),
-                      child: ListView(
-                        shrinkWrap: true,
-                        primary: false,
-                        children: <Widget>[
-                          ListTile(
-                            leading: Icon(Icons.credit_card),
-                            title: Text(
-                              S.of(context).payments_settings,
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                            trailing: ButtonTheme(
-                              padding: EdgeInsets.all(0),
-                              minWidth: 50.0,
-                              height: 25.0,
-                              child: PaymentSettingsDialog(
-                                creditCard: _con.creditCard,
-                                onChanged: () {
-                                  _con.updateCreditCard(_con.creditCard);
-                                  //setState(() {});
-                                },
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            dense: true,
-                            title: Text(
-                              S.of(context).default_credit_card,
-                              style: Theme.of(context).textTheme.bodyText2,
-                            ),
-                            trailing: Text(
-                              _con.creditCard.number.isNotEmpty
-                                  ? _con.creditCard.number.replaceRange(0,
-                                      _con.creditCard.number.length - 4, '...')
-                                  : '',
                               style: TextStyle(
                                   color: Theme.of(context).focusColor),
                             ),

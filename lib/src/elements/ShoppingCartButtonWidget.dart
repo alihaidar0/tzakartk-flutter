@@ -40,15 +40,8 @@ class _ShoppingCartButtonWidgetState
       elevation: 0,
       onPressed: () {
         if (currentUser.value.apiToken != null) {
-          /// I HID THIS ""START""
-          // Navigator.of(context).pushNamed('/Cart', arguments: RouteArgument(param: '/Pages', id: '2'));
-          /// I HID THIS ""END""
-          ///
-          /// I WROTE THIS ""START""
           Navigator.of(context).pushNamed('/Cart',
               arguments: RouteArgument(param: '/Pages', id: '1'));
-
-          /// I WROTE THIS ""END""
         } else {
           Navigator.of(context).pushNamed('/Login');
         }

@@ -46,7 +46,7 @@ class SettingsController extends ControllerMVC {
       print(e.toString());
     };
     await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: user.phone,
+      phoneNumber: user.phone_number,
       timeout: const Duration(seconds: 5),
       verificationCompleted: _verifiedSuccess,
       verificationFailed: _verifyFailed,

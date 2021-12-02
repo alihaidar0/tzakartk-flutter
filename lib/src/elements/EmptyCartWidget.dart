@@ -117,14 +117,7 @@ class _EmptyCartWidgetState extends State<EmptyCartWidget> {
                   ? MaterialButton(
                       elevation: 0,
                       onPressed: () {
-                        /// I HID THIS ""START""
-                        // Navigator.of(context).pushNamed('/Pages', arguments: 2);
-                        /// I HID THIS ""END""
-                        ///
-                        /// I WROTE THIS ""START""
                         Navigator.of(context).pushNamed('/Pages', arguments: 1);
-
-                        /// I WROTE THIS ""END""
                       },
                       padding:
                           EdgeInsets.symmetric(vertical: 12, horizontal: 30),

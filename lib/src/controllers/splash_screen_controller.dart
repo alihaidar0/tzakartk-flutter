@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../helpers/custom_trace.dart';
@@ -19,7 +20,6 @@ class SplashScreenController extends ControllerMVC {
 
   SplashScreenController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
-    // Should define these variables before the app loaded
     progress.value = {"Setting": 0, "User": 0};
   }
 
@@ -54,6 +54,17 @@ class SplashScreenController extends ControllerMVC {
         content: Text(S.of(state.context).verify_your_internet_connection),
       ));
     });
+  }
+
+  Future<bool> checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+    if (_seen) {
+      return new Future.value(true);
+    } else {
+      await prefs.setBool('seen', true);
+      return new Future.value(false);
+    }
   }
 
   void configureFirebase(FirebaseMessaging _firebaseMessaging) {

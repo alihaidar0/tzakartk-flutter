@@ -15,8 +15,10 @@ class DeliveryAddressDialog {
     showDialog(
         context: context,
         builder: (context) {
+          print("######### address #########");
+          print("${address}");
+          print("##################");
           return SimpleDialog(
-//            contentPadding: EdgeInsets.symmetric(horizontal: 20),
             titlePadding: EdgeInsets.fromLTRB(16, 25, 16, 0),
             title: Row(
               children: <Widget>[
@@ -44,8 +46,10 @@ class DeliveryAddressDialog {
                         decoration: getInputDecoration(
                             hintText: S.of(context).home_address,
                             labelText: S.of(context).description),
-                        initialValue: address.description?.isNotEmpty ?? false
-                            ? address.description
+                        initialValue: address != null
+                            ? address.description?.isNotEmpty ?? false
+                                ? address.description
+                                : null
                             : null,
                         validator: (input) => input.trim().length == 0
                             ? 'Not valid address description'
@@ -61,8 +65,10 @@ class DeliveryAddressDialog {
                         decoration: getInputDecoration(
                             hintText: S.of(context).hint_full_address,
                             labelText: S.of(context).full_address),
-                        initialValue: address.address?.isNotEmpty ?? false
-                            ? address.address
+                        initialValue: address != null
+                            ? address.address?.isNotEmpty ?? false
+                                ? address.address
+                                : null
                             : null,
                         validator: (input) => input.trim().length == 0
                             ? S.of(context).notValidAddress
@@ -70,11 +76,55 @@ class DeliveryAddressDialog {
                         onSaved: (input) => address.address = input,
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: new TextFormField(
+                        style: TextStyle(color: Theme.of(context).hintColor),
+                        keyboardType: TextInputType.text,
+                        decoration: getInputDecoration(
+                            hintText: S.of(context).john_doe,
+                            labelText: S.of(context).receiver_name),
+                        initialValue: address != null
+                            ? address.receiver_name?.isNotEmpty ?? false
+                                ? address.receiver_name
+                                : null
+                            : null,
+                        validator: (input) => input.length < 3
+                            ? S.of(context).should_be_more_than_3_letters
+                            : null,
+                        onSaved: (input) => address.receiver_name = input,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: new TextFormField(
+                        style: TextStyle(color: Theme.of(context).hintColor),
+                        keyboardType: TextInputType.text,
+                        decoration: getInputDecoration(
+                            hintText: '+1 623-648-8699',
+                            labelText: S.of(context).receiver_phone),
+                        initialValue: address != null
+                            ? address.receiver_phone?.isNotEmpty ?? false
+                                ? address.receiver_phone
+                                : null
+                            : null,
+                        validator: (input) {
+                          print(input.startsWith('\+'));
+                          return !input.startsWith('\+') &&
+                                  !input.startsWith('00')
+                              ? "Should be valid mobile number with country code"
+                              : null;
+                        },
+                        onSaved: (input) => address.receiver_name = input,
+                      ),
+                    ),
                     SizedBox(
                       width: double.infinity,
                       child: CheckboxFormField(
                         context: context,
-                        initialValue: address.isDefault ?? false,
+                        initialValue: address != null
+                            ? address.isDefault ?? false
+                            : false,
                         onSaved: (input) => address.isDefault = input,
                         title: Text(S.of(context).makeItDefault),
                       ),

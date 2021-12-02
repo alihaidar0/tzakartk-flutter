@@ -965,10 +965,10 @@ class S {
     );
   }
 
-  /// `D'ont have any item in your cart`
+  /// `Don't have any item in your cart`
   String get dont_have_any_item_in_your_cart {
     return Intl.message(
-      'D\'ont have any item in your cart',
+      'Don\'t have any item in your cart',
       name: 'dont_have_any_item_in_your_cart',
       desc: '',
       args: [],
@@ -1176,10 +1176,10 @@ class S {
   }
 
   /// `Carts refreshed successfully`
-  String get carts_refreshed_successfuly {
+  String get carts_refreshed_successfully {
     return Intl.message(
       'Carts refreshed successfully',
-      name: 'carts_refreshed_successfuly',
+      name: 'carts_refreshed_successfully',
       desc: '',
       args: [],
     );
@@ -1196,50 +1196,50 @@ class S {
   }
 
   /// `Category refreshed successfully`
-  String get category_refreshed_successfuly {
+  String get category_refreshed_successfully {
     return Intl.message(
       'Category refreshed successfully',
-      name: 'category_refreshed_successfuly',
+      name: 'category_refreshed_successfully',
       desc: '',
       args: [],
     );
   }
 
   /// `Notifications refreshed successfully`
-  String get notifications_refreshed_successfuly {
+  String get notifications_refreshed_successfully {
     return Intl.message(
       'Notifications refreshed successfully',
-      name: 'notifications_refreshed_successfuly',
+      name: 'notifications_refreshed_successfully',
       desc: '',
       args: [],
     );
   }
 
   /// `Order refreshed successfully`
-  String get order_refreshed_successfuly {
+  String get order_refreshed_successfully {
     return Intl.message(
       'Order refreshed successfully',
-      name: 'order_refreshed_successfuly',
+      name: 'order_refreshed_successfully',
       desc: '',
       args: [],
     );
   }
 
   /// `Orders refreshed successfully`
-  String get orders_refreshed_successfuly {
+  String get orders_refreshed_successfully {
     return Intl.message(
       'Orders refreshed successfully',
-      name: 'orders_refreshed_successfuly',
+      name: 'orders_refreshed_successfully',
       desc: '',
       args: [],
     );
   }
 
   /// `Market refreshed successfully`
-  String get market_refreshed_successfuly {
+  String get market_refreshed_successfully {
     return Intl.message(
       'Market refreshed successfully',
-      name: 'market_refreshed_successfuly',
+      name: 'market_refreshed_successfully',
       desc: '',
       args: [],
     );
@@ -1266,10 +1266,10 @@ class S {
   }
 
   /// `Tracking refreshed successfully`
-  String get tracking_refreshed_successfuly {
+  String get tracking_refreshed_successfully {
     return Intl.message(
       'Tracking refreshed successfully',
-      name: 'tracking_refreshed_successfuly',
+      name: 'tracking_refreshed_successfully',
       desc: '',
       args: [],
     );
@@ -1295,11 +1295,21 @@ class S {
     );
   }
 
+  /// `make sure that you confirmed your email or that your email and password isn't wrong`
+  String get make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong {
+    return Intl.message(
+      'make sure that you confirmed your email or that your email and password isn\'t wrong',
+      name: 'make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Addresses refreshed successfully`
-  String get addresses_refreshed_successfuly {
+  String get addresses_refreshed_successfully {
     return Intl.message(
       'Addresses refreshed successfully',
-      name: 'addresses_refreshed_successfuly',
+      name: 'addresses_refreshed_successfully',
       desc: '',
       args: [],
     );
@@ -1780,6 +1790,16 @@ class S {
     return Intl.message(
       'Confirm your delivery address',
       name: 'confirm_your_delivery_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select your delivery address`
+  String get select_your_delivery_address {
+    return Intl.message(
+      'Select your delivery address',
+      name: 'select_your_delivery_address',
       desc: '',
       args: [],
     );
@@ -2266,10 +2286,10 @@ class S {
   }
 
   /// `Order: #{id} has been canceled`
-  String orderThisorderidHasBeenCanceled(Object id) {
+  String orderThisOrderIdHasBeenCanceled(Object id) {
     return Intl.message(
       'Order: #$id has been canceled',
-      name: 'orderThisorderidHasBeenCanceled',
+      name: 'orderThisOrderIdHasBeenCanceled',
       desc: '',
       args: [id],
     );
@@ -2296,20 +2316,20 @@ class S {
   }
 
   /// `Favorites refreshed successfully`
-  String get favorites_refreshed_successfuly {
+  String get favorites_refreshed_successfully {
     return Intl.message(
       'Favorites refreshed successfully',
-      name: 'favorites_refreshed_successfuly',
+      name: 'favorites_refreshed_successfully',
       desc: '',
       args: [],
     );
   }
 
   /// `Faqs refreshed successfully`
-  String get faqsRefreshedSuccessfuly {
+  String get faqsRefreshedSuccessfully {
     return Intl.message(
       'Faqs refreshed successfully',
-      name: 'faqsRefreshedSuccessfuly',
+      name: 'faqsRefreshedSuccessfully',
       desc: '',
       args: [],
     );
@@ -2336,10 +2356,10 @@ class S {
   }
 
   /// `Product refreshed successfully`
-  String get productRefreshedSuccessfuly {
+  String get productRefreshedSuccessfully {
     return Intl.message(
       'Product refreshed successfully',
-      name: 'productRefreshedSuccessfuly',
+      name: 'productRefreshedSuccessfully',
       desc: '',
       args: [],
     );
@@ -2740,6 +2760,26 @@ class S {
     return Intl.message(
       'select a country and a city',
       name: 'selectACountryAndACity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receiver name`
+  String get receiver_name {
+    return Intl.message(
+      'Receiver name',
+      name: 'receiver_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receiver phone`
+  String get receiver_phone {
+    return Intl.message(
+      'Receiver phone',
+      name: 'receiver_phone',
       desc: '',
       args: [],
     );

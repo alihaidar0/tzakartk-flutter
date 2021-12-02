@@ -120,8 +120,13 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                                     _con.carts.elementAt(index));
                               },
                               decrement: () {
-                                _con.decrementQuantity(
-                                    _con.carts.elementAt(index));
+                                if (_con.carts.elementAt(index).quantity <= 1) {
+                                  _con.removeFromCart(
+                                      _con.carts.elementAt(index));
+                                } else {
+                                  _con.decrementQuantity(
+                                      _con.carts.elementAt(index));
+                                }
                               },
                               onDismissed: () {
                                 _con.removeFromCart(

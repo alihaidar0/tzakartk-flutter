@@ -76,27 +76,14 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.headline4,
                       ),
-                      subtitle:
-                          // _con.carts.isNotEmpty
-                          // &&
-                          //     Helper.canDelivery(_con.carts[0].product.market,
-                          //         carts: _con.carts)
-                          // ?
-                          Text(
+                      subtitle: Text(
                         S
                             .of(context)
                             .click_to_confirm_your_address_and_pay_or_long_press,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.caption,
-                      )
-                      // : Text(
-                      //     S.of(context).deliveryMethodNotAllowed,
-                      //     maxLines: 3,
-                      //     overflow: TextOverflow.ellipsis,
-                      //     style: Theme.of(context).textTheme.caption,
-                      //   ),
-                      ),
+                      )),
                 ),
                 DeliveryAddressesItemWidget(
                   paymentMethod: _con.getDeliveryMethod(),

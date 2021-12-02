@@ -84,26 +84,7 @@ class TrackingController extends ControllerMVC {
 
   Future<void> refreshOrder() async {
     order = new Order();
-    listenForOrder(message: S.of(state.context).tracking_refreshed_successfuly);
-  }
-
-  void doCancelOrder() {
-    cancelOrder(this.order).then((value) {
-      setState(() {
-        this.order.active = false;
-      });
-    }).catchError((e) {
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(e),
-      ));
-    }).whenComplete(() {
-      orderStatus = [];
-      listenForOrderStatus();
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(
-            S.of(state.context).orderThisorderidHasBeenCanceled(this.order.id)),
-      ));
-    });
+    listenForOrder(message: S.of(state.context).tracking_refreshed_successfully);
   }
 
   bool canCancelOrder(Order order) {
