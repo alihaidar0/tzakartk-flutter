@@ -53,14 +53,11 @@ class _DeliveryAddressesWidgetState extends StateMVC<DeliveryAddressesWidget> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          Address _newAddress = new Address(description: null ,address: null,receiver_name: null,receiver_phone: null);
+          Address _newAddress = new Address();
           DeliveryAddressDialog(
             context: context,
             address: _newAddress,
             onChanged: (Address _address) {
-              print("######### address #########");
-              print("${_address}");
-              print("##################");
               _con.addAddress(_address);
             },
           );

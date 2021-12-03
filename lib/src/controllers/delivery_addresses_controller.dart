@@ -12,6 +12,7 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
   List<Address> addresses = <Address>[];
   GlobalKey<ScaffoldState> scaffoldKey;
   Cart cart;
+  bool loadingRemoveDeliveryAddress = false;
 
   DeliveryAddressesController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -98,14 +99,23 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
   }
 
   void removeDeliveryAddress(Address address) async {
-    userRepo.removeDeliveryAddress(address).then((value) {
-      setState(() {
-        this.addresses.remove(address);
-      });
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content:
-            Text(S.of(state.context).delivery_address_removed_successfully),
-      ));
-    });
+    if (!loadingRemoveDeliveryAddress) {
+      loadingRemoveDeliveryAddress = true;
+      userRepo.removeDeliveryAddress(address).then(
+        (value) {
+          setState(() {
+            this.addresses.remove(address);
+          });
+          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(
+            SnackBar(
+              content: Text(
+                S.of(state.context).delivery_address_removed_successfully,
+              ),
+            ),
+          );
+          loadingRemoveDeliveryAddress = false;
+        },
+      );
+    }
   }
 }

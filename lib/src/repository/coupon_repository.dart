@@ -10,7 +10,7 @@ import '../models/user.dart';
 import '../repository/user_repository.dart' as userRepo;
 
 Future<Stream<Coupon>> verifyCoupon(String code) async {
-  Uri uri = Helper.getUri('api/coupons');
+  Uri uri = Helper.getUri('api/carts/apply_coupon');
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {
     return new Stream.value(null);

@@ -127,7 +127,8 @@ class CustomIntroductionScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  CustomIntroductionScreenState createState() => CustomIntroductionScreenState();
+  CustomIntroductionScreenState createState() =>
+      CustomIntroductionScreenState();
 }
 
 class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
@@ -163,14 +164,12 @@ class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,
-          (Timer timer) {
+      (Timer timer) {
         if (_start == 0) {
           _pageLength++;
-          if( _pageLength == widget.pages.length)
-            {
-              Navigator.of(context).pushReplacementNamed('/SetGlobalsScreen');
-            }
-          else{
+          if (_pageLength == widget.pages.length) {
+            Navigator.of(context).pushReplacementNamed('/SetGlobalsScreen');
+          } else {
             next();
             _start = 10;
           }

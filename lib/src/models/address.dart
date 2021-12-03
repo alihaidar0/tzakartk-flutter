@@ -6,17 +6,11 @@ class Address {
   String address;
   String receiver_name;
   String receiver_phone;
-  double latitude;
-  double longitude;
+  String cityId;
   bool isDefault;
   String userId;
 
-  Address({
-    this.description,
-    this.address,
-    this.receiver_name,
-    this.receiver_phone,
-  });
+  Address();
 
   Address.fromJSON(Map<String, dynamic> jsonMap) {
     try {
@@ -29,9 +23,9 @@ class Address {
           jsonMap['receiver_name'] != null ? jsonMap['receiver_name'] : null;
       receiver_phone =
           jsonMap['receiver_phone'] != null ? jsonMap['receiver_phone'] : null;
-      latitude = jsonMap['latitude'] != null ? jsonMap['latitude'] : null;
-      longitude = jsonMap['longitude'] != null ? jsonMap['longitude'] : null;
+      cityId = jsonMap['city_id'].toString();
       isDefault = jsonMap['is_default'] ?? false;
+      userId = jsonMap['user_id'].toString();
     } catch (e) {
       print(CustomTrace(StackTrace.current, message: e));
     }
@@ -46,10 +40,9 @@ class Address {
     map["id"] = id;
     map["description"] = description;
     map["address"] = address;
-    // map["receiver_name"] = receiver_name;
-    // map["receiver_phone"] = receiver_phone;
-    map["latitude"] = latitude;
-    map["longitude"] = longitude;
+    map["receiver_name"] = receiver_name;
+    map["receiver_phone"] = receiver_phone;
+    map["city_id"] = cityId;
     map["is_default"] = isDefault;
     map["user_id"] = userId;
     return map;
@@ -57,5 +50,5 @@ class Address {
 
   @override
   String toString() =>
-      '$id, $description, $address, $receiver_name, $receiver_phone, $isDefault';
+      '$id, $description, $address, $receiver_name, $receiver_phone, $isDefault, $userId';
 }

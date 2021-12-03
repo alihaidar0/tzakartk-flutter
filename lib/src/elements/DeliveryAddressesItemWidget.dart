@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
-import '../models/address.dart' as model;
+import '../models/address.dart';
 import '../models/payment_method.dart';
 
 // ignore: must_be_immutable
 class DeliveryAddressesItemWidget extends StatelessWidget {
   String heroTag;
-  model.Address address;
+  Address address;
   PaymentMethod paymentMethod;
-  ValueChanged<model.Address> onPressed;
-  ValueChanged<model.Address> onLongPress;
-  ValueChanged<model.Address> onDismissed;
+  ValueChanged<Address> onPressed;
+  ValueChanged<Address> onLongPress;
+  ValueChanged<Address> onDismissed;
 
   DeliveryAddressesItemWidget(
       {Key key,
@@ -54,9 +54,10 @@ class DeliveryAddressesItemWidget extends StatelessWidget {
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
             BoxShadow(
-                color: Theme.of(context).focusColor.withOpacity(0.1),
-                blurRadius: 5,
-                offset: Offset(0, 2)),
+              color: Theme.of(context).focusColor.withOpacity(0.1),
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
           ],
         ),
         child: Row(
@@ -105,9 +106,19 @@ class DeliveryAddressesItemWidget extends StatelessWidget {
                           address?.address ?? S.of(context).unknown,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: address?.description != null
-                              ? Theme.of(context).textTheme.caption
-                              : Theme.of(context).textTheme.subtitle1,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        Text(
+                          address?.receiver_name ?? S.of(context).unknown,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        Text(
+                          address?.receiver_phone ?? S.of(context).unknown,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: Theme.of(context).textTheme.caption,
                         ),
                       ],
                     ),

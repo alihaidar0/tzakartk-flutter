@@ -59,61 +59,57 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 20, bottom: 10, left: 20, right: 10),
-                  child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
-                      leading: Icon(
-                        Icons.map_outlined,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      title: Text(
-                        S.of(context).delivery,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                      subtitle: Text(
-                        S
-                            .of(context)
-                            .click_to_confirm_your_address_and_pay_or_long_press,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.caption,
-                      )),
-                ),
-                DeliveryAddressesItemWidget(
-                  paymentMethod: _con.getDeliveryMethod(),
-                  address: _con.deliveryAddress,
-                  onPressed: (Address _address) {
-                    if (_con.deliveryAddress.id == null ||
-                        _con.deliveryAddress.id == 'null') {
-                      DeliveryAddressDialog(
-                        context: context,
-                        address: _address,
-                        onChanged: (Address _address) {
-                          _con.addAddress(_address);
-                        },
-                      );
-                    } else {
-                      _con.toggleDelivery();
-                    }
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 10, left: 20, right: 10),
+              child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(vertical: 0),
+                  leading: Icon(
+                    Icons.map_outlined,
+                    color: Theme.of(context).hintColor,
+                  ),
+                  title: Text(
+                    S.of(context).delivery,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  subtitle: Text(
+                    S
+                        .of(context)
+                        .click_to_confirm_your_address_and_pay_or_long_press,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.caption,
+                  )),
+            ),
+            DeliveryAddressesItemWidget(
+              paymentMethod: _con.getDeliveryMethod(),
+              address: _con.deliveryAddress,
+              onPressed: (Address _address) {
+                if (_con.deliveryAddress.id == null ||
+                    _con.deliveryAddress.id == 'null') {
+                  DeliveryAddressDialog(
+                    context: context,
+                    address: _address,
+                    onChanged: (Address _address) {
+                      _con.addAddress(_address);
+                    },
+                  );
+                } else {
+                  _con.toggleDelivery();
+                }
+              },
+              onLongPress: (Address _address) {
+                DeliveryAddressDialog(
+                  context: context,
+                  address: _address,
+                  onChanged: (Address _address) {
+                    _con.updateAddress(_address);
                   },
-                  onLongPress: (Address _address) {
-                    DeliveryAddressDialog(
-                      context: context,
-                      address: _address,
-                      onChanged: (Address _address) {
-                        _con.updateAddress(_address);
-                      },
-                    );
-                  },
-                )
-              ],
-            )
+                );
+              },
+            ),
           ],
         ),
       ),

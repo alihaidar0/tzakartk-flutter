@@ -15,9 +15,6 @@ class DeliveryAddressDialog {
     showDialog(
         context: context,
         builder: (context) {
-          print("######### address #########");
-          print("${address}");
-          print("##################");
           return SimpleDialog(
             titlePadding: EdgeInsets.fromLTRB(16, 25, 16, 0),
             title: Row(
@@ -115,7 +112,7 @@ class DeliveryAddressDialog {
                               ? "Should be valid mobile number with country code"
                               : null;
                         },
-                        onSaved: (input) => address.receiver_name = input,
+                        onSaved: (input) => address.receiver_phone = input,
                       ),
                     ),
                     SizedBox(

@@ -10,6 +10,7 @@ import '../helpers/helper.dart';
 import '../models/address.dart';
 import '../models/credit_card.dart';
 import '../models/user.dart' as userModel;
+import '../library/globals.dart' as globals;
 import '../repository/user_repository.dart' as userRepo;
 
 ValueNotifier<userModel.User> currentUser = new ValueNotifier(userModel.User());
@@ -162,21 +163,16 @@ Future<Address> addAddress(Address address) async {
   userModel.User _user = userRepo.currentUser.value;
   final String _apiToken = 'api_token=${_user.apiToken}';
   address.userId = _user.id;
+  if(globals.city != null && globals.city.id!=null)
+    address.cityId = globals.city.id;
   final String url =
       '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses?$_apiToken';
-  print("######### addAddress #########");
-  print("${json.encode(address.toMap())}");
-  print("${url}");
-  print("##################");
   final client = new http.Client();
   final response = await client.post(
     url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(address.toMap()),
   );
-  print("######### response.body #########");
-  print("${response.body}");
-  print("##################");
   return Address.fromJSON(json.decode(response.body)['data']);
 }
 
