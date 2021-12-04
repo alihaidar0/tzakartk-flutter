@@ -217,7 +217,9 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                           .pushReplacementNamed('/ForgetPassword');
                     },
                     textColor: Theme.of(context).hintColor,
-                    child: Text(S.of(context).i_forgot_password),
+                    child: Text(
+                      S.of(context).forgot_password,
+                    ),
                   ),
                   MaterialButton(
                     elevation: 0,

@@ -139,7 +139,6 @@ class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
 
   Timer _timer;
   int _start = 10;
-  int _pageLength = 0;
 
   PageController get controller => _pageController;
 
@@ -150,7 +149,6 @@ class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
     _currentPage = initialPage.toDouble();
     _pageController = PageController(initialPage: initialPage);
     _start = 10;
-    _pageLength = 0;
     startTimer();
   }
 
@@ -166,12 +164,13 @@ class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
       oneSec,
       (Timer timer) {
         if (_start == 0) {
-          _pageLength++;
-          if (_pageLength == widget.pages.length) {
+          if (_currentPage == widget.pages.length - 1) {
             Navigator.of(context).pushReplacementNamed('/SetGlobalsScreen');
           } else {
             next();
-            _start = 10;
+            setState(() {
+              _start = 10;
+            });
           }
         } else {
           setState(() {
@@ -214,7 +213,10 @@ class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
   bool _onScroll(ScrollNotification notification) {
     final metrics = notification.metrics;
     if (metrics is PageMetrics) {
-      setState(() => _currentPage = metrics.page);
+      setState(() {
+       _currentPage = metrics.page;
+      _start = 10;
+      });
     }
     return false;
   }

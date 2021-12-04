@@ -91,8 +91,10 @@ class CartBottomDetailsWidget extends StatelessWidget {
                             S.of(context).checkout,
                             textAlign: TextAlign.start,
                             style: Theme.of(context).textTheme.bodyText1.merge(
-                                TextStyle(
-                                    color: Theme.of(context).primaryColor)),
+                                  TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
                           ),
                         ),
                       ),

@@ -5,7 +5,7 @@ import '../../generated/l10n.dart';
 import '../controllers/home_controller.dart';
 import '../elements/CategoriesCarouselWidget.dart';
 import '../elements/HomeBannerSliderWidget.dart';
-import '../elements/HomeOurNewSliderWidget.dart';
+import '../elements/OurNewCarouselWidget.dart';
 import '../elements/ShoppingCartButtonWidget.dart';
 import '../elements/SubCategoriesCarouselWidget.dart';
 import '../library/globals.dart' as globals;
@@ -104,18 +104,22 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                 HomeBannerSliderWidget(
                   slides: _con.bannerSlider,
                 ),
-                SizedBox(height: 20,),
-                HomeOurNewSliderWidget(
+                ListTile(
+                  dense: true,
+                  contentPadding: EdgeInsets.only(
+                      left: 20.0, top: 10.0, right: 20.0, bottom: 5.0),
+                  title: Text(
+                    S.of(context).upToDate,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                ),
+                OurNewCarouselWidget(
                   slides: _con.ourNewSlider,
                 ),
                 ListTile(
                   dense: true,
                   contentPadding: EdgeInsets.only(
                       left: 20.0, top: 10.0, right: 20.0, bottom: 5.0),
-                  leading: Icon(
-                    Icons.category_outlined,
-                    color: Theme.of(context).hintColor,
-                  ),
                   title: Text(
                     S.of(context).product_categories,
                     style: Theme.of(context).textTheme.headline4,
@@ -139,10 +143,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                   dense: true,
                   contentPadding: EdgeInsets.only(
                       left: 20.0, top: 5.0, right: 20.0, bottom: 5.0),
-                  leading: Icon(
-                    Icons.category_outlined,
-                    color: Theme.of(context).hintColor,
-                  ),
                   title: Text(
                     S.of(context).shops,
                     style: Theme.of(context).textTheme.headline4,

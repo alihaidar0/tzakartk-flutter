@@ -34,7 +34,7 @@
   "faq": "التعليمات",
   "help_supports": "المساعدة والدعم",
   "app_language": "لغة التطبيق",
-  "i_forgot_password": "نسيت كلمة المرور؟",
+  "forgot_password": "نسيت كلمة المرور؟",
   "i_dont_have_an_account": "ليس لدي حساب؟",
   "maps_explorer": "مستكشف الخرائط",
   "all_product": "جميع المنتجات",
@@ -273,5 +273,6 @@
   "countriesAndCities": "البلدان والمدن",
   "selectACountryAndACity": "اختر بلد ومدينة",
   "receiver_name" : "اسم المتلقي",
-  "receiver_phone" : "رقم هاتف المتلقي"
+  "receiver_phone" : "رقم هاتف المتلقي",
+  "upToDate" : "جديدنا"
 }

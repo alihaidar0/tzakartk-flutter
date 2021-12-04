@@ -69,7 +69,7 @@ class OnBoardingScreenState extends StateMVC<OnBoardingScreen> {
                     done: SizedBox(),
                     onDone: () {},
                     showNextButton: false,
-                    freeze: true,
+                    // freeze: true,
                     dotsDecorator: getDotDecoration(),
                     isProgressTap: false,
                     skipFlex: 0,

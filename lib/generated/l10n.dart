@@ -385,11 +385,11 @@ class S {
     );
   }
 
-  /// `I forgot password ?`
-  String get i_forgot_password {
+  /// `forgot password?`
+  String get forgot_password {
     return Intl.message(
-      'I forgot password ?',
-      name: 'i_forgot_password',
+      'forgot password?',
+      name: 'forgot_password',
       desc: '',
       args: [],
     );
@@ -2780,6 +2780,16 @@ class S {
     return Intl.message(
       'Receiver phone',
       name: 'receiver_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Up to date`
+  String get upToDate {
+    return Intl.message(
+      'Up to date',
+      name: 'upToDate',
       desc: '',
       args: [],
     );

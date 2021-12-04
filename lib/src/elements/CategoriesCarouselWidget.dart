@@ -33,6 +33,7 @@ class CategoriesCarouselWidget extends StatelessWidget {
                   },
                 );
               },
-            ));
+            ),
+          );
   }
 }

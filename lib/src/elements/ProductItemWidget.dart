@@ -62,33 +62,13 @@ class ProductItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          Localizations.localeOf(context).languageCode == 'en'
-                              ? product.en_name
-                              : product.ar_name,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: Theme.of(context).textTheme.subtitle1,
-                        ),
-
-                        /// I HID THIS ""STRAT""
-                        // Row(
-                        //   children: Helper.getStarsList(product.getRate()),
-                        // ),
-                        // Text(
-                        //   product.options
-                        //       .map((e) => e.name)
-                        //       .toList()
-                        //       .join(', '),
-                        //   overflow: TextOverflow.ellipsis,
-                        //   maxLines: 2,
-                        //   style: Theme.of(context).textTheme.caption,
-                        // ),
-                        /// I HID THIS ""END""
-                      ],
+                    child: Text(
+                      Localizations.localeOf(context).languageCode == 'en'
+                          ? product.en_name
+                          : product.ar_name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ),
                   SizedBox(width: 8),
@@ -100,7 +80,7 @@ class ProductItemWidget extends StatelessWidget {
                         context,
                         style: Theme.of(context).textTheme.headline4,
                       ),
-                      product.discountPrice > 0
+                      product.featured && product.discountPrice > 0
                           ? Helper.getPrice(product.discountPrice, context,
                               style: Theme.of(context)
                                   .textTheme

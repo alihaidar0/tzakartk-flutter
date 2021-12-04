@@ -17,7 +17,6 @@ class PaymentMethod {
 
 class PaymentMethodList {
   List<PaymentMethod> _paymentsList;
-  List<PaymentMethod> _cashList;
   List<PaymentMethod> _pickupList;
 
   PaymentMethodList(BuildContext _context) {
@@ -36,25 +35,11 @@ class PaymentMethodList {
           "/Checkout",
           "assets/img/mastercard.png"),
       new PaymentMethod(
-          "razorpay",
-          S.of(_context).razorpay,
-          S.of(_context).clickToPayWithRazorpayMethod,
-          "/RazorPay",
-          "assets/img/razorpay.png"),
-      new PaymentMethod(
           "paypal",
           S.of(_context).paypal,
           S.of(_context).click_to_pay_with_your_paypal_account,
           "/PayPal",
           "assets/img/paypal.png"),
-    ];
-    this._cashList = [
-      new PaymentMethod(
-          "cod",
-          S.of(_context).cash_on_delivery,
-          S.of(_context).click_to_pay_cash_on_delivery,
-          "/CashOnDelivery",
-          "assets/img/cash.png"),
     ];
     this._pickupList = [
       new PaymentMethod(
@@ -73,8 +58,6 @@ class PaymentMethodList {
   }
 
   List<PaymentMethod> get paymentsList => _paymentsList;
-
-  List<PaymentMethod> get cashList => _cashList;
 
   List<PaymentMethod> get pickupList => _pickupList;
 }

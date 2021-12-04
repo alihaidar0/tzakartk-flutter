@@ -33,12 +33,6 @@ class Product {
       discountPrice = jsonMap['discount_price'] != null
           ? jsonMap['discount_price'].toDouble()
           : 0.0;
-      price = discountPrice != 0 ? discountPrice : price;
-      discountPrice = discountPrice == 0
-          ? discountPrice
-          : jsonMap['price'] != null
-              ? jsonMap['price'].toDouble()
-              : 0.0;
       capacity = jsonMap['capacity'].toString();
       packageItemsCount = jsonMap['package_items_count'].toString();
       unit = jsonMap['unit'] != null ? jsonMap['unit'].toString() : '';
@@ -75,6 +69,10 @@ class Product {
               .toSet()
               .toList()
           : [];
+      price = featured && discountPrice > 0 ? discountPrice : price;
+      discountPrice = featured && discountPrice > 0
+          ? price
+          : discountPrice;
     } catch (e) {
       id = '';
       price = 0.0;

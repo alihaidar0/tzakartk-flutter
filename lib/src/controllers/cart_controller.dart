@@ -137,8 +137,7 @@ class CartController extends ControllerMVC {
   incrementQuantity(Cart cart) {
     if (cart.quantity <= 99) {
       ++cart.quantity;
-      updateCart(cart);
-      calculateCartPrice();
+      updateCart(cart).then((value) {calculateCartPrice();});
       listenForCartsCount();
     }
   }
@@ -146,8 +145,7 @@ class CartController extends ControllerMVC {
   decrementQuantity(Cart cart) {
     if (cart.quantity > 1) {
       --cart.quantity;
-      updateCart(cart);
-      calculateCartPrice();
+      updateCart(cart).then((value) {calculateCartPrice();});
       listenForCartsCount();
     }
   }

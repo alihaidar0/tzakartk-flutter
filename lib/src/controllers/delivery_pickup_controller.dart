@@ -17,7 +17,6 @@ class DeliveryPickupController extends CartController {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
     super.listenForCarts();
     listenForDeliveryAddress();
-    print(settingRepo.deliveryAddress.value.toMap());
   }
 
   void listenForDeliveryAddress() async {

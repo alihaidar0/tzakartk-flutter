@@ -96,6 +96,7 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                     autoPlayInterval: Duration(seconds: 7),
                                     height: 300,
                                     viewportFraction: 1.0,
+                                    enableInfiniteScroll: false,
                                     onPageChanged: (index, reason) {
                                       setState(() {
                                         _con.current = index;
@@ -215,7 +216,7 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                 .textTheme
                                                 .headline2,
                                           ),
-                                          _con.product.discountPrice > 0
+                                          _con.product.featured && _con.product.discountPrice > 0
                                               ? Helper.getPrice(
                                                   _con.product.discountPrice,
                                                   context,
@@ -224,9 +225,10 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                       .bodyText2
                                                       .merge(
                                                         TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough),
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                        ),
                                                       ),
                                                 )
                                               : SizedBox(height: 0),

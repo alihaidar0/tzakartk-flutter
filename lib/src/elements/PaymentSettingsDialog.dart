@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../generated/l10n.dart';
+import '../elements/ExpDateCustomInputFormatter.dart';
+import '../elements/NumberCustomInputFormatter.dart';
 import '../models/credit_card.dart';
 
 // ignore: must_be_immutable
@@ -46,11 +49,17 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                     child: Column(
                       children: <Widget>[
                         new TextFormField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(16),
+                            NumberCustomInputFormatter(),
+                          ],
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.number,
                           decoration: getInputDecoration(
-                              hintText: '4242 4242 4242 4242',
-                              labelText: S.of(context).number),
+                            hintText: '4242 4242 4242 4242',
+                            labelText: S.of(context).number,
+                          ),
                           initialValue: widget.creditCard.number.isNotEmpty
                               ? widget.creditCard.number
                               : null,
@@ -60,12 +69,18 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                           onSaved: (input) => widget.creditCard.number = input,
                         ),
                         new TextFormField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(4),
+                              ExpDateCustomInputFormatter(),
+                            ],
                             style:
                                 TextStyle(color: Theme.of(context).hintColor),
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             decoration: getInputDecoration(
-                                hintText: 'mm/yy',
-                                labelText: S.of(context).exp_date),
+                              hintText: 'mm/yy',
+                              labelText: S.of(context).exp_date,
+                            ),
                             initialValue: widget.creditCard.expMonth.isNotEmpty
                                 ? widget.creditCard.expMonth +
                                     '/' +
@@ -135,16 +150,25 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
       hintText: hintText,
       labelText: labelText,
       hintStyle: Theme.of(context).textTheme.bodyText2.merge(
-            TextStyle(color: Theme.of(context).focusColor),
+            TextStyle(
+              color: Theme.of(context).focusColor,
+            ),
           ),
       enabledBorder: UnderlineInputBorder(
-          borderSide:
-              BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
+        borderSide: BorderSide(
+          color: Theme.of(context).hintColor.withOpacity(0.2),
+        ),
+      ),
       focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Theme.of(context).hintColor)),
+        borderSide: BorderSide(
+          color: Theme.of(context).hintColor,
+        ),
+      ),
       floatingLabelBehavior: FloatingLabelBehavior.auto,
       labelStyle: Theme.of(context).textTheme.bodyText2.merge(
-            TextStyle(color: Theme.of(context).hintColor),
+            TextStyle(
+              color: Theme.of(context).hintColor,
+            ),
           ),
     );
   }

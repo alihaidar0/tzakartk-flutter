@@ -29,9 +29,10 @@ class CreditCardsWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                  color: Theme.of(context).hintColor.withOpacity(0.15),
-                  blurRadius: 20,
-                  offset: Offset(0, 5)),
+                color: Theme.of(context).hintColor.withOpacity(0.15),
+                blurRadius: 20,
+                offset: Offset(0, 5),
+              ),
             ],
           ),
         ),
@@ -46,7 +47,7 @@ class CreditCardsWidget extends StatelessWidget {
               BoxShadow(
                   color: Theme.of(context).hintColor.withOpacity(0.15),
                   blurRadius: 20,
-                  offset: Offset(0, 5)),
+                  offset: Offset(0, 5),),
             ],
           ),
         ),
@@ -61,7 +62,7 @@ class CreditCardsWidget extends StatelessWidget {
               BoxShadow(
                   color: Theme.of(context).hintColor.withOpacity(0.15),
                   blurRadius: 20,
-                  offset: Offset(0, 5)),
+                  offset: Offset(0, 5),),
             ],
           ),
           child: Padding(
@@ -85,7 +86,6 @@ class CreditCardsWidget extends StatelessWidget {
                         creditCard: creditCard,
                         onChanged: () {
                           onChanged(creditCard);
-                          //setState(() {});
                         },
                       ),
                     ),

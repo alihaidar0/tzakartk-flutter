@@ -70,11 +70,12 @@ class DeliveryAddressesItemWidget extends StatelessWidget {
                   height: 70,
                   width: 70,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      color: (address?.isDefault ?? false) ||
-                              (paymentMethod?.selected ?? false)
-                          ? Theme.of(context).accentColor
-                          : Theme.of(context).focusColor),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    color: (address?.isDefault ?? false) ||
+                            (paymentMethod?.selected ?? false)
+                        ? Theme.of(context).accentColor
+                        : Theme.of(context).focusColor,
+                  ),
                   child: Icon(
                     (paymentMethod?.selected ?? false)
                         ? Icons.check
