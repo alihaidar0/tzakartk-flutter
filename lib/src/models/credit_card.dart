@@ -46,4 +46,7 @@ class CreditCard {
         cvc != null &&
         cvc != '';
   }
+
+  @override
+  String toString() => 'id= $id, number= $number, expMonth= $expMonth, expYear= $expYear, cvc= $cvc';
 }

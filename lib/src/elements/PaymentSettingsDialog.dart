@@ -63,10 +63,14 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                           initialValue: widget.creditCard.number.isNotEmpty
                               ? widget.creditCard.number
                               : null,
-                          validator: (input) => input.trim().length != 16
-                              ? S.of(context).not_a_valid_number
-                              : null,
-                          onSaved: (input) => widget.creditCard.number = input,
+                          validator: (input) {
+                            input = input.replaceAll(' ', '');
+                            return input.length != 16
+                                ? S.of(context).not_a_valid_number
+                                : null;
+                          },
+                          onSaved: (input) => widget.creditCard.number =
+                              input.replaceAll(' ', ''),
                         ),
                         new TextFormField(
                             inputFormatters: [
@@ -120,7 +124,9 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text(S.of(context).cancel),
+                        child: Text(
+                          S.of(context).cancel,
+                        ),
                       ),
                       MaterialButton(
                         onPressed: _submit,

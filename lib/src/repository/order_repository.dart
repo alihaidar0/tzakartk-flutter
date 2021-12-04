@@ -117,6 +117,10 @@ Future<Order> addOrder(Order order, Payment payment) async {
   final client = new http.Client();
   Map params = order.toMap();
   params.addAll(_creditCard.toMap());
+  print("######### url #########");
+  print("${url}");
+  print("${json.encode(params)}");
+  print("##################");
   final response = await client.post(
     url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},

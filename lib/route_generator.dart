@@ -11,20 +11,18 @@ import 'src/pages/forget_password.dart';
 import 'src/pages/help.dart';
 import 'src/pages/languages.dart';
 import 'src/pages/login.dart';
-import 'src/pages/mobile_verification_2.dart';
+import 'src/pages/on_boarding.dart';
 import 'src/pages/order_success.dart';
 import 'src/pages/pages.dart';
 import 'src/pages/payment_methods.dart';
 import 'src/pages/paypal_payment.dart';
 import 'src/pages/product.dart';
 import 'src/pages/profile.dart';
-import 'src/pages/razorpay_payment.dart';
 import 'src/pages/set_globals_screen.dart';
 import 'src/pages/settings.dart';
 import 'src/pages/signup.dart';
 import 'src/pages/splash_screen.dart';
 import 'src/pages/tracking.dart';
-import 'src/pages/on_boarding.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -35,10 +33,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case '/SignUp':
         return MaterialPageRoute(builder: (_) => SignUpWidget());
-      case '/MobileVerification':
-        return MaterialPageRoute(builder: (_) => SignUpWidget());
-      case '/MobileVerification2':
-        return MaterialPageRoute(builder: (_) => MobileVerification2());
       case '/Login':
         return MaterialPageRoute(builder: (_) => LoginWidget());
       case '/Profile':
@@ -72,22 +66,10 @@ class RouteGenerator {
                 DeliveryPickupWidget(routeArgument: args as RouteArgument));
       case '/Checkout':
         return MaterialPageRoute(builder: (_) => CheckoutWidget());
-      case '/CashOnDelivery':
-        return MaterialPageRoute(
-            builder: (_) => OrderSuccessWidget(
-                routeArgument: RouteArgument(param: 'Cash on Delivery')));
-      case '/PayOnPickup':
-        return MaterialPageRoute(
-            builder: (_) => OrderSuccessWidget(
-                routeArgument: RouteArgument(param: 'Pay on Pickup')));
       case '/PayPal':
         return MaterialPageRoute(
             builder: (_) =>
                 PayPalPaymentWidget(routeArgument: args as RouteArgument));
-      case '/RazorPay':
-        return MaterialPageRoute(
-            builder: (_) =>
-                RazorPayPaymentWidget(routeArgument: args as RouteArgument));
       case '/OrderSuccess':
         return MaterialPageRoute(
             builder: (_) =>
@@ -104,23 +86,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CountriesAndCities());
       case '/OnBoardingsScreens':
         return MaterialPageRoute(builder: (_) => OnBoardingScreen());
-
-      /// I HID THIS
-      //   case '/Favorites':
-      //     return MaterialPageRoute(builder: (_) => FavoritesWidget());
-      // case '/Chat':
-      //   return MaterialPageRoute(
-      //       builder: (_) => ChatWidget(routeArgument: args as RouteArgument));
-      //   case '/Details':
-      //     return MaterialPageRoute(builder: (_) => DetailsWidget(currentTab: args));
-      //   case '/Menu':
-      //     return MaterialPageRoute(builder: (_) => MenuWidget(routeArgument: args as RouteArgument));
-      //   case '/Reviews':
-      //     return MaterialPageRoute(builder: (_) => ReviewsWidget(routeArgument: args as RouteArgument));
-      //   case '/Debug':
-      //     return MaterialPageRoute(builder: (_) => DebugWidget(routeArgument: args as RouteArgument));
       default:
-        // If there is no such named route in the switch statement, e.g. /third
         return MaterialPageRoute(
             builder: (_) =>
                 Scaffold(body: SafeArea(child: Text('Route Error'))));

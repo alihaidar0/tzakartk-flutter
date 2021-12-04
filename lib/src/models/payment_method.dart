@@ -33,13 +33,13 @@ class PaymentMethodList {
           S.of(_context).mastercard,
           S.of(_context).click_to_pay_with_your_mastercard,
           "/Checkout",
-          "assets/img/mastercard.png"),
+          "assets/img/mastercard.png",),
       new PaymentMethod(
           "paypal",
           S.of(_context).paypal,
           S.of(_context).click_to_pay_with_your_paypal_account,
           "/PayPal",
-          "assets/img/paypal.png"),
+          "assets/img/paypal.png",),
     ];
     this._pickupList = [
       new PaymentMethod(

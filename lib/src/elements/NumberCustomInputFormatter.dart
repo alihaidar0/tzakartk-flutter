@@ -14,7 +14,7 @@ class NumberCustomInputFormatter extends TextInputFormatter {
       buffer.write(text[i]);
       var nonZeroIndex = i + 1;
       if (nonZeroIndex % 4 == 0 && nonZeroIndex != text.length) {
-        buffer.write(' ');
+        buffer.write(" ");
       }
     }
 

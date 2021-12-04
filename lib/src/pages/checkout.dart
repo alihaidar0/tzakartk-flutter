@@ -81,6 +81,9 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
                         new CreditCardsWidget(
                           creditCard: _con.creditCard,
                           onChanged: (creditCard) {
+                            print("######### creditCard #########");
+                            print("${creditCard}");
+                            print("##################");
                             _con.updateCreditCard(creditCard);
                           },
                         ),
@@ -195,18 +198,23 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
                               onPressed: () {
                                 if (_con.creditCard.validated()) {
                                   Navigator.of(context).pushNamed(
-                                      '/OrderSuccess',
-                                      arguments: new RouteArgument(
-                                          param:
-                                              'Credit Card (Stripe Gateway)'));
+                                    '/OrderSuccess',
+                                    arguments: new RouteArgument(
+                                      param: 'Credit Card (Stripe Gateway)',
+                                    ),
+                                  );
                                 } else {
                                   ScaffoldMessenger.of(
                                           _con.scaffoldKey?.currentContext)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(S
-                                        .of(context)
-                                        .your_credit_card_not_valid),
-                                  ));
+                                      .showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        S
+                                            .of(context)
+                                            .your_credit_card_not_valid,
+                                      ),
+                                    ),
+                                  );
                                 }
                               },
                               padding: EdgeInsets.symmetric(vertical: 14),
@@ -215,8 +223,14 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
                               child: Text(
                                 S.of(context).confirm_payment,
                                 textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    .merge(
+                                      TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
                               ),
                             ),
                           ),

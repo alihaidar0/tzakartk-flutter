@@ -96,7 +96,7 @@ class DeliveryAddressDialog {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: new TextFormField(
                         style: TextStyle(color: Theme.of(context).hintColor),
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.phone,
                         decoration: getInputDecoration(
                             hintText: '+1 623-648-8699',
                             labelText: S.of(context).receiver_phone),

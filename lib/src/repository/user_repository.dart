@@ -98,6 +98,16 @@ Future<void> setCreditCard(CreditCard creditCard) async {
   }
 }
 
+Future<CreditCard> getCreditCard() async {
+  CreditCard _creditCard = new CreditCard();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  if (prefs.containsKey('credit_card')) {
+    _creditCard =
+        CreditCard.fromJSON(json.decode(await prefs.get('credit_card')));
+  }
+  return _creditCard;
+}
+
 Future<userModel.User> getCurrentUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   //prefs.clear();
@@ -111,16 +121,6 @@ Future<userModel.User> getCurrentUser() async {
   // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
   currentUser.notifyListeners();
   return currentUser.value;
-}
-
-Future<CreditCard> getCreditCard() async {
-  CreditCard _creditCard = new CreditCard();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (prefs.containsKey('credit_card')) {
-    _creditCard =
-        CreditCard.fromJSON(json.decode(await prefs.get('credit_card')));
-  }
-  return _creditCard;
 }
 
 Future<userModel.User> update(userModel.User user) async {

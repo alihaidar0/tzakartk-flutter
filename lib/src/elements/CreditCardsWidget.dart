@@ -18,6 +18,9 @@ class CreditCardsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("######### initial creditCard #########");
+    print("${creditCard}");
+    print("##################");
     return Stack(
       alignment: AlignmentDirectional.topCenter,
       children: <Widget>[
