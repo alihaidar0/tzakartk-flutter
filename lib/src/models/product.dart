@@ -2,7 +2,6 @@ import '../models/category.dart';
 import '../models/media.dart';
 import '../models/option.dart';
 import '../models/option_group.dart';
-import 'coupon.dart';
 
 class Product {
   String id;
@@ -70,9 +69,7 @@ class Product {
               .toList()
           : [];
       price = featured && discountPrice > 0 ? discountPrice : price;
-      discountPrice = featured && discountPrice > 0
-          ? price
-          : discountPrice;
+      discountPrice = featured && discountPrice > 0 ? price : discountPrice;
     } catch (e) {
       id = '';
       price = 0.0;
@@ -117,48 +114,6 @@ class Product {
 
   @override
   int get hashCode => this.id.hashCode;
-
-  Coupon applyCoupon(Coupon coupon) {
-    if (coupon.code != '') {
-      if (coupon.valid == null) {
-        coupon.valid = false;
-      }
-      coupon.discountables.forEach((element) {
-        if (!coupon.valid) {
-          if (element.discountableType == "App\\Models\\Product") {
-            if (element.discountableId == id) {
-              coupon = _couponDiscountPrice(coupon);
-            }
-          }
-
-          /// I HID THIS FOR MARKET
-          // else if (element.discountableType == "App\\Models\\Market") {
-          //   if (element.discountableId == market.id) {
-          //     coupon = _couponDiscountPrice(coupon);
-          //   }
-          // }
-          else if (element.discountableType == "App\\Models\\Category") {
-            if (element.discountableId == category.id) {
-              coupon = _couponDiscountPrice(coupon);
-            }
-          }
-        }
-      });
-    }
-    return coupon;
-  }
-
-  Coupon _couponDiscountPrice(Coupon coupon) {
-    coupon.valid = true;
-    discountPrice = price;
-    if (coupon.discountType == 'fixed') {
-      price -= coupon.discount;
-    } else {
-      price = price - (price * coupon.discount / 100);
-    }
-    if (price < 0) price = 0;
-    return coupon;
-  }
 
   @override
   String toString() => "name= $en_name, check= $options";

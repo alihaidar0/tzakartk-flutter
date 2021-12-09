@@ -3,8 +3,8 @@ library introduction_screen;
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
 import 'package:introduction_screen/src/model/page_view_model.dart';
 import 'package:introduction_screen/src/ui/intro_button.dart';
 import 'package:introduction_screen/src/ui/intro_page.dart';
@@ -214,8 +214,8 @@ class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
     final metrics = notification.metrics;
     if (metrics is PageMetrics) {
       setState(() {
-       _currentPage = metrics.page;
-      _start = 10;
+        _currentPage = metrics.page;
+        _start = 10;
       });
     }
     return false;

@@ -21,6 +21,7 @@
   "or_checkout_with": "أو الخروج مع",
   "subtotal": "المجموع الفرعي",
   "total": "مجموع",
+  "couponDiscount": "خصم الكوبون",
   "confirm_payment": "تأكيد الدفع",
   "information": "معلومات",
   "featured_products": "منتجات مميزة",
@@ -206,6 +207,7 @@
   "expiry_date": "تاريخ الانتهاء",
   "cvv": "CVV",
   "your_credit_card_not_valid": "بطاقتك الائتمانية غير صالحة",
+  "your_delivery_day_not_valid": "تاريخ التسليم غير صالح",
   "number": "رقم",
   "exp_date": "تاريخ الانتهاء",
   "cvc": "رمز التحقق من البطاقة",
@@ -274,5 +276,6 @@
   "selectACountryAndACity": "اختر بلد ومدينة",
   "receiver_name" : "اسم المتلقي",
   "receiver_phone" : "رقم هاتف المتلقي",
-  "upToDate" : "جديدنا"
+  "upToDate" : "جديدنا",
+  "select_a_delivery_day": "اختر يوم التسليم"
 }

@@ -27,64 +27,66 @@ class _OrdersWidgetState extends StateMVC<OrdersWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _con.scaffoldKey,
-      appBar: AppBar(
-        leading: new IconButton(
-          icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
-          onPressed: () => widget.parentScaffoldKey.currentState.openDrawer(),
+    return SafeArea(
+      child: Scaffold(
+        key: _con.scaffoldKey,
+        appBar: AppBar(
+          leading: new IconButton(
+            icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
+            onPressed: () => widget.parentScaffoldKey.currentState.openDrawer(),
+          ),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(
+            S.of(context).my_orders,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .merge(TextStyle(letterSpacing: 1.3)),
+          ),
+          actions: <Widget>[
+            new ShoppingCartButtonWidget(
+                iconColor: Theme.of(context).hintColor,
+                labelColor: Theme.of(context).accentColor),
+          ],
         ),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          S.of(context).my_orders,
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .merge(TextStyle(letterSpacing: 1.3)),
-        ),
-        actions: <Widget>[
-          new ShoppingCartButtonWidget(
-              iconColor: Theme.of(context).hintColor,
-              labelColor: Theme.of(context).accentColor),
-        ],
-      ),
-      body: currentUser.value.apiToken == null
-          ? PermissionDeniedWidget()
-          : _con.orders.isEmpty
-              ? EmptyOrdersWidget()
-              : RefreshIndicator(
-                  onRefresh: _con.refreshOrders,
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        SizedBox(height: 20),
-                        ListView.separated(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          primary: false,
-                          itemCount: _con.orders.length,
-                          itemBuilder: (context, index) {
-                            var _order = _con.orders.elementAt(index);
-                            return OrderItemWidget(
-                              expanded: index == 0 ? true : false,
-                              order: _order,
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(height: 20);
-                          },
-                        ),
-                      ],
+        body: currentUser.value.apiToken == null
+            ? PermissionDeniedWidget()
+            : _con.orders.isEmpty
+                ? EmptyOrdersWidget()
+                : RefreshIndicator(
+                    onRefresh: _con.refreshOrders,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          SizedBox(height: 20),
+                          ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: _con.orders.length,
+                            itemBuilder: (context, index) {
+                              var _order = _con.orders.elementAt(index);
+                              return OrderItemWidget(
+                                expanded: index == 0 ? true : false,
+                                order: _order,
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(height: 20);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+      ),
     );
   }
 }

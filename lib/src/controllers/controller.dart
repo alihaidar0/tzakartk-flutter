@@ -15,7 +15,6 @@ class Controller extends AppConMVC {
   @override
   void initState() {
     settingRepo.initSettings();
-    settingRepo.getCurrentLocation();
     userRepo.getCurrentUser();
     super.initState();
   }

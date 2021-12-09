@@ -57,22 +57,6 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
         message: S.of(state.context).addresses_refreshed_successfully);
   }
 
-  Future<void> changeDeliveryAddress(Address address) async {
-    await settingRepo.changeCurrentLocation(address);
-    setState(() {
-      settingRepo.deliveryAddress.value = address;
-    });
-    settingRepo.deliveryAddress.notifyListeners();
-  }
-
-  Future<void> changeDeliveryAddressToCurrentLocation() async {
-    Address _address = await settingRepo.setCurrentLocation();
-    setState(() {
-      settingRepo.deliveryAddress.value = _address;
-    });
-    settingRepo.deliveryAddress.notifyListeners();
-  }
-
   void addAddress(Address address) {
     userRepo.addAddress(address).then((value) {
       listenForAddresses();

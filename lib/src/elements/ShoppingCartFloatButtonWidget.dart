@@ -49,9 +49,13 @@ class _ShoppingCartFloatButtonWidgetState
         onPressed: () {
           if (currentUser.value.apiToken != null) {
             Navigator.of(context)
-                .pushNamed('/Cart', arguments: widget.routeArgument);
+                .pushNamed('/Cart', arguments: widget.routeArgument)
+                .then((value) => _con.listenForCartsCount());
           } else {
-            Navigator.of(context).pushNamed('/Login');
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              '/Login',
+              (Route<dynamic> route) => false,
+            );
           }
         },
         child: Stack(

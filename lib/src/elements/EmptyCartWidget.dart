@@ -117,7 +117,9 @@ class _EmptyCartWidgetState extends State<EmptyCartWidget> {
                   ? MaterialButton(
                       elevation: 0,
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/Pages', arguments: 1);
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            '/Pages', (Route<dynamic> route) => false,
+                            arguments: 1);
                       },
                       padding:
                           EdgeInsets.symmetric(vertical: 12, horizontal: 30),

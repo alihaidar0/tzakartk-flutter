@@ -7,9 +7,6 @@ import '../helpers/helper.dart';
 
 Future<Stream<String>> getBanners() async {
   Uri uri = Helper.getUri('api/banners');
-  Map<String, dynamic> _queryParams = {};
-
-  uri = uri.replace(queryParameters: _queryParams);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));

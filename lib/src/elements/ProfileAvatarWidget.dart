@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/user.dart';
@@ -21,35 +20,14 @@ class ProfileAvatarWidget extends StatelessWidget {
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
       ),
-      child: Column(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(300)),
-            child: CachedNetworkImage(
-              height: 135,
-              width: 135,
-              fit: BoxFit.cover,
-              imageUrl: user.image?.url,
-              placeholder: (context, url) => Image.asset(
-                'assets/img/loading.gif',
-                fit: BoxFit.cover,
-                height: 135,
-                width: 135,
-              ),
-              errorWidget: (context, url, error) => Icon(Icons.error_outline),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            user.name,
-            style: Theme.of(context)
-                .textTheme
-                .headline5
-                .merge(TextStyle(color: Theme.of(context).primaryColor)),
-          ),
-        ],
+      child: Center(
+        child: Text(
+          user.name,
+          style: Theme.of(context)
+              .textTheme
+              .headline5
+              .merge(TextStyle(color: Theme.of(context).primaryColor)),
+        ),
       ),
     );
   }

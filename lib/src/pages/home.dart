@@ -25,6 +25,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   HomeController _con;
   City _selectedCity;
   String _selectedCategoryId;
+  bool _refreshed = true;
 
   _HomeWidgetState() : super(HomeController()) {
     _con = controller;
@@ -61,97 +62,98 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: new IconButton(
-          icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
-          onPressed: () => widget.parentScaffoldKey.currentState.openDrawer(),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          leading: new IconButton(
+            icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
+            onPressed: () => widget.parentScaffoldKey.currentState.openDrawer(),
+          ),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: ValueListenableBuilder(
+            valueListenable: settingsRepo.setting,
+            builder: (context, value, child) {
+              return Text(
+                value.appName ?? S.of(context).home,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .merge(TextStyle(letterSpacing: 1.3)),
+              );
+            },
+          ),
+          actions: _refreshed
+              ? <Widget>[
+                  new ShoppingCartButtonWidget(
+                      iconColor: Theme.of(context).hintColor,
+                      labelColor: Theme.of(context).accentColor),
+                ]
+              : <Widget>[],
         ),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: ValueListenableBuilder(
-          valueListenable: settingsRepo.setting,
-          builder: (context, value, child) {
-            return Text(
-              value.appName ?? S.of(context).home,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  .merge(TextStyle(letterSpacing: 1.3)),
-            );
-          },
-        ),
-        actions: <Widget>[
-          new ShoppingCartButtonWidget(
-              iconColor: Theme.of(context).hintColor,
-              labelColor: Theme.of(context).accentColor),
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: _refreshHome,
-        child: Container(
-          height: double.infinity,
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(vertical: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                HomeBannerSliderWidget(
-                  slides: _con.bannerSlider,
-                ),
-                ListTile(
-                  dense: true,
-                  contentPadding: EdgeInsets.only(
-                      left: 20.0, top: 10.0, right: 20.0, bottom: 5.0),
-                  title: Text(
-                    S.of(context).upToDate,
-                    style: Theme.of(context).textTheme.headline4,
+        body: RefreshIndicator(
+          onRefresh: _refreshHome,
+          child: Container(
+            height: double.infinity,
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(vertical: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  HomeBannerSliderWidget(
+                    slides: _con.bannerSlider,
                   ),
-                ),
-                OurNewCarouselWidget(
-                  slides: _con.ourNewSlider,
-                ),
-                ListTile(
-                  dense: true,
-                  contentPadding: EdgeInsets.only(
-                      left: 20.0, top: 10.0, right: 20.0, bottom: 5.0),
-                  title: Text(
-                    S.of(context).product_categories,
-                    style: Theme.of(context).textTheme.headline4,
+                  ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.only(
+                        left: 20.0, top: 10.0, right: 20.0, bottom: 5.0),
+                    title: Text(
+                      S.of(context).upToDate,
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
                   ),
-                ),
-                _selectedCity != null
-                    ? CategoriesCarouselWidget(
-                        categories: _con.categories,
-                        onPressed: (String categoryId) {
-                          setState(() {
-                            _con.subCategories.clear();
-                            // if (categoryId != null) {
-                            //   _selectedCategoryId = categoryId;
-                            _con.listenForSubCategories(categoryId);
-                            // }
-                          });
-                        },
-                      )
-                    : SizedBox(),
-                ListTile(
-                  dense: true,
-                  contentPadding: EdgeInsets.only(
-                      left: 20.0, top: 5.0, right: 20.0, bottom: 5.0),
-                  title: Text(
-                    S.of(context).shops,
-                    style: Theme.of(context).textTheme.headline4,
+                  OurNewCarouselWidget(
+                    slides: _con.ourNewSlider,
                   ),
-                ),
-                SubCategoriesCarouselWidget(
-                  subCategories: _con.subCategories,
-                ),
-              ],
+                  ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.only(
+                        left: 20.0, top: 10.0, right: 20.0, bottom: 5.0),
+                    title: Text(
+                      S.of(context).product_categories,
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
+                  _selectedCity != null
+                      ? CategoriesCarouselWidget(
+                          categories: _con.categories,
+                          onPressed: (String categoryId) {
+                            setState(() {
+                              _con.subCategories.clear();
+                              _con.listenForSubCategories(categoryId);
+                            });
+                          },
+                        )
+                      : SizedBox(),
+                  ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.only(
+                        left: 20.0, top: 5.0, right: 20.0, bottom: 5.0),
+                    title: Text(
+                      S.of(context).shops,
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
+                  SubCategoriesCarouselWidget(
+                    subCategories: _con.subCategories,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

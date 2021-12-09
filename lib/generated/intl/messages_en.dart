@@ -72,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "countries" : MessageLookupByLibrary.simpleMessage("Countries"),
     "countriesAndCities" : MessageLookupByLibrary.simpleMessage("Countries And Cities"),
     "country" : MessageLookupByLibrary.simpleMessage("Country"),
+    "couponDiscount" : MessageLookupByLibrary.simpleMessage("Coupon Discount"),
     "current_location" : MessageLookupByLibrary.simpleMessage("Current location"),
     "cvc" : MessageLookupByLibrary.simpleMessage("CVC"),
     "cvv" : MessageLookupByLibrary.simpleMessage("CVV"),
@@ -230,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "search_for_markets_or_products" : MessageLookupByLibrary.simpleMessage("Search for markets or products"),
     "search_for_products" : MessageLookupByLibrary.simpleMessage("Search for products"),
     "selectACountryAndACity" : MessageLookupByLibrary.simpleMessage("select a country and a city"),
+    "select_a_delivery_day" : MessageLookupByLibrary.simpleMessage("Select a delivery day"),
     "select_options_to_add_them_on_the_product" : MessageLookupByLibrary.simpleMessage("Select options to add them on the product"),
     "select_your_delivery_address" : MessageLookupByLibrary.simpleMessage("Select your delivery address"),
     "select_your_preferred_languages" : MessageLookupByLibrary.simpleMessage("Select your preferred languages"),
@@ -299,6 +301,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "your_address" : MessageLookupByLibrary.simpleMessage("Your Address"),
     "your_biography" : MessageLookupByLibrary.simpleMessage("Your biography"),
     "your_credit_card_not_valid" : MessageLookupByLibrary.simpleMessage("Your credit card not valid"),
+    "your_delivery_day_not_valid" : MessageLookupByLibrary.simpleMessage("Your delivery day not valid "),
     "your_order_has_been_successfully_submitted" : MessageLookupByLibrary.simpleMessage("Your order has been successfully submitted!"),
     "your_reset_link_has_been_sent_to_your_email" : MessageLookupByLibrary.simpleMessage("Your reset link has been sent to your email")
   };

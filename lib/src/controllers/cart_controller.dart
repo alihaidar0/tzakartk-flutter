@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../models/cart.dart';
@@ -7,7 +10,7 @@ import '../models/cart_price.dart';
 import '../models/coupon.dart';
 import '../repository/cart_repository.dart';
 import '../repository/coupon_repository.dart';
-import '../repository/settings_repository.dart';
+import '../repository/settings_repository.dart' as settingRepo;
 
 class CartController extends ControllerMVC {
   List<Cart> carts = <Cart>[];
@@ -15,6 +18,7 @@ class CartController extends ControllerMVC {
   double subTotal = 0.0;
   double deliveryFee = 0.0;
   double total = 0.0;
+  double couponDiscount = 0.0;
   int cartCount = 0;
   double taxAmount = 0.0;
 
@@ -22,6 +26,7 @@ class CartController extends ControllerMVC {
 
   CartController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
+    getCoupon();
   }
 
   void listenForCarts({String message}) async {
@@ -30,7 +35,6 @@ class CartController extends ControllerMVC {
     stream.listen((Cart _cart) {
       if (!carts.contains(_cart)) {
         setState(() {
-          coupon = _cart.product.applyCoupon(coupon);
           carts.add(_cart);
         });
       }
@@ -44,18 +48,15 @@ class CartController extends ControllerMVC {
       ));
     }, onDone: () {
       if (carts.isNotEmpty) {
-        calculateCartPrice();
+        calculateCartPrice(settingRepo.coupon.code);
       }
       if (message != null) {
         ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
           content: Text(message),
         ));
       }
-      onLoadingCartDone();
     });
   }
-
-  void onLoadingCartDone() {}
 
   void listenForCartsCount({String message}) async {
     final Stream<int> stream = await getCartCount();
@@ -87,7 +88,7 @@ class CartController extends ControllerMVC {
       this.carts.remove(_cart);
     });
     removeCart(_cart).then((value) {
-      calculateCartPrice();
+      calculateCartPrice(settingRepo.coupon.code);
       listenForCartsCount();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S
@@ -97,13 +98,14 @@ class CartController extends ControllerMVC {
     });
   }
 
-  void calculateCartPrice() async {
-    final Stream<CartPrice> stream = await getCartPrice();
+  void calculateCartPrice(String code) async {
+    final Stream<CartPrice> stream = await getCartPrice(code);
     stream.listen((CartPrice _cartPrice) {
       setState(() {
         subTotal = _cartPrice.sub_total;
         deliveryFee = _cartPrice.delivery_fee;
         total = _cartPrice.total;
+        couponDiscount = _cartPrice.couponDiscount;
       });
     }, onError: (a) {
       print("##################");
@@ -117,27 +119,28 @@ class CartController extends ControllerMVC {
   }
 
   void doApplyCoupon(String code, {String message}) async {
-    coupon = new Coupon.fromJSON({"code": code, "valid": null});
-    final Stream<Coupon> stream = await verifyCoupon(code);
-    stream.listen((Coupon _coupon) async {
-      coupon = _coupon;
-    }, onError: (a) {
+    verifyCoupon(code).then((value) {
+      settingRepo.coupon = value;
+    }).catchError((e) {
       print("##################");
-      print("######### Error verifyCoupon with SnackBar #########");
+      print("######### Error doApplyCoupon with SnackBar #########");
       print("##################");
-      print(a);
+      print(e);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
       ));
-    }, onDone: () {
-      listenForCarts();
+    }).whenComplete(() {
+      saveCoupon(settingRepo.coupon);
+      calculateCartPrice(settingRepo.coupon.code);
     });
   }
 
   incrementQuantity(Cart cart) {
     if (cart.quantity <= 99) {
       ++cart.quantity;
-      updateCart(cart).then((value) {calculateCartPrice();});
+      updateCart(cart).then((value) {
+        calculateCartPrice(settingRepo.coupon.code);
+      });
       listenForCartsCount();
     }
   }
@@ -145,7 +148,9 @@ class CartController extends ControllerMVC {
   decrementQuantity(Cart cart) {
     if (cart.quantity > 1) {
       --cart.quantity;
-      updateCart(cart).then((value) {calculateCartPrice();});
+      updateCart(cart).then((value) {
+        calculateCartPrice(settingRepo.coupon.code);
+      });
       listenForCartsCount();
     }
   }
@@ -155,11 +160,20 @@ class CartController extends ControllerMVC {
   }
 
   Color getCouponIconColor() {
-    if (coupon?.valid == true) {
+    if (settingRepo.coupon?.enabled == true) {
       return Colors.green;
-    } else if (coupon?.valid == false) {
+    } else if (settingRepo.coupon?.enabled == false) {
       return Colors.redAccent;
     }
     return Theme.of(state.context).focusColor.withOpacity(0.7);
+  }
+
+  Future<void> getCoupon() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('coupon')) {
+      settingRepo.coupon =
+          Coupon.fromJSON(json.decode(await prefs.get('coupon')));
+    }
+    return settingRepo.coupon;
   }
 }

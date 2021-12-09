@@ -5,16 +5,13 @@ import 'package:http/http.dart' as http;
 
 import '../helpers/helper.dart';
 import '../models/faq_category.dart';
-import '../models/user.dart';
-import '../repository/user_repository.dart';
+import '../repository/my_client.dart';
 
 Future<Stream<FaqCategory>> getFaqCategories() async {
-  User _user = currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}faq_categories?${_apiToken}with=faqs';
+      '${GlobalConfiguration().getValue('api_base_url')}faq_categories';
 
-  final client = new http.Client();
+  final client = new MyClient();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
   return streamedRest.stream

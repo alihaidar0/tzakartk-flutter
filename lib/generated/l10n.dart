@@ -255,6 +255,16 @@ class S {
     );
   }
 
+  /// `Coupon Discount`
+  String get couponDiscount {
+    return Intl.message(
+      'Coupon Discount',
+      name: 'couponDiscount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Confirm Payment`
   String get confirm_payment {
     return Intl.message(
@@ -2105,6 +2115,16 @@ class S {
     );
   }
 
+  /// `Your delivery day not valid `
+  String get your_delivery_day_not_valid {
+    return Intl.message(
+      'Your delivery day not valid ',
+      name: 'your_delivery_day_not_valid',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Number`
   String get number {
     return Intl.message(
@@ -2790,6 +2810,16 @@ class S {
     return Intl.message(
       'Up to date',
       name: 'upToDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a delivery day`
+  String get select_a_delivery_day {
+    return Intl.message(
+      'Select a delivery day',
+      name: 'select_a_delivery_day',
       desc: '',
       args: [],
     );

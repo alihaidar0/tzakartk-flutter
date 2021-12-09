@@ -7,8 +7,9 @@ class ProductGridItemWidget extends StatefulWidget {
   final String heroTag;
   final Product product;
   final VoidCallback onPressed;
+  final Function(RouteArgument) onTap;
 
-  ProductGridItemWidget({Key key, this.heroTag, this.product, this.onPressed})
+  ProductGridItemWidget({Key key, this.heroTag, this.product, this.onPressed, @required this.onTap})
       : super(key: key);
 
   @override
@@ -22,9 +23,8 @@ class _ProductGridItemWidgetState extends State<ProductGridItemWidget> {
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context).pushNamed('/Product',
-            arguments: new RouteArgument(
-                heroTag: this.widget.heroTag, id: this.widget.product.id));
+        widget.onTap (new RouteArgument(
+                    heroTag: this.widget.heroTag, id: this.widget.product.id));
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,

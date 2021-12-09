@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import '../helpers/helper.dart';
 import '../models/notification.dart';
 import '../models/user.dart';
+import '../repository/my_client.dart';
 import '../repository/user_repository.dart' as userRepo;
 import 'settings_repository.dart';
 
@@ -15,10 +16,9 @@ Future<Stream<Notification>> getNotifications() async {
   if (_user.apiToken == null) {
     return new Stream.value(null);
   }
-  final String _apiToken = 'api_token=${_user.apiToken}';
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}notifications?${_apiToken}';
-  final client = new http.Client();
+      '${GlobalConfiguration().getValue('api_base_url')}notifications';
+  final client = new MyClient();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
   return streamedRest.stream
@@ -36,35 +36,17 @@ Future<Notification> markAsReadNotifications(Notification notification) async {
   if (_user.apiToken == null) {
     return new Notification();
   }
-  final String _apiToken = 'api_token=${_user.apiToken}';
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}notifications/${notification.id}?$_apiToken';
+      '${GlobalConfiguration().getValue('api_base_url')}notifications/${notification.id}';
   final client = new http.Client();
   final response = await client.put(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: '${_user.apiToken}',
+    },
     body: json.encode(notification.markReadMap()),
   );
-  print(
-    "[${response.statusCode}] NotificationRepository markAsReadNotifications",
-  );
-  return Notification.fromJSON(json.decode(response.body)['data']);
-}
-
-Future<Notification> removeNotification(Notification cart) async {
-  User _user = userRepo.currentUser.value;
-  if (_user.apiToken == null) {
-    return new Notification();
-  }
-  final String _apiToken = 'api_token=${_user.apiToken}';
-  final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}notifications/${cart.id}?$_apiToken';
-  final client = new http.Client();
-  final response = await client.delete(
-    url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-  );
-  print("[${response.statusCode}] NotificationRepository removeCart");
   return Notification.fromJSON(json.decode(response.body)['data']);
 }
 

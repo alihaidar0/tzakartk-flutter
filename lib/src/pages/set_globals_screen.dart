@@ -248,314 +248,330 @@ class SetGlobalsScreenState extends StateMVC<SetGlobalsScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: Helper.of(context).onWillPop,
-      child: Scaffold(
-        key: _con.scaffoldKey,
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Theme.of(context).accentColor,
-          ),
-          padding:
-              EdgeInsets.only(left: 25.0, top: 30.0, right: 25.0, bottom: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Center(
-                  child: settingsRepo.setting.value.on_loading_image != null
-                      ? settingsRepo.setting.value.on_loading_image
-                              .toLowerCase()
-                              .endsWith('.svg')
-                          ? SvgPicture.network(
-                              settingsRepo.setting.value.on_loading_image,
-                            )
-                          : CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl:
-                                  settingsRepo.setting.value.on_loading_image,
-                            )
-                      : SizedBox(),
-                ),
+      child: SafeArea(
+        child: Scaffold(
+          key: _con.scaffoldKey,
+          resizeToAvoidBottomInset: false,
+          body: Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).accentColor,
+                  const Color(0xFF220236),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.08,
-                    child: Center(
-                      child: settingsRepo.setting.value.mobile_logo != null
-                          ? settingsRepo.setting.value.mobile_logo
-                                  .toLowerCase()
-                                  .endsWith('.svg')
-                              ? SvgPicture.network(
-                                  settingsRepo.setting.value.mobile_logo,
-                                )
-                              : CachedNetworkImage(
-                                  fit: BoxFit.cover,
-                                  imageUrl:
-                                      settingsRepo.setting.value.mobile_logo,
-                                )
-                          : SizedBox(),
-                    ),
+            ),
+            padding: EdgeInsets.only(
+                left: 25.0, top: 30.0, right: 25.0, bottom: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: settingsRepo.setting.value.on_loading_image != null
+                        ? settingsRepo.setting.value.on_loading_image
+                                .toLowerCase()
+                                .endsWith('.svg')
+                            ? SvgPicture.network(
+                                settingsRepo.setting.value.on_loading_image,
+                              )
+                            : CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl:
+                                    settingsRepo.setting.value.on_loading_image,
+                              )
+                        : SizedBox(),
                   ),
-
-                  ///language
-                  Container(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Text(
-                      S.of(context).language + ":",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.08,
+                      child: Center(
+                        child: settingsRepo.setting.value.mobile_logo != null
+                            ? settingsRepo.setting.value.mobile_logo
+                                    .toLowerCase()
+                                    .endsWith('.svg')
+                                ? SvgPicture.network(
+                                    settingsRepo.setting.value.mobile_logo,
+                                  )
+                                : CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    imageUrl:
+                                        settingsRepo.setting.value.mobile_logo,
+                                  )
+                            : SizedBox(),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
+
+                    ///language
+                    Container(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text(
+                        S.of(context).language + ":",
+                        style: TextStyle(
                           color: Colors.white,
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    child: MaterialButton(
-                      elevation: 0,
-                      padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                      onPressed: () {
-                        _showLanguageChoiceDialog(context);
-                      },
-                      child:
-                          Localizations.localeOf(context).languageCode == 'en'
-                              ? LanguageContainer(
-                                  S.of(context).english,
-                                  "assets/img/english.png",
-                                  40,
-                                )
-                              : LanguageContainer(
-                                  S.of(context).arabic,
-                                  "assets/img/arabic.png",
-                                  40,
-                                ),
-                    ),
-                  ),
-
-                  ///country
-                  Container(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Text(
-                      S.of(context).country + ":",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  _con.countries.isNotEmpty
-                      ? Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.white,
-                              ),
-                            ),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.white,
                           ),
-                          child: MaterialButton(
-                            elevation: 0,
-                            padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                            onPressed: () {
-                              _showCountryChoiceDialog(context);
-                            },
-                            child: _selectedCountry != null
-                                ? CountryContainer(
-                                    Localizations.localeOf(context)
-                                                .languageCode ==
-                                            'en'
-                                        ? _selectedCountry.en_name
-                                        : _selectedCountry.ar_name,
-                                    _selectedCountry.has_media
-                                        ? _selectedCountry.image.url
-                                        : null,
-                                    40,
-                                    Colors.white,
-                                  )
-                                : CountryContainer(
-                                    null,
-                                    null,
-                                    40,
-                                    Colors.white,
-                                  ),
-                          ),
-                        )
-                      : Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Colors.white38,
-                                  ),
-                                ),
-                              ),
-                              child: MaterialButton(
-                                elevation: 0,
-                                padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                onPressed: () {},
-                                child: CountryContainer(
-                                  null,
-                                  null,
-                                  40,
-                                  Colors.white38,
-                                ),
-                              ),
-                            ),
-                            CircularLoadingWidget(
-                              height: 40.0,
-                            ),
-                          ],
                         ),
-
-                  ///city
-                  Container(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Text(
-                      S.of(context).city + ":",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
+                      ),
+                      child: MaterialButton(
+                        elevation: 0,
+                        padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                        onPressed: () {
+                          _showLanguageChoiceDialog(context);
+                        },
+                        child:
+                            Localizations.localeOf(context).languageCode == 'en'
+                                ? LanguageContainer(
+                                    S.of(context).english,
+                                    "assets/img/english.png",
+                                    40,
+                                  )
+                                : LanguageContainer(
+                                    S.of(context).arabic,
+                                    "assets/img/arabic.png",
+                                    40,
+                                  ),
                       ),
                     ),
-                  ),
-                  _con.cities.isNotEmpty
-                      ? Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.white,
+
+                    ///country
+                    Container(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text(
+                        S.of(context).country + ":",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    _con.countries.isNotEmpty
+                        ? Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                          child: MaterialButton(
-                            elevation: 0,
-                            padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                            onPressed: () {
-                              _showCityChoiceDialog(context);
-                            },
-                            child: _selectedCity != null
-                                ? CityContainer(
-                                    Localizations.localeOf(context)
-                                                .languageCode ==
-                                            'en'
-                                        ? _selectedCity.en_name
-                                        : _selectedCity.ar_name,
+                            child: MaterialButton(
+                              elevation: 0,
+                              padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                              onPressed: () {
+                                _showCountryChoiceDialog(context);
+                              },
+                              child: _selectedCountry != null
+                                  ? CountryContainer(
+                                      Localizations.localeOf(context)
+                                                  .languageCode ==
+                                              'en'
+                                          ? _selectedCountry.en_name
+                                          : _selectedCountry.ar_name,
+                                      _selectedCountry.has_media
+                                          ? _selectedCountry.image.url
+                                          : null,
+                                      40,
+                                      Colors.white,
+                                    )
+                                  : CountryContainer(
+                                      null,
+                                      null,
+                                      40,
+                                      Colors.white,
+                                    ),
+                            ),
+                          )
+                        : Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.white38,
+                                    ),
+                                  ),
+                                ),
+                                child: MaterialButton(
+                                  elevation: 0,
+                                  padding:
+                                      EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                  onPressed: () {},
+                                  child: CountryContainer(
+                                    null,
+                                    null,
                                     40,
-                                    Colors.white,
-                                  )
-                                : CityContainer(
+                                    Colors.white38,
+                                  ),
+                                ),
+                              ),
+                              CircularLoadingWidget(
+                                height: 40.0,
+                              ),
+                            ],
+                          ),
+
+                    ///city
+                    Container(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text(
+                        S.of(context).city + ":",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    _con.cities.isNotEmpty
+                        ? Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            child: MaterialButton(
+                              elevation: 0,
+                              padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                              onPressed: () {
+                                _showCityChoiceDialog(context);
+                              },
+                              child: _selectedCity != null
+                                  ? CityContainer(
+                                      Localizations.localeOf(context)
+                                                  .languageCode ==
+                                              'en'
+                                          ? _selectedCity.en_name
+                                          : _selectedCity.ar_name,
+                                      40,
+                                      Colors.white,
+                                    )
+                                  : CityContainer(
+                                      "",
+                                      40,
+                                      Colors.white,
+                                    ),
+                            ),
+                          )
+                        : Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.white38,
+                                    ),
+                                  ),
+                                ),
+                                child: MaterialButton(
+                                  elevation: 0,
+                                  padding:
+                                      EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                  onPressed: () {},
+                                  child: CityContainer(
                                     "",
                                     40,
-                                    Colors.white,
+                                    Colors.white38,
                                   ),
+                                ),
+                              ),
+                              _load
+                                  ? CircularLoadingWidget(
+                                      height: 40.0,
+                                    )
+                                  : SizedBox(),
+                            ],
                           ),
-                        )
-                      : Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Colors.white38,
-                                  ),
-                                ),
-                              ),
-                              child: MaterialButton(
-                                elevation: 0,
-                                padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                onPressed: () {},
-                                child: CityContainer(
-                                  "",
-                                  40,
-                                  Colors.white38,
-                                ),
-                              ),
-                            ),
-                            _load
-                                ? CircularLoadingWidget(
-                                    height: 40.0,
-                                  )
-                                : SizedBox(),
-                          ],
-                        ),
 
-                  ///confirm
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.only(top: 10.0, bottom: 5.0),
-                    child: MaterialButton(
-                      elevation: 0,
-                      padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                      onPressed: () {
-                        if (_selectedCountry != null && _selectedCity != null) {
-                          globals.country = _selectedCountry;
-                          globals.city = _selectedCity;
-                          Navigator.of(context)
-                              .pushReplacementNamed('/Pages', arguments: 1);
-                        }
-                      },
-                      child: Center(
-                        child: Text(
-                          S.of(context).confirm,
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                      ),
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 5.0),
-                    child: Row(
-                      textDirection: TextDirection.ltr,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Powered By",
-                          style: TextStyle(color: Colors.white, fontSize: 16.0),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        InkWell(
-                          onTap: () => launch('https://vroad.com'),
+                    ///confirm
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.only(top: 10.0, bottom: 5.0),
+                      child: MaterialButton(
+                        elevation: 0,
+                        padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                        onPressed: () {
+                          if (_selectedCountry != null &&
+                              _selectedCity != null) {
+                            globals.country = _selectedCountry;
+                            globals.city = _selectedCity;
+                            Navigator.of(context)
+                                .pushReplacementNamed('/Pages', arguments: 1);
+                          }
+                        },
+                        child: Center(
                           child: Text(
-                            "VRoad LLC",
-                            style: TextStyle(
-                                color: Color(0xFFF69BF0), fontSize: 16.0),
+                            S.of(context).confirm,
+                            style: Theme.of(context).textTheme.headline2,
                           ),
                         ),
-                      ],
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    Container(
+                      padding: EdgeInsets.only(top: 5.0),
+                      child: Row(
+                        textDirection: TextDirection.ltr,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Powered By",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.0),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          InkWell(
+                            onTap: () => launch('https://vroad.com'),
+                            child: Text(
+                              "VRoad LLC",
+                              style: TextStyle(
+                                  color: Color(0xFFF69BF0), fontSize: 16.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
-import '../models/cart.dart';
+import '../helpers/helper.dart';
 import '../models/coupon.dart';
 import '../models/credit_card.dart';
 import '../models/order.dart';
 import '../models/order_status.dart';
 import '../models/payment.dart';
-import '../models/product_order.dart';
+import '../repository/coupon_repository.dart';
 import '../repository/order_repository.dart' as orderRepo;
 import '../repository/settings_repository.dart' as settingRepo;
 import '../repository/user_repository.dart' as userRepo;
 import 'cart_controller.dart';
 
 class CheckoutController extends CartController {
-  Payment payment;
   CreditCard creditCard = new CreditCard();
   bool loading = true;
+  OverlayEntry loader;
 
   CheckoutController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
     listenForCreditCard();
+    getCoupon();
   }
 
   void listenForCreditCard() async {
@@ -28,41 +29,52 @@ class CheckoutController extends CartController {
     setState(() {});
   }
 
-  @override
-  void onLoadingCartDone() {
-    if (payment != null) addOrder(carts);
-    super.onLoadingCartDone();
-  }
-
-  void addOrder(List<Cart> carts) async {
+  void addOrder() async {
+    loader = Helper.overlayLoader(state.context);
+    FocusScope.of(state.context).unfocus();
+    Overlay.of(state.context).insert(loader);
     Order _order = new Order();
-    _order.productOrders = <ProductOrder>[];
-
-    /// I HID THIS FOR MARKET
-    // _order.tax = carts[0].product.market.defaultTax;
-    // _order.deliveryFee = payment.method == 'Pay on Pickup' ? 0 : carts[0].product.market.deliveryFee;
+    Payment _payment = Payment('Credit Card (Stripe Gateway)');
     OrderStatus _orderStatus = new OrderStatus();
     _orderStatus.id = '1'; // TODO default order status Id
     _order.orderStatus = _orderStatus;
     _order.deliveryAddress = settingRepo.deliveryAddress.value;
     _order.hint = ' ';
-    carts.forEach((_cart) {
-      ProductOrder _productOrder = new ProductOrder();
-      _productOrder.quantity = _cart.quantity;
-      _productOrder.price = _cart.product.price;
-      _productOrder.product = _cart.product;
-      _productOrder.options = _cart.options;
-      _order.productOrders.add(_productOrder);
-    });
-    orderRepo.addOrder(_order, this.payment).then((value) async {
-      settingRepo.coupon = new Coupon.fromJSON({});
+    _order.deliveryDate = settingRepo.deliveryDay.value;
+    _order.coupon = settingRepo.coupon.code;
+    orderRepo.addOrder(_order, _payment).then((value) async {
       return value;
     }).then((value) {
-      if (value is Order) {
-        setState(() {
-          loading = false;
-        });
+      print("######### value in addOrder #########");
+      print("${value}");
+      print("##################");
+      if (value != null && value == true) {
+        settingRepo.coupon = new Coupon.fromJSON({});
+        saveCoupon(settingRepo.coupon);
+        Navigator.of(scaffoldKey.currentContext).pushNamedAndRemoveUntil(
+          '/OrderSuccess',
+          (Route<dynamic> route) => false,
+        );
+      } else {
+        loader.remove();
+        ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+          content: Text(
+            S.of(state.context).your_credit_card_not_valid,
+          ),
+        ));
       }
+    }).catchError((e) {
+      print("######### catchError in addOrder #########");
+      print("${e}");
+      print("##################");
+      loader.remove();
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(
+          S.of(state.context).your_credit_card_not_valid,
+        ),
+      ));
+    }).whenComplete(() {
+      Helper.hideLoader(loader);
     });
   }
 

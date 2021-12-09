@@ -31,35 +31,47 @@ class RouteGenerator {
     switch (settings.name) {
       case '/Splash':
         return MaterialPageRoute(builder: (_) => SplashScreen());
+      case '/OnBoardingsScreens':
+        return MaterialPageRoute(builder: (_) => OnBoardingScreen());
+      case '/SetGlobalsScreen':
+        return MaterialPageRoute(builder: (_) => SetGlobalsScreen());
+      case '/Pages':
+        return MaterialPageRoute(builder: (_) => PagesWidget(currentTab: args));
       case '/SignUp':
         return MaterialPageRoute(builder: (_) => SignUpWidget());
       case '/Login':
         return MaterialPageRoute(builder: (_) => LoginWidget());
-      case '/Profile':
-        return MaterialPageRoute(builder: (_) => ProfileWidget());
       case '/ForgetPassword':
         return MaterialPageRoute(builder: (_) => ForgetPasswordWidget());
-      case '/Pages':
-        return MaterialPageRoute(builder: (_) => PagesWidget(currentTab: args));
-      case '/Product':
+      case '/Profile':
+        return MaterialPageRoute(builder: (_) => ProfileWidget());
+      case '/Help':
+        return MaterialPageRoute(builder: (_) => HelpWidget());
+      case '/Settings':
+        return MaterialPageRoute(builder: (_) => SettingsWidget());
+      case '/DeliveryAddresses':
+        return MaterialPageRoute(builder: (_) => DeliveryAddressesWidget());
+      case '/CountriesAndCities':
+        return MaterialPageRoute(builder: (_) => CountriesAndCities());
+      case '/Languages':
+        return MaterialPageRoute(builder: (_) => LanguagesWidget());
+      case '/Cart':
         return MaterialPageRoute(
-            builder: (_) =>
-                ProductWidget(routeArgument: args as RouteArgument));
+            builder: (_) => CartWidget(routeArgument: args as RouteArgument));
       case '/Category':
         return MaterialPageRoute(
             builder: (_) =>
                 CategoryWidget(routeArgument: args as RouteArgument));
-      case '/Cart':
+      case '/Product':
         return MaterialPageRoute(
-            builder: (_) => CartWidget(routeArgument: args as RouteArgument));
+            builder: (_) =>
+                ProductWidget(routeArgument: args as RouteArgument));
       case '/Tracking':
         return MaterialPageRoute(
             builder: (_) =>
                 TrackingWidget(routeArgument: args as RouteArgument));
       case '/PaymentMethod':
         return MaterialPageRoute(builder: (_) => PaymentMethodsWidget());
-      case '/DeliveryAddresses':
-        return MaterialPageRoute(builder: (_) => DeliveryAddressesWidget());
       case '/DeliveryPickup':
         return MaterialPageRoute(
             builder: (_) =>
@@ -71,21 +83,7 @@ class RouteGenerator {
             builder: (_) =>
                 PayPalPaymentWidget(routeArgument: args as RouteArgument));
       case '/OrderSuccess':
-        return MaterialPageRoute(
-            builder: (_) =>
-                OrderSuccessWidget(routeArgument: args as RouteArgument));
-      case '/Languages':
-        return MaterialPageRoute(builder: (_) => LanguagesWidget());
-      case '/Help':
-        return MaterialPageRoute(builder: (_) => HelpWidget());
-      case '/Settings':
-        return MaterialPageRoute(builder: (_) => SettingsWidget());
-      case '/SetGlobalsScreen':
-        return MaterialPageRoute(builder: (_) => SetGlobalsScreen());
-      case '/CountriesAndCities':
-        return MaterialPageRoute(builder: (_) => CountriesAndCities());
-      case '/OnBoardingsScreens':
-        return MaterialPageRoute(builder: (_) => OnBoardingScreen());
+        return MaterialPageRoute(builder: (_) => OrderSuccessWidget());
       default:
         return MaterialPageRoute(
             builder: (_) =>

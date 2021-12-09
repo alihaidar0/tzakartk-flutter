@@ -13,9 +13,11 @@ class Order {
   String hint;
   bool active;
   DateTime dateTime;
+  DateTime deliveryDate;
   User user;
   Payment payment;
   Address deliveryAddress;
+  String coupon;
 
   Order();
 
@@ -64,18 +66,17 @@ class Order {
 
   Map toMap() {
     var map = new Map<String, dynamic>();
-    map["id"] = id;
     map["user_id"] = user?.id;
     map["order_status_id"] = orderStatus?.id;
-    map["tax"] = tax;
     map['hint'] = hint;
-    map["delivery_fee"] = deliveryFee;
-    map["products"] =
-        productOrders?.map((element) => element.toMap())?.toList();
     map["payment"] = payment?.toMap();
     if (!deliveryAddress.isUnknown()) {
       map["delivery_address_id"] = deliveryAddress?.id;
     }
+    map['delivery_date'] = deliveryDate == null
+        ? null
+        : "${deliveryDate.year.toString()}-${deliveryDate.month.toString().padLeft(2, '0')}-${deliveryDate.day.toString().padLeft(2, '0')}";
+    map['coupon'] = coupon;
     return map;
   }
 

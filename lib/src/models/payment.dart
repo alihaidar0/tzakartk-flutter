@@ -22,8 +22,8 @@ class Payment {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'status': status,
+      // 'id': id,
+      // 'status': status,
       'method': method,
     };
   }

@@ -66,8 +66,8 @@ class CategoriesCarouselItemWidget extends StatelessWidget {
             margin: EdgeInsetsDirectional.only(start: this.marginLeft, end: 20),
             child: Text(
               Localizations.localeOf(context).languageCode == "en"
-                  ? category.en_name
-                  : category.ar_name,
+                  ? category?.en_name ??''
+                  : category?.ar_name ?? '',
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyText2,
             ),

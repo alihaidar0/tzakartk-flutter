@@ -70,64 +70,70 @@ class _PagesWidgetState extends State<PagesWidget> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: Helper.of(context).onWillPop,
-      child: Scaffold(
-        key: widget.scaffoldKey,
-        drawer: DrawerWidget(),
-        body: widget.currentPage,
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Theme.of(context).accentColor,
-          selectedFontSize: 0,
-          unselectedFontSize: 0,
-          iconSize: 22,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          selectedIconTheme: IconThemeData(size: 28),
-          unselectedItemColor: Theme.of(context).focusColor.withOpacity(1),
-          currentIndex: widget.currentTab,
-          onTap: (int i) {
-            this._selectTab(i);
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(widget.currentTab == 0
-                  ? Icons.notifications
-                  : Icons.notifications_outlined),
-              label: '',
-            ),
-            BottomNavigationBarItem(
+      child: SafeArea(
+        child: Scaffold(
+          key: widget.scaffoldKey,
+          drawer: DrawerWidget(),
+          body: widget.currentPage,
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Theme.of(context).accentColor,
+            selectedFontSize: 0,
+            unselectedFontSize: 0,
+            iconSize: 22,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            selectedIconTheme: IconThemeData(size: 28),
+            unselectedItemColor: Theme.of(context).focusColor.withOpacity(1),
+            currentIndex: widget.currentTab,
+            onTap: (int i) {
+              this._selectTab(i);
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(widget.currentTab == 0
+                    ? Icons.notifications
+                    : Icons.notifications_outlined),
                 label: '',
-                icon: Container(
-                  width: 42,
-                  height: 42,
-                  margin: EdgeInsets.only(bottom: 5),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
+              ),
+              BottomNavigationBarItem(
+                  label: '',
+                  icon: Container(
+                    width: 42,
+                    height: 42,
+                    margin: EdgeInsets.only(bottom: 5),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).accentColor,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(50),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            color:
+                                Theme.of(context).accentColor.withOpacity(0.4),
+                            blurRadius: 40,
+                            offset: Offset(0, 15)),
+                        BoxShadow(
+                            color:
+                                Theme.of(context).accentColor.withOpacity(0.4),
+                            blurRadius: 13,
+                            offset: Offset(0, 3))
+                      ],
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Theme.of(context).accentColor.withOpacity(0.4),
-                          blurRadius: 40,
-                          offset: Offset(0, 15)),
-                      BoxShadow(
-                          color: Theme.of(context).accentColor.withOpacity(0.4),
-                          blurRadius: 13,
-                          offset: Offset(0, 3))
-                    ],
-                  ),
-                  child: new Icon(
-                      widget.currentTab == 1 ? Icons.home : Icons.home_outlined,
-                      color: Theme.of(context).primaryColor),
-                )),
-            BottomNavigationBarItem(
-              icon: new Icon(widget.currentTab == 2
-                  ? Icons.local_mall
-                  : Icons.local_mall_outlined),
-              label: '',
-            ),
-          ],
+                    child: new Icon(
+                        widget.currentTab == 1
+                            ? Icons.home
+                            : Icons.home_outlined,
+                        color: Theme.of(context).primaryColor),
+                  )),
+              BottomNavigationBarItem(
+                icon: new Icon(widget.currentTab == 2
+                    ? Icons.local_mall
+                    : Icons.local_mall_outlined),
+                label: '',
+              ),
+            ],
+          ),
         ),
       ),
     );

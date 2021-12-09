@@ -59,133 +59,135 @@ class OnBoardingScreenState extends StateMVC<OnBoardingScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: Helper.of(context).onWillPop,
-      child: Scaffold(
-        key: _con.scaffoldKey,
-        body: SafeArea(
-          child: _con.onBoardings.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 0),
-                  child: CustomIntroductionScreen(
-                    done: SizedBox(),
-                    onDone: () {},
-                    showNextButton: false,
-                    // freeze: true,
-                    dotsDecorator: getDotDecoration(),
-                    isProgressTap: false,
-                    skipFlex: 0,
-                    nextFlex: 0,
-                    pages: [
-                      _con.onBoardings[0] != null
-                          ? PageViewModel(
-                              title: '',
-                              body: Localizations.localeOf(context)
-                                          .languageCode ==
-                                      'en'
-                                  ? _con.onBoardings[0]?.en_text ?? ''
-                                  : _con.onBoardings[0]?.ar_text ?? '',
-                              image: buildImage(
-                                _con.onBoardings[0].image.url,
+      child: SafeArea(
+        child: Scaffold(
+          key: _con.scaffoldKey,
+          body: SafeArea(
+            child: _con.onBoardings.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 0),
+                    child: CustomIntroductionScreen(
+                      done: SizedBox(),
+                      onDone: () {},
+                      showNextButton: false,
+                      // freeze: true,
+                      dotsDecorator: getDotDecoration(),
+                      isProgressTap: false,
+                      skipFlex: 0,
+                      nextFlex: 0,
+                      pages: [
+                        _con.onBoardings[0] != null
+                            ? PageViewModel(
+                                title: '',
+                                body: Localizations.localeOf(context)
+                                            .languageCode ==
+                                        'en'
+                                    ? _con.onBoardings[0]?.en_text ?? ''
+                                    : _con.onBoardings[0]?.ar_text ?? '',
+                                image: buildImage(
+                                  _con.onBoardings[0].image.url,
+                                ),
+                              )
+                            : PageViewModel(
+                                title: '',
+                                body: '',
+                                image: buildImage(''),
                               ),
-                            )
-                          : PageViewModel(
-                              title: '',
-                              body: '',
-                              image: buildImage(''),
-                            ),
-                      _con.onBoardings[1] != null
-                          ? PageViewModel(
-                              title: '',
-                              body: Localizations.localeOf(context)
-                                          .languageCode ==
-                                      'en'
-                                  ? _con.onBoardings[1]?.en_text ?? ''
-                                  : _con.onBoardings[1]?.ar_text ?? '',
-                              image: buildImage(
-                                _con.onBoardings[1].image.url,
+                        _con.onBoardings[1] != null
+                            ? PageViewModel(
+                                title: '',
+                                body: Localizations.localeOf(context)
+                                            .languageCode ==
+                                        'en'
+                                    ? _con.onBoardings[1]?.en_text ?? ''
+                                    : _con.onBoardings[1]?.ar_text ?? '',
+                                image: buildImage(
+                                  _con.onBoardings[1].image.url,
+                                ),
+                              )
+                            : PageViewModel(
+                                title: '',
+                                body: '',
+                                image: buildImage(''),
                               ),
-                            )
-                          : PageViewModel(
-                              title: '',
-                              body: '',
-                              image: buildImage(''),
-                            ),
-                      _con.onBoardings[2] != null
-                          ? PageViewModel(
-                              title: '',
-                              body: Localizations.localeOf(context)
-                                          .languageCode ==
-                                      'en'
-                                  ? _con.onBoardings[2]?.en_text ?? ''
-                                  : _con.onBoardings[2]?.ar_text ?? '',
-                              image: buildImage(
-                                _con.onBoardings[2].image.url,
+                        _con.onBoardings[2] != null
+                            ? PageViewModel(
+                                title: '',
+                                body: Localizations.localeOf(context)
+                                            .languageCode ==
+                                        'en'
+                                    ? _con.onBoardings[2]?.en_text ?? ''
+                                    : _con.onBoardings[2]?.ar_text ?? '',
+                                image: buildImage(
+                                  _con.onBoardings[2].image.url,
+                                ),
+                              )
+                            : PageViewModel(
+                                title: '',
+                                body: '',
+                                image: buildImage(''),
                               ),
-                            )
-                          : PageViewModel(
-                              title: '',
-                              body: '',
-                              image: buildImage(''),
-                            ),
-                      _con.onBoardings[3] != null
-                          ? PageViewModel(
-                              title: '',
-                              body: Localizations.localeOf(context)
-                                          .languageCode ==
-                                      'en'
-                                  ? _con.onBoardings[3]?.en_text ?? ''
-                                  : _con.onBoardings[3]?.ar_text ?? '',
-                              image: buildImage(
-                                _con.onBoardings[3].image.url,
+                        _con.onBoardings[3] != null
+                            ? PageViewModel(
+                                title: '',
+                                body: Localizations.localeOf(context)
+                                            .languageCode ==
+                                        'en'
+                                    ? _con.onBoardings[3]?.en_text ?? ''
+                                    : _con.onBoardings[3]?.ar_text ?? '',
+                                image: buildImage(
+                                  _con.onBoardings[3].image.url,
+                                ),
+                              )
+                            : PageViewModel(
+                                title: '',
+                                body: '',
+                                image: buildImage(''),
                               ),
-                            )
-                          : PageViewModel(
-                              title: '',
-                              body: '',
-                              image: buildImage(''),
-                            ),
-                      _con.onBoardings[4] != null
-                          ? PageViewModel(
-                              title: '',
-                              body: Localizations.localeOf(context)
-                                          .languageCode ==
-                                      'en'
-                                  ? _con.onBoardings[4]?.en_text ?? ''
-                                  : _con.onBoardings[4]?.ar_text ?? '',
-                              image: buildImage(
-                                _con.onBoardings[4].image.url,
+                        _con.onBoardings[4] != null
+                            ? PageViewModel(
+                                title: '',
+                                body: Localizations.localeOf(context)
+                                            .languageCode ==
+                                        'en'
+                                    ? _con.onBoardings[4]?.en_text ?? ''
+                                    : _con.onBoardings[4]?.ar_text ?? '',
+                                image: buildImage(
+                                  _con.onBoardings[4].image.url,
+                                ),
+                              )
+                            : PageViewModel(
+                                title: '',
+                                body: '',
+                                image: buildImage(''),
                               ),
-                            )
-                          : PageViewModel(
-                              title: '',
-                              body: '',
-                              image: buildImage(''),
-                            ),
-                      _con.onBoardings[5] != null
-                          ? PageViewModel(
-                              title: '',
-                              body: Localizations.localeOf(context)
-                                          .languageCode ==
-                                      'en'
-                                  ? _con.onBoardings[5]?.en_text ?? ''
-                                  : _con.onBoardings[5]?.ar_text ?? '',
-                              image: buildImage(
-                                _con.onBoardings[5].image.url,
+                        _con.onBoardings[5] != null
+                            ? PageViewModel(
+                                title: '',
+                                body: Localizations.localeOf(context)
+                                            .languageCode ==
+                                        'en'
+                                    ? _con.onBoardings[5]?.en_text ?? ''
+                                    : _con.onBoardings[5]?.ar_text ?? '',
+                                image: buildImage(
+                                  _con.onBoardings[5].image.url,
+                                ),
+                              )
+                            : PageViewModel(
+                                title: '',
+                                body: '',
+                                image: buildImage(''),
                               ),
-                            )
-                          : PageViewModel(
-                              title: '',
-                              body: '',
-                              image: buildImage(''),
-                            ),
-                    ],
+                      ],
+                    ),
+                  )
+                : Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).hintColor),
+                    ),
                   ),
-                )
-              : Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).hintColor),
-                  ),
-                ),
+          ),
         ),
       ),
     );

@@ -7,9 +7,8 @@ import '../controllers/cart_controller.dart';
 import '../elements/CartBottomDetailsWidget.dart';
 import '../elements/CartItemWidget.dart';
 import '../elements/EmptyCartWidget.dart';
-import '../helpers/helper.dart';
 import '../models/route_argument.dart';
-import '../repository/settings_repository.dart';
+import '../repository/settings_repository.dart' as settingRepo;
 
 class CartWidget extends StatefulWidget {
   final RouteArgument routeArgument;
@@ -30,30 +29,20 @@ class _CartWidgetState extends StateMVC<CartWidget> {
   @override
   void initState() {
     _con.listenForCarts();
-    _con.calculateCartPrice();
+    _con.calculateCartPrice('');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: Helper.of(context).onWillPop,
+    return SafeArea(
       child: Scaffold(
         key: _con.scaffoldKey,
         bottomNavigationBar: CartBottomDetailsWidget(con: _con),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: IconButton(
-            onPressed: () {
-              if (widget.routeArgument != null) {
-                Navigator.of(context).pushReplacementNamed(
-                    widget.routeArgument.param,
-                    arguments: RouteArgument(id: widget.routeArgument.id));
-              } else {
-                Navigator.of(context)
-                    .pushReplacementNamed('/Pages', arguments: 1);
-              }
-            },
+            onPressed: () => Navigator.pop(context),
             icon: Icon(Icons.arrow_back),
             color: Theme.of(context).hintColor,
           ),
@@ -158,15 +147,15 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                         },
                         cursorColor: Theme.of(context).accentColor,
                         controller: TextEditingController()
-                          ..text = coupon?.code ?? '',
+                          ..text = settingRepo.coupon?.code ?? '',
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 15),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           hintStyle: Theme.of(context).textTheme.bodyText1,
-                          suffixText: coupon?.valid == null
+                          suffixText: settingRepo.coupon?.enabled == null
                               ? ''
-                              : (coupon.valid
+                              : (settingRepo.coupon.enabled
                                   ? S.of(context).validCouponCode
                                   : S.of(context).invalidCouponCode),
                           suffixStyle: Theme.of(context)

@@ -11,6 +11,7 @@ import '../models/order.dart';
 import '../models/order_status.dart';
 import '../models/payment.dart';
 import '../models/user.dart';
+import '../repository/my_client.dart';
 import '../repository/user_repository.dart' as userRepo;
 
 Future<Stream<Order>> getOrders() async {
@@ -18,11 +19,10 @@ Future<Stream<Order>> getOrders() async {
   if (_user.apiToken == null) {
     return new Stream.value(null);
   }
-  final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}orders?${_apiToken}with=user;productOrders;productOrders.product;productOrders.options;orderStatus;payment&search=user.id:${_user.id}&searchFields=user.id:=&orderBy=id&sortedBy=desc';
+      '${GlobalConfiguration().getValue('api_base_url')}orders?with=user;productOrders;productOrders.product;productOrders.options;orderStatus;payment&search=user.id:${_user.id}&searchFields=user.id:=&orderBy=id&sortedBy=desc';
   try {
-    final client = new http.Client();
+    final client = new MyClient();
     final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
     return streamedRest.stream
@@ -44,10 +44,9 @@ Future<Stream<Order>> getOrder(orderId) async {
   if (_user.apiToken == null) {
     return new Stream.value(null);
   }
-  final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}orders/$orderId?${_apiToken}with=user;productOrders;productOrders.product;productOrders.options;orderStatus;deliveryAddress;payment';
-  final client = new http.Client();
+      '${GlobalConfiguration().getValue('api_base_url')}orders/$orderId?with=user;productOrders;productOrders.product;productOrders.options;orderStatus;deliveryAddress;payment';
+  final client = new MyClient();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
   return streamedRest.stream
@@ -64,11 +63,10 @@ Future<Stream<Order>> getRecentOrders() async {
   if (_user.apiToken == null) {
     return new Stream.value(null);
   }
-  final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}orders?${_apiToken}with=user;productOrders;productOrders.product;productOrders.options;orderStatus;payment&search=user.id:${_user.id}&searchFields=user.id:=&orderBy=updated_at&sortedBy=desc&limit=3';
+      '${GlobalConfiguration().getValue('api_base_url')}orders?with=user;productOrders;productOrders.product;productOrders.options;orderStatus;payment&search=user.id:${_user.id}&searchFields=user.id:=&orderBy=updated_at&sortedBy=desc&limit=3';
 
-  final client = new http.Client();
+  final client = new MyClient();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
   return streamedRest.stream
@@ -86,11 +84,10 @@ Future<Stream<OrderStatus>> getOrderStatus() async {
   if (_user.apiToken == null) {
     return new Stream.value(null);
   }
-  final String _apiToken = 'api_token=${_user.apiToken}';
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}order_statuses?$_apiToken';
+      '${GlobalConfiguration().getValue('api_base_url')}order_statuses';
 
-  final client = new http.Client();
+  final client = new MyClient();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
   return streamedRest.stream
@@ -103,28 +100,39 @@ Future<Stream<OrderStatus>> getOrderStatus() async {
   });
 }
 
-Future<Order> addOrder(Order order, Payment payment) async {
+Future<bool> addOrder(Order order, Payment payment) async {
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {
-    return new Order();
+    return false;
   }
   CreditCard _creditCard = await userRepo.getCreditCard();
   order.user = _user;
   order.payment = payment;
-  final String _apiToken = 'api_token=${_user.apiToken}';
-  final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}orders?$_apiToken';
+  final String url = '${GlobalConfiguration().getValue('api_base_url')}orders';
   final client = new http.Client();
   Map params = order.toMap();
   params.addAll(_creditCard.toMap());
-  print("######### url #########");
-  print("${url}");
+  print("######### addOrder #########");
   print("${json.encode(params)}");
   print("##################");
   final response = await client.post(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: '${_user.apiToken}',
+    },
     body: json.encode(params),
   );
-  return Order.fromJSON(json.decode(response.body)['data']);
+  if (response.statusCode == 200) {
+    if (json.decode(response.body)['success'] == true) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    print("######### Exception in addOrder #########");
+    print("##################");
+    print("##################");
+    throw new Exception(response.body);
+  }
 }

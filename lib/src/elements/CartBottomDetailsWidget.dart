@@ -18,7 +18,7 @@ class CartBottomDetailsWidget extends StatelessWidget {
     return _con.carts.isEmpty
         ? SizedBox(height: 0)
         : Container(
-            height: 150,
+            height: 180,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
@@ -64,6 +64,23 @@ class CartBottomDetailsWidget extends StatelessWidget {
                       ),
                       Helper.getPrice(
                         _con.deliveryFee,
+                        context,
+                        style: Theme.of(context).textTheme.subtitle1,
+                        zeroPlaceholder: S.of(context).free,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          S.of(context).couponDiscount,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ),
+                      Helper.getPrice(
+                        _con.couponDiscount,
                         context,
                         style: Theme.of(context).textTheme.subtitle1,
                         zeroPlaceholder: S.of(context).free,

@@ -6,19 +6,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_configuration/global_configuration.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/custom_trace.dart';
-import '../helpers/maps_util.dart';
 import '../models/address.dart';
 import '../models/coupon.dart';
 import '../models/setting.dart';
 
 ValueNotifier<Setting> setting = new ValueNotifier(new Setting());
 ValueNotifier<Address> deliveryAddress = new ValueNotifier(new Address());
+ValueNotifier<DateTime> deliveryDay =
+    new ValueNotifier(new DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day + 2));
 Coupon coupon = new Coupon.fromJSON({});
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -43,7 +42,6 @@ Future<Setting> initSettings() async {
             ? Brightness.dark
             : Brightness.light;
         setting.value = _setting;
-        // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
         setting.notifyListeners();
       }
     } else {
@@ -54,55 +52,6 @@ Future<Setting> initSettings() async {
     return Setting.fromJSON({});
   }
   return setting.value;
-}
-
-Future<dynamic> setCurrentLocation() async {
-  var location = new Location();
-  MapsUtil mapsUtil = new MapsUtil();
-  final whenDone = new Completer();
-  Address _address = new Address();
-  location.requestService().then((value) async {
-    location.getLocation().then((_locationData) async {
-      String _addressName = await mapsUtil.getAddressName(
-          new LatLng(_locationData?.latitude, _locationData?.longitude),
-          setting.value.googleMapsKey);
-      _address = Address.fromJSON({
-        'address': _addressName,
-        'latitude': _locationData?.latitude,
-        'longitude': _locationData?.longitude
-      });
-      await changeCurrentLocation(_address);
-      whenDone.complete(_address);
-    }).timeout(Duration(seconds: 10), onTimeout: () async {
-      await changeCurrentLocation(_address);
-      whenDone.complete(_address);
-      return null;
-    }).catchError((e) {
-      whenDone.complete(_address);
-    });
-  });
-  return whenDone.future;
-}
-
-Future<Address> changeCurrentLocation(Address _address) async {
-  if (!_address.isUnknown()) {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('delivery_address', json.encode(_address.toMap()));
-  }
-  return _address;
-}
-
-Future<Address> getCurrentLocation() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  //await prefs.clear();
-  if (prefs.containsKey('delivery_address')) {
-    deliveryAddress.value =
-        Address.fromJSON(json.decode(prefs.getString('delivery_address')));
-    return deliveryAddress.value;
-  } else {
-    deliveryAddress.value = Address.fromJSON({});
-    return Address.fromJSON({});
-  }
 }
 
 void setBrightness(Brightness brightness) async {

@@ -18,9 +18,6 @@ class CreditCardsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("######### initial creditCard #########");
-    print("${creditCard}");
-    print("##################");
     return Stack(
       alignment: AlignmentDirectional.topCenter,
       children: <Widget>[
@@ -48,9 +45,10 @@ class CreditCardsWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                  color: Theme.of(context).hintColor.withOpacity(0.15),
-                  blurRadius: 20,
-                  offset: Offset(0, 5),),
+                color: Theme.of(context).hintColor.withOpacity(0.15),
+                blurRadius: 20,
+                offset: Offset(0, 5),
+              ),
             ],
           ),
         ),
@@ -63,9 +61,10 @@ class CreditCardsWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                  color: Theme.of(context).hintColor.withOpacity(0.15),
-                  blurRadius: 20,
-                  offset: Offset(0, 5),),
+                color: Theme.of(context).hintColor.withOpacity(0.15),
+                blurRadius: 20,
+                offset: Offset(0, 5),
+              ),
             ],
           ),
           child: Padding(

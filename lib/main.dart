@@ -15,6 +15,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.white, // this one for android
+      statusBarBrightness: Brightness.light// this one for iOS
+  ));
   await GlobalConfiguration().loadFromAsset("configurations");
   print(CustomTrace(StackTrace.current,
       message: "base_url: ${GlobalConfiguration().getValue('base_url')}"));
@@ -33,7 +37,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     settingRepo.initSettings();
-    settingRepo.getCurrentLocation();
     userRepo.getCurrentUser();
     super.initState();
   }

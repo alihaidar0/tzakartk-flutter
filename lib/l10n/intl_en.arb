@@ -21,6 +21,7 @@
   "or_checkout_with": "Or Checkout With",
   "subtotal": "Subtotal",
   "total": "Total",
+  "couponDiscount": "Coupon Discount",
   "confirm_payment": "Confirm Payment",
   "information": "Information",
   "featured_products": "Featured Products",
@@ -206,6 +207,7 @@
   "expiry_date": "EXPIRY DATE",
   "cvv": "CVV",
   "your_credit_card_not_valid": "Your credit card not valid",
+  "your_delivery_day_not_valid": "Your delivery day not valid ",
   "number": "Number",
   "exp_date": "Exp Date",
   "cvc": "CVC",
@@ -274,5 +276,6 @@
   "selectACountryAndACity": "select a country and a city",
   "receiver_name" : "Receiver name",
   "receiver_phone" : "Receiver phone",
-  "upToDate" : "Up to date"
+  "upToDate" : "Up to date",
+  "select_a_delivery_day": "Select a delivery day"
 }

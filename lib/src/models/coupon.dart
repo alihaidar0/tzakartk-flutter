@@ -8,9 +8,6 @@ class Coupon {
   List<Discountable> discountables;
   String discountableId;
   bool enabled;
-
-  bool valid;
-
   Coupon();
 
   Coupon.fromJSON(Map<String, dynamic> jsonMap) {
@@ -27,14 +24,14 @@ class Coupon {
               .map((element) => Discountable.fromJSON(element))
               .toList()
           : [];
-      valid = jsonMap['valid'];
+      enabled = jsonMap['enabled'];
     } catch (e) {
       id = '';
       code = '';
       discount = 0.0;
       discountType = '';
       discountables = [];
-      valid = null;
+      enabled = false;
     }
   }
 
@@ -44,10 +41,9 @@ class Coupon {
     map["code"] = code;
     map["discount"] = discount;
     map["discount_type"] = discountType;
-    map["valid"] = valid;
     map["discountables"] =
         discountables.map((element) => element.toMap()).toList();
-
+    map["enabled"] = enabled;
     return map;
   }
 
@@ -58,4 +54,7 @@ class Coupon {
 
   @override
   int get hashCode => this.id.hashCode;
+
+  @override
+  String toString() =>'code= $code, enabled= $enabled';
 }

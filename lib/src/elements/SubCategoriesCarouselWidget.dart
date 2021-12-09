@@ -28,6 +28,7 @@ class SubCategoriesCarouselWidget extends StatelessWidget {
                   subCategory: this.subCategories.elementAt(index),
                 );
               },
-            ));
+            ),
+          );
   }
 }

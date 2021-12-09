@@ -23,7 +23,8 @@ class OurNewCarouselWidget extends StatelessWidget {
                 double _marginLeft = 0;
                 (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
                 return Container(
-                  margin: EdgeInsetsDirectional.only(start: _marginLeft, end: 20),
+                  margin:
+                      EdgeInsetsDirectional.only(start: _marginLeft, end: 20),
                   height: 170,
                   width: 250,
                   decoration: BoxDecoration(
@@ -48,7 +49,8 @@ class OurNewCarouselWidget extends StatelessWidget {
                         height: 170,
                         width: 250,
                       ),
-                      errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                      errorWidget: (context, url, error) =>
+                          Icon(Icons.error_outline),
                     ),
                   ),
                 );

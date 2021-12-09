@@ -1,42 +1,39 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../helpers/custom_trace.dart';
-import '../helpers/helper.dart';
 import '../models/coupon.dart';
 import '../models/user.dart';
 import '../repository/user_repository.dart' as userRepo;
 
-Future<Stream<Coupon>> verifyCoupon(String code) async {
-  Uri uri = Helper.getUri('api/carts/apply_coupon');
+Future<Coupon> verifyCoupon(String code) async {
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {
-    return new Stream.value(null);
+    return new Coupon.fromJSON({});
   }
-  Map<String, dynamic> query = {
-    'api_token': _user.apiToken,
-    'with': 'discountables',
-    'search': 'code:$code',
-    'searchFields': 'code:=',
-  };
-  uri = uri.replace(queryParameters: query);
-  print(CustomTrace(StackTrace.current, message: uri.toString()).toString());
-  try {
-    final client = new http.Client();
-    final streamedRest = await client.send(http.Request('get', uri));
-    return streamedRest.stream
-        .transform(utf8.decoder)
-        .transform(json.decoder)
-        .map((data) => Helper.getData(data))
-        .expand((data) => (data as List))
-        .map((data) {
-      return Coupon.fromJSON(data);
-    });
-  } catch (e) {
-    print(CustomTrace(StackTrace.current, message: uri.toString()).toString());
-    return new Stream.value(new Coupon.fromJSON({}));
+  Map<String, dynamic> params = {'code': code};
+  final String url =
+      '${GlobalConfiguration().getValue('api_base_url')}carts/apply_coupon';
+  final client = new http.Client();
+  final response = await client.post(
+    url,
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: '${_user.apiToken}',
+    },
+    body: json.encode(params),
+  );
+  if (response.statusCode == 200) {
+    if (json.decode(response.body)['success'] == true) {
+      return Coupon.fromJSON(json.decode(response.body)['data']);
+    } else {
+      return Coupon.fromJSON({'code': code, "enabled": false});
+    }
+  } else {
+    throw new Exception(response.body);
   }
 }
 

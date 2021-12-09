@@ -23,7 +23,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
             onTap: () {
               currentUser.value.apiToken != null
                   ? Navigator.of(context).pushNamed('/Profile')
-                  : Navigator.of(context).pushNamed('/Login');
+                  : Navigator.of(context).pushReplacementNamed('/Login');
             },
             child: currentUser.value.apiToken != null
                 ? UserAccountsDrawerHeader(
@@ -38,44 +38,6 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                       currentUser.value.email,
                       style: Theme.of(context).textTheme.caption,
                     ),
-
-                    /// I HID THIS FOR PROFILE
-                    //       currentAccountPicture: Stack(
-                    //         children: [
-                    //           SizedBox(
-                    //             width: 80,
-                    //             height: 80,
-                    //             child: ClipRRect(
-                    //               borderRadius: BorderRadius.all(Radius.circular(80)),
-                    //               child: CachedNetworkImage(
-                    //                 height: 80,
-                    //                 width: double.infinity,
-                    //                 fit: BoxFit.cover,
-                    //                 imageUrl: currentUser.value.image.thumb,
-                    //                 placeholder: (context, url) => Image.asset(
-                    //                   'assets/img/loading.gif',
-                    //                   fit: BoxFit.cover,
-                    //                   width: double.infinity,
-                    //                   height: 80,
-                    //                 ),
-                    //                 errorWidget: (context, url, error) =>
-                    //                     Icon(Icons.error_outline),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           Positioned(
-                    //             top: 0,
-                    //             right: 0,
-                    //             child: currentUser.value.verifiedPhone ?? false
-                    //                 ? Icon(
-                    //                     Icons.check_circle,
-                    //                     color: Theme.of(context).accentColor,
-                    //                     size: 24,
-                    //                   )
-                    //                 : SizedBox(),
-                    //           )
-                    //         ],
-                    //       ),
                   )
                 : Container(
                     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
@@ -99,7 +61,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                             MaterialButton(
                               elevation: 0,
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/Login');
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/Login');
                               },
                               color: Theme.of(context).accentColor,
                               height: 40,
@@ -130,7 +93,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                                   Theme.of(context).focusColor.withOpacity(0.2),
                               height: 40,
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/SignUp');
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/SignUp');
                               },
                               child: Wrap(
                                 runAlignment: WrapAlignment.center,
@@ -161,7 +125,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 1);
+              Navigator.of(context)
+                  .pushReplacementNamed('/Pages', arguments: 1);
             },
             leading: Icon(
               Icons.home_outlined,
@@ -174,7 +139,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 0);
+              Navigator.of(context)
+                  .pushReplacementNamed('/Pages', arguments: 0);
             },
             leading: Icon(
               Icons.notifications_none_outlined,
@@ -187,7 +153,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 2);
+              Navigator.of(context)
+                  .pushReplacementNamed('/Pages', arguments: 2);
             },
             leading: Icon(
               Icons.local_mall_outlined,
@@ -241,7 +208,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/CountriesAndCities');
+              Navigator.of(context).pushReplacementNamed('/CountriesAndCities');
             },
             leading: Icon(
               Icons.location_city_outlined,
@@ -296,7 +263,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                       arguments: 1);
                 });
               } else {
-                Navigator.of(context).pushNamed('/Login');
+                Navigator.of(context).pushReplacementNamed('/Login');
               }
             },
             leading: Icon(
@@ -313,7 +280,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           currentUser.value.apiToken == null
               ? ListTile(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/SignUp');
+                    Navigator.of(context).pushReplacementNamed('/SignUp');
                   },
                   leading: Icon(
                     Icons.person_add_outlined,

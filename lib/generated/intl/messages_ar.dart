@@ -72,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "countries" : MessageLookupByLibrary.simpleMessage("بلدان"),
     "countriesAndCities" : MessageLookupByLibrary.simpleMessage("البلدان والمدن"),
     "country" : MessageLookupByLibrary.simpleMessage("بلد"),
+    "couponDiscount" : MessageLookupByLibrary.simpleMessage("خصم الكوبون"),
     "current_location" : MessageLookupByLibrary.simpleMessage("الموقع الحالي"),
     "cvc" : MessageLookupByLibrary.simpleMessage("رمز التحقق من البطاقة"),
     "cvv" : MessageLookupByLibrary.simpleMessage("CVV"),
@@ -230,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "search_for_markets_or_products" : MessageLookupByLibrary.simpleMessage("ابحث عن الأسواق أو المنتجات"),
     "search_for_products" : MessageLookupByLibrary.simpleMessage("ابحث عن المنتجات"),
     "selectACountryAndACity" : MessageLookupByLibrary.simpleMessage("اختر بلد ومدينة"),
+    "select_a_delivery_day" : MessageLookupByLibrary.simpleMessage("اختر يوم التسليم"),
     "select_options_to_add_them_on_the_product" : MessageLookupByLibrary.simpleMessage("حدد خيارات لإضافتها على المنتج"),
     "select_your_delivery_address" : MessageLookupByLibrary.simpleMessage("قم باختيار عنوان التسليم الخاص بك"),
     "select_your_preferred_languages" : MessageLookupByLibrary.simpleMessage("حدد لغاتك المفضلة"),
@@ -299,6 +301,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "your_address" : MessageLookupByLibrary.simpleMessage("عنوانك"),
     "your_biography" : MessageLookupByLibrary.simpleMessage("سيرتك الذاتية"),
     "your_credit_card_not_valid" : MessageLookupByLibrary.simpleMessage("بطاقتك الائتمانية غير صالحة"),
+    "your_delivery_day_not_valid" : MessageLookupByLibrary.simpleMessage("تاريخ التسليم غير صالح"),
     "your_order_has_been_successfully_submitted" : MessageLookupByLibrary.simpleMessage("تم تقديم طلبك بنجاح!"),
     "your_reset_link_has_been_sent_to_your_email" : MessageLookupByLibrary.simpleMessage("تم إرسال رابط إعادة تعيين إلى البريد الإلكتروني الخاص بك")
   };

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
-import 'package:tzakartk/src/elements/ProductOrderItemWidget.dart';
 
 import '../../generated/l10n.dart';
+import '../elements/ProductOrderItemWidget.dart';
 import '../helpers/helper.dart';
 import '../models/order.dart';
 import '../models/route_argument.dart';
@@ -12,8 +12,7 @@ class OrderItemWidget extends StatefulWidget {
   final bool expanded;
   final Order order;
 
-  OrderItemWidget({Key key, this.expanded, this.order})
-      : super(key: key);
+  OrderItemWidget({Key key, this.expanded, this.order}) : super(key: key);
 
   @override
   _OrderItemWidgetState createState() => _OrderItemWidgetState();
@@ -102,21 +101,6 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                                   context,
                                   style: Theme.of(context).textTheme.subtitle1,
                                 )
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    '${S.of(context).tax} (${widget.order.tax}%)',
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                ),
-                                Helper.getPrice(
-                                    Helper.getTaxOrder(widget.order), context,
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1)
                               ],
                             ),
                             Row(

@@ -68,18 +68,4 @@ class NotificationController extends ControllerMVC {
       ));
     });
   }
-
-  void doRemoveNotification(model.Notification _notification) async {
-    removeNotification(_notification).then((value) {
-      setState(() {
-        if (!_notification.read) {
-          --unReadNotificationsCount;
-        }
-        this.notifications.remove(_notification);
-      });
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).notificationWasRemoved),
-      ));
-    });
-  }
 }

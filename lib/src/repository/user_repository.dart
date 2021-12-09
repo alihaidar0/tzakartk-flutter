@@ -7,10 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/helper.dart';
+import '../library/globals.dart' as globals;
 import '../models/address.dart';
 import '../models/credit_card.dart';
 import '../models/user.dart' as userModel;
-import '../library/globals.dart' as globals;
+import '../repository/my_client.dart';
 import '../repository/user_repository.dart' as userRepo;
 
 ValueNotifier<userModel.User> currentUser = new ValueNotifier(userModel.User());
@@ -110,7 +111,6 @@ Future<CreditCard> getCreditCard() async {
 
 Future<userModel.User> getCurrentUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //prefs.clear();
   if (currentUser.value.auth == null && prefs.containsKey('current_user')) {
     currentUser.value =
         userModel.User.fromJSON(json.decode(await prefs.get('current_user')));
@@ -118,20 +118,21 @@ Future<userModel.User> getCurrentUser() async {
   } else {
     currentUser.value.auth = false;
   }
-  // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
   currentUser.notifyListeners();
   return currentUser.value;
 }
 
 Future<userModel.User> update(userModel.User user) async {
-  final String _apiToken = 'api_token=${currentUser.value.apiToken}';
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}users/${currentUser.value.id}?$_apiToken';
+      '${GlobalConfiguration().getValue('api_base_url')}users/${currentUser.value.id}';
   final client = new http.Client();
   print(user.toMap());
   final response = await client.post(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: '${currentUser.value.apiToken}',
+    },
     body: json.encode(user.toMap()),
   );
   setCurrentUser(response.body);
@@ -142,11 +143,10 @@ Future<userModel.User> update(userModel.User user) async {
 
 Future<Stream<Address>> getAddresses() async {
   userModel.User _user = currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses?$_apiToken&search=user_id:${_user.id}&searchFields=user_id:=&orderBy=updated_at&sortedBy=desc';
+      '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses?search=user_id:${_user.id}&searchFields=user_id:=&orderBy=updated_at&sortedBy=desc';
   print(url);
-  final client = new http.Client();
+  final client = new MyClient();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
   return streamedRest.stream
@@ -161,16 +161,18 @@ Future<Stream<Address>> getAddresses() async {
 
 Future<Address> addAddress(Address address) async {
   userModel.User _user = userRepo.currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}';
   address.userId = _user.id;
-  if(globals.city != null && globals.city.id!=null)
+  if (globals.city != null && globals.city.id != null)
     address.cityId = globals.city.id;
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses?$_apiToken';
+      '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses';
   final client = new http.Client();
   final response = await client.post(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: '${_user.apiToken}',
+    },
     body: json.encode(address.toMap()),
   );
   return Address.fromJSON(json.decode(response.body)['data']);
@@ -178,14 +180,16 @@ Future<Address> addAddress(Address address) async {
 
 Future<Address> updateAddress(Address address) async {
   userModel.User _user = userRepo.currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}';
   address.userId = _user.id;
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses/${address.id}?$_apiToken';
+      '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses/${address.id}';
   final client = new http.Client();
   final response = await client.put(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: '${_user.apiToken}',
+    },
     body: json.encode(address.toMap()),
   );
   return Address.fromJSON(json.decode(response.body)['data']);
@@ -193,13 +197,15 @@ Future<Address> updateAddress(Address address) async {
 
 Future<Address> removeDeliveryAddress(Address address) async {
   userModel.User _user = userRepo.currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}';
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses/${address.id}?$_apiToken';
+      '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses/${address.id}';
   final client = new http.Client();
   final response = await client.delete(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: '${_user.apiToken}',
+    },
   );
   return Address.fromJSON(json.decode(response.body)['data']);
 }

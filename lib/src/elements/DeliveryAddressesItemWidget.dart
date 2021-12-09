@@ -71,18 +71,27 @@ class DeliveryAddressesItemWidget extends StatelessWidget {
                   width: 70,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
-                    color: (address?.isDefault ?? false) ||
-                            (paymentMethod?.selected ?? false)
+                    border: Border.all(
+                      color: Theme.of(context).accentColor,
+                      width: (address?.isDefault ?? true) ? 3 : 0,
+                    ),
+                    color: (paymentMethod?.selected ?? false)
                         ? Theme.of(context).accentColor
                         : Theme.of(context).focusColor,
                   ),
-                  child: Icon(
-                    (paymentMethod?.selected ?? false)
-                        ? Icons.check
-                        : Icons.place_outlined,
-                    color: Theme.of(context).primaryColor,
-                    size: 38,
-                  ),
+                  child: (paymentMethod?.selected ?? false)
+                      ? Icon(
+                          Icons.check,
+                          color: Theme.of(context).primaryColor,
+                          size: 38,
+                        )
+                      : Icon(
+                          Icons.place_outlined,
+                          color: (address?.isDefault ?? false)
+                              ? Theme.of(context).accentColor
+                              : Theme.of(context).primaryColor,
+                          size: 38,
+                        ),
                 ),
               ],
             ),

@@ -40,10 +40,15 @@ class _ShoppingCartButtonWidgetState
       elevation: 0,
       onPressed: () {
         if (currentUser.value.apiToken != null) {
-          Navigator.of(context).pushNamed('/Cart',
-              arguments: RouteArgument(param: '/Pages', id: '1'));
+          Navigator.of(context).pushNamed(
+            '/Cart',
+            arguments: RouteArgument(param: '/Pages', id: '1'),
+          ).then((value) => _con.listenForCartsCount());
         } else {
-          Navigator.of(context).pushNamed('/Login');
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/Login',
+            (Route<dynamic> route) => false,
+          );
         }
       },
       child: Stack(
