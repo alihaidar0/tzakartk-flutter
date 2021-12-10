@@ -2705,16 +2705,6 @@ class S {
     );
   }
 
-  /// `There are no products`
-  String get thereAreNoProducts {
-    return Intl.message(
-      'There are no products',
-      name: 'thereAreNoProducts',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `There are not faq`
   String get thereAreNotFaq {
     return Intl.message(
@@ -2820,6 +2810,36 @@ class S {
     return Intl.message(
       'Select a delivery day',
       name: 'select_a_delivery_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivery Day`
+  String get delivery_day {
+    return Intl.message(
+      'Delivery Day',
+      name: 'delivery_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no products in this shop`
+  String get thereAreNoProductsInThisShop {
+    return Intl.message(
+      'There are no products in this shop',
+      name: 'thereAreNoProductsInThisShop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `there are no remain items`
+  String get thereAreNoRemainItems {
+    return Intl.message(
+      'there are no remain items',
+      name: 'thereAreNoRemainItems',
       desc: '',
       args: [],
     );

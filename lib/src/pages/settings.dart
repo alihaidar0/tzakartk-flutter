@@ -252,27 +252,6 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                                 ],
                               ),
                             ),
-                            ListTile(
-                              onTap: () {
-                                Navigator.of(context).pushNamed('/Help');
-                              },
-                              dense: true,
-                              title: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.help_outline,
-                                    size: 22,
-                                    color: Theme.of(context).focusColor,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    S.of(context).help_support,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2,
-                                  ),
-                                ],
-                              ),
-                            ),
                           ],
                         ),
                       ),

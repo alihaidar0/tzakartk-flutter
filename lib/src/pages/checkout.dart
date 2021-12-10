@@ -68,14 +68,6 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.headline4,
                               ),
-                              subtitle: Text(
-                                S
-                                    .of(context)
-                                    .select_your_preferred_payment_mode,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.caption,
-                              ),
                             ),
                           ),
                           SizedBox(height: 20),

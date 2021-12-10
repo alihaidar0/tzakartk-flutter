@@ -21,6 +21,8 @@ class CartController extends ControllerMVC {
   double couponDiscount = 0.0;
   int cartCount = 0;
   double taxAmount = 0.0;
+  bool incrementQuantityLoading = false;
+  bool decrementQuantityLoading = false;
 
   GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -109,7 +111,7 @@ class CartController extends ControllerMVC {
       });
     }, onError: (a) {
       print("##################");
-      print("######### Error getCartCount with SnackBar #########");
+      print("######### Error calculateCartPrice with SnackBar #########");
       print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
@@ -136,12 +138,22 @@ class CartController extends ControllerMVC {
   }
 
   incrementQuantity(Cart cart) {
+    // if (cart.quantity <= cart?.product?.packageItemsCount) {
     if (cart.quantity <= 99) {
       ++cart.quantity;
       updateCart(cart).then((value) {
+        if (!value) {
+          --cart.quantity;
+        }
         calculateCartPrice(settingRepo.coupon.code);
       });
       listenForCartsCount();
+    } else {
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S
+            .of(state.context)
+            .thereAreNoRemainItems),
+      ));
     }
   }
 
@@ -149,11 +161,15 @@ class CartController extends ControllerMVC {
     if (cart.quantity > 1) {
       --cart.quantity;
       updateCart(cart).then((value) {
+        if (!value) {
+          ++cart.quantity;
+        }
         calculateCartPrice(settingRepo.coupon.code);
       });
       listenForCartsCount();
     }
   }
+
 
   void goCheckout(BuildContext context) {
     Navigator.of(state.context).pushNamed('/DeliveryPickup');

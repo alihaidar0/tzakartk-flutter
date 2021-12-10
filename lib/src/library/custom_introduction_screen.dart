@@ -138,7 +138,7 @@ class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
   bool _isScrolling = false;
 
   Timer _timer;
-  int _start = 10;
+  int _start = 2;
 
   PageController get controller => _pageController;
 
@@ -148,7 +148,7 @@ class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
     int initialPage = min(widget.initialPage, widget.pages.length - 1);
     _currentPage = initialPage.toDouble();
     _pageController = PageController(initialPage: initialPage);
-    _start = 10;
+    _start = 2;
     startTimer();
   }
 
@@ -169,7 +169,7 @@ class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
           } else {
             next();
             setState(() {
-              _start = 10;
+              _start = 2;
             });
           }
         } else {
@@ -215,7 +215,7 @@ class CustomIntroductionScreenState extends State<CustomIntroductionScreen> {
     if (metrics is PageMetrics) {
       setState(() {
         _currentPage = metrics.page;
-        _start = 10;
+        _start = 2;
       });
     }
     return false;

@@ -35,7 +35,18 @@ class Helper {
   }
 
   static int getIntData(Map<String, dynamic> data) {
-    return (int.parse(data['data'])) ?? 0;
+    if (data['success'] == true) {
+      if (data['data'] == null ||
+          data['data'] == '' ||
+          data['data'] == '0' ||
+          data['data'] == 0) {
+        return 0;
+      } else {
+        return (int.parse(data['data'])) ?? 0;
+      }
+    } else {
+      return 0;
+    }
   }
 
   static bool getBoolData(Map<String, dynamic> data) {

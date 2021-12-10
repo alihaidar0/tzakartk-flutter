@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
@@ -10,7 +9,6 @@ import 'cart_controller.dart';
 
 class DeliveryPickupController extends CartController {
   GlobalKey<ScaffoldState> scaffoldKey;
-  Address deliveryAddress;
   List<Address> addresses = <Address>[];
   PaymentMethodList list;
   DateTime deliveryDay;
@@ -22,21 +20,17 @@ class DeliveryPickupController extends CartController {
     listenForAddresses();
   }
 
-  void listenForDeliveryAddress() async {
-    this.deliveryAddress = settingRepo.deliveryAddress.value;
-  }
-
   void listenForAddresses() async {
     addresses.clear();
     final Stream<Address> stream = await userRepo.getAddresses();
     stream.listen((Address _address) {
       setState(() {
+        if( isSame(_address, settingRepo.deliveryAddress.value)) {
+          _address.selected = true;
+        }
         addresses.add(_address);
       });
     }, onError: (a) {
-      setState(() {
-        listenForDeliveryAddress();
-      });
       print("##################");
       print("######### Error userRepo.getAddresses with SnackBar #########");
       print("##################");
@@ -44,35 +38,29 @@ class DeliveryPickupController extends CartController {
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
       ));
-    }, onDone: () {
-      if (addresses != null && addresses.isNotEmpty) {
-        var contain = addresses.where((element) => element.isDefault == true);
-        if (contain.isNotEmpty && contain != null) {
-          setState(() {
-            this.deliveryAddress = addresses.firstWhere(
-              (element) => element.isDefault == true,
-            );
-            settingRepo.deliveryAddress.value = addresses.firstWhere(
-                  (element) => element.isDefault == true,
-            );
-          });
-        } else {
-          listenForDeliveryAddress();
-        }
-      } else {
-        listenForDeliveryAddress();
-      }
     });
+  }
+
+  bool isSame(Address address_1, Address address_2) {
+    if (address_1.id == address_2.id &&
+        address_1.description == address_2.description &&
+        address_1.address == address_2.address &&
+        address_1.receiver_name == address_2.receiver_name &&
+        address_1.receiver_phone == address_2.receiver_phone &&
+        address_1.cityId == address_2.cityId &&
+        address_1.isDefault == address_2.isDefault &&
+        address_1.userId == address_2.userId)
+      return true;
+    else {
+      return false;
+    }
   }
 
   void addAddress(Address address) {
     userRepo.addAddress(address).then((value) {
-      setState(() {
         listenForAddresses();
-        settingRepo.deliveryAddress.value = value;
-        this.deliveryAddress = value;
-      });
     }).whenComplete(() {
+      listenForAddresses();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).new_address_added_successfully),
       ));
@@ -81,11 +69,9 @@ class DeliveryPickupController extends CartController {
 
   void updateAddress(Address address) {
     userRepo.updateAddress(address).then((value) {
-      setState(() {
-        settingRepo.deliveryAddress.value = value;
-        this.deliveryAddress = value;
-      });
+        listenForAddresses();
     }).whenComplete(() {
+      listenForAddresses();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).the_address_updated_successfully),
       ));
@@ -103,37 +89,31 @@ class DeliveryPickupController extends CartController {
     });
   }
 
-  PaymentMethod getPickUpMethod() {
-    return list.pickupList.elementAt(0);
-  }
-
-  PaymentMethod getDeliveryMethod() {
-    return list.pickupList.elementAt(1);
-  }
-
-  void toggleDelivery() {
-    list.pickupList.forEach((element) {
-      if (element != getDeliveryMethod()) {
-        element.selected = false;
-      }
-    });
+  void toggleDelivery(Address address) {
     setState(() {
-      getDeliveryMethod().selected = !getDeliveryMethod().selected;
+      addresses.forEach((element) {
+        if (element != address) element.selected = false;
+      });
+      address.selected = !address.selected;
+      settingRepo.deliveryAddress.value = address;
     });
   }
 
   PaymentMethod getSelectedMethod() {
-    return list.pickupList.firstWhereOrNull((element) => element.selected);
+    return list.deliveryMethod;
   }
 
   @override
   void goCheckout(BuildContext context) {
-    if (getSelectedMethod() == null) {
+    Address _address = addresses.firstWhere((element) => element.selected == true ,orElse: () => null,);
+    if (_address != null &&
+        settingRepo.deliveryAddress.value != null &&
+        isSame(_address, settingRepo.deliveryAddress.value)) {
+      Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+    } else {
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).select_your_delivery_address),
       ));
-    } else {
-      Navigator.of(state.context).pushNamed(getSelectedMethod().route);
     }
   }
 }

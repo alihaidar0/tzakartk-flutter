@@ -15,9 +15,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Colors.white, // this one for android
-      statusBarBrightness: Brightness.light// this one for iOS
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,// this one for android
+      statusBarBrightness: Brightness.dark// this one for iOS
   ));
   await GlobalConfiguration().loadFromAsset("configurations");
   print(CustomTrace(StackTrace.current,

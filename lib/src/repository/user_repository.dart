@@ -145,7 +145,6 @@ Future<Stream<Address>> getAddresses() async {
   userModel.User _user = currentUser.value;
   final String url =
       '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses?search=user_id:${_user.id}&searchFields=user_id:=&orderBy=updated_at&sortedBy=desc';
-  print(url);
   final client = new MyClient();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 

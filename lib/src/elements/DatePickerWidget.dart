@@ -42,7 +42,6 @@ class DatePickerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 25),
       width: 300,
       height: 50,
       decoration: BoxDecoration(

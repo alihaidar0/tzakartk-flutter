@@ -1,10 +1,10 @@
 import 'package:mvc_pattern/mvc_pattern.dart';
-import '../repository/our_new_repository.dart';
 
 import '../models/category.dart';
 import '../models/sub_category.dart';
 import '../repository/banner_slider_repository.dart';
 import '../repository/category_repository.dart';
+import '../repository/our_new_repository.dart';
 import '../repository/sub_category_repository.dart';
 
 class HomeController extends ControllerMVC {
@@ -52,7 +52,7 @@ class HomeController extends ControllerMVC {
       ourNewSlider.clear();
       final Stream<String> stream = await getOurNew();
       stream.listen(
-            (String _ourNew) {
+        (String _ourNew) {
           setState(() => ourNewSlider.add(_ourNew));
         },
         onError: (a) {

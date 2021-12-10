@@ -119,25 +119,27 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                   ),
                   SizedBox(height: 20),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       MaterialButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          S.of(context).cancel,
-                        ),
-                      ),
-                      MaterialButton(
+                        elevation: 0,
                         onPressed: _submit,
+                        padding: EdgeInsets.symmetric(vertical: 10,horizontal: 18),
+                        color: Theme.of(context).accentColor,
+                        shape: StadiumBorder(),
                         child: Text(
                           S.of(context).save,
-                          style:
-                              TextStyle(color: Theme.of(context).accentColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .merge(
+                            TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
                         ),
                       ),
                     ],
-                    mainAxisAlignment: MainAxisAlignment.end,
                   ),
                   SizedBox(height: 10),
                 ],

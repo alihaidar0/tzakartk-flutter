@@ -19,8 +19,13 @@ class SubCategoriesCarouselItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       highlightColor: Colors.transparent,
       onTap: () {
-        Navigator.of(context).pushReplacementNamed('/Category',
-            arguments: RouteArgument(id: subCategory.id));
+        Navigator.of(context)
+            .pushNamed('/Category',
+                arguments: RouteArgument(id: subCategory.id))
+            .then(
+              (value) => Navigator.of(context)
+                  .pushReplacementNamed('/Pages', arguments: 1),
+            );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,8 +71,8 @@ class SubCategoriesCarouselItemWidget extends StatelessWidget {
             margin: EdgeInsetsDirectional.only(start: this.marginLeft, end: 20),
             child: Text(
               Localizations.localeOf(context).languageCode == "en"
-                  ? subCategory?.en_name ??''
-                  : subCategory?.ar_name??'',
+                  ? subCategory?.en_name ?? ''
+                  : subCategory?.ar_name ?? '',
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyText2,
             ),

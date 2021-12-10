@@ -312,7 +312,7 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                                     24)),
                                                     child: Text(
                                                       _con.product
-                                                              .packageItemsCount +
+                                                              .packageItemsCount.toString() +
                                                           " " +
                                                           S.of(context).items,
                                                       style: Theme.of(context)

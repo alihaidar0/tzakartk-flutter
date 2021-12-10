@@ -8,7 +8,6 @@ import 'src/pages/countries_and_cities.dart';
 import 'src/pages/delivery_addresses.dart';
 import 'src/pages/delivery_pickup.dart';
 import 'src/pages/forget_password.dart';
-import 'src/pages/help.dart';
 import 'src/pages/languages.dart';
 import 'src/pages/login.dart';
 import 'src/pages/on_boarding.dart';
@@ -45,8 +44,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ForgetPasswordWidget());
       case '/Profile':
         return MaterialPageRoute(builder: (_) => ProfileWidget());
-      case '/Help':
-        return MaterialPageRoute(builder: (_) => HelpWidget());
       case '/Settings':
         return MaterialPageRoute(builder: (_) => SettingsWidget());
       case '/DeliveryAddresses':

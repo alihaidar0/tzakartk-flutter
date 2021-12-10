@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
+import '../../generated/l10n.dart';
 import '../controllers/on_boarding_controller.dart';
 import '../helpers/helper.dart';
 import '../library/custom_introduction_screen.dart';
@@ -70,7 +71,7 @@ class OnBoardingScreenState extends StateMVC<OnBoardingScreen> {
                       done: SizedBox(),
                       onDone: () {},
                       showNextButton: false,
-                      // freeze: true,
+                      skip: Text(S.of(context).skip),
                       dotsDecorator: getDotDecoration(),
                       isProgressTap: false,
                       skipFlex: 0,

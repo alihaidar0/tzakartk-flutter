@@ -178,19 +178,6 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Help');
-            },
-            leading: Icon(
-              Icons.help_outline,
-              color: Theme.of(context).focusColor.withOpacity(1),
-            ),
-            title: Text(
-              S.of(context).help__support,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ),
-          ListTile(
-            onTap: () {
               if (currentUser.value.apiToken != null) {
                 Navigator.of(context).pushNamed('/Settings');
               } else {

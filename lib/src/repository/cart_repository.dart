@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/custom_trace.dart';
 import '../helpers/helper.dart';
@@ -93,10 +92,10 @@ Future<Cart> addCart(Cart cart) async {
   return Cart.fromJSON(decodedJSON);
 }
 
-Future<Cart> updateCart(Cart cart) async {
+Future<bool> updateCart(Cart cart) async {
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {
-    return new Cart();
+    return false;
   }
   cart.user_id = _user.id;
   final String url =
@@ -110,7 +109,11 @@ Future<Cart> updateCart(Cart cart) async {
     },
     body: json.encode(cart.toMap()),
   );
-  return Cart.fromJSON(json.decode(response.body)['data']);
+  if(json.decode(response.body)['success'] == true)
+    return true;
+  else{
+    return false;
+  }
 }
 
 Future<bool> removeCart(Cart cart) async {
@@ -130,4 +133,3 @@ Future<bool> removeCart(Cart cart) async {
   );
   return Helper.getBoolData(json.decode(response.body));
 }
-

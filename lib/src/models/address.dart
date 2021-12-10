@@ -10,6 +10,8 @@ class Address {
   bool isDefault;
   String userId;
 
+  bool selected;
+
   Address();
 
   Address.fromJSON(Map<String, dynamic> jsonMap) {
@@ -26,6 +28,7 @@ class Address {
       cityId = jsonMap['city_id'].toString();
       isDefault = jsonMap['is_default'] ?? false;
       userId = jsonMap['user_id'].toString();
+      selected = false;
     } catch (e) {
       print(CustomTrace(StackTrace.current, message: e));
     }
@@ -50,5 +53,5 @@ class Address {
 
   @override
   String toString() =>
-      '$id, $description, $address, $receiver_name, $receiver_phone, $isDefault, $userId';
+      'id= $id, description= $description, address= $address, receiver_name= $receiver_name, receiver_phone= $receiver_phone, cityId= $cityId, isDefault= $isDefault, userId= $userId, selected= $selected';
 }

@@ -86,7 +86,6 @@ Future<Stream<OrderStatus>> getOrderStatus() async {
   }
   final String url =
       '${GlobalConfiguration().getValue('api_base_url')}order_statuses';
-
   final client = new MyClient();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 

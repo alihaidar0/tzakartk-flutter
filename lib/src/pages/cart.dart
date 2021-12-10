@@ -105,17 +105,18 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                               cart: _con.carts.elementAt(index),
                               heroTag: 'cart',
                               increment: () {
-                                _con.incrementQuantity(
-                                    _con.carts.elementAt(index));
+                                  _con.incrementQuantity(
+                                      _con.carts.elementAt(index));
                               },
                               decrement: () {
-                                if (_con.carts.elementAt(index).quantity <= 1) {
-                                  _con.removeFromCart(
-                                      _con.carts.elementAt(index));
-                                } else {
-                                  _con.decrementQuantity(
-                                      _con.carts.elementAt(index));
-                                }
+                                  if (_con.carts.elementAt(index).quantity <=
+                                      1) {
+                                    _con.removeFromCart(
+                                        _con.carts.elementAt(index));
+                                  } else {
+                                    _con.decrementQuantity(
+                                        _con.carts.elementAt(index));
+                                  }
                               },
                               onDismissed: () {
                                 _con.removeFromCart(

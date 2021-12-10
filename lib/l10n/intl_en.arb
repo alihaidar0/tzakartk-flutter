@@ -266,7 +266,6 @@
   "pleaseSelectACity": "Please select a city",
   "pleaseSelectACityFromCitiesDropdown": "Please select a city from cities dropdown",
   "pleaseSelectACountry": "Please select a Country",
-  "thereAreNoProducts": "There are no products",
   "thereAreNotFaq": "There are not faq",
   "shops": "Shops",
   "pleaseSelectACategoryFromProductCategoriesSlid": "Please select a category from product categories slide",
@@ -277,5 +276,8 @@
   "receiver_name" : "Receiver name",
   "receiver_phone" : "Receiver phone",
   "upToDate" : "Up to date",
-  "select_a_delivery_day": "Select a delivery day"
+  "select_a_delivery_day": "Select a delivery day",
+  "delivery_day": "Delivery Day",
+  "thereAreNoProductsInThisShop": "There are no products in this shop",
+  "thereAreNoRemainItems": "there are no remain items"
 }

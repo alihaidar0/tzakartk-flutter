@@ -8,7 +8,7 @@ class Product {
   double price;
   double discountPrice;
   String capacity;
-  String packageItemsCount;
+  double packageItemsCount;
   String unit;
   bool featured;
   String category_id;
@@ -33,7 +33,9 @@ class Product {
           ? jsonMap['discount_price'].toDouble()
           : 0.0;
       capacity = jsonMap['capacity'].toString();
-      packageItemsCount = jsonMap['package_items_count'].toString();
+      packageItemsCount = jsonMap['package_items_count'] != null
+          ? jsonMap['package_items_count'].toDouble()
+          : 0.0;
       unit = jsonMap['unit'] != null ? jsonMap['unit'].toString() : '';
       featured = jsonMap['featured'] ?? false;
       category_id = jsonMap['category_id'].toString();
@@ -75,7 +77,7 @@ class Product {
       price = 0.0;
       discountPrice = 0.0;
       capacity = '';
-      packageItemsCount = '';
+      packageItemsCount = 0.0;
       unit = '';
       featured = false;
       category_id = '';

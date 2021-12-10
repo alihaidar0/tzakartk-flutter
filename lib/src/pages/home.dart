@@ -25,7 +25,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   HomeController _con;
   City _selectedCity;
   String _selectedCategoryId;
-  bool _refreshed = true;
 
   _HomeWidgetState() : super(HomeController()) {
     _con = controller;
@@ -85,13 +84,12 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
               );
             },
           ),
-          actions: _refreshed
-              ? <Widget>[
-                  new ShoppingCartButtonWidget(
-                      iconColor: Theme.of(context).hintColor,
-                      labelColor: Theme.of(context).accentColor),
-                ]
-              : <Widget>[],
+          actions: <Widget>[
+            new ShoppingCartButtonWidget(
+              iconColor: Theme.of(context).hintColor,
+              labelColor: Theme.of(context).accentColor,
+            ),
+          ],
         ),
         body: RefreshIndicator(
           onRefresh: _refreshHome,

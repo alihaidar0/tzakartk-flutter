@@ -223,7 +223,7 @@
   "details": "تفاصيل",
   "canceled": "ألغيت",
   "cancelOrder": "الغاء الطلب",
-  "view": "رأي",
+  "view": "عرض",
   "yes": "نعم",
   "areYouSureYouWantToCancelThisOrder": "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟",
   "orderThisOrderIdHasBeenCanceled": "الطلب: #{id} تم إلغاءه ",
@@ -266,7 +266,6 @@
   "pleaseSelectACity": "الرجاء اختيار مدينة",
   "pleaseSelectACityFromCitiesDropdown": "الرجاء اختيار مدينة من قائمة المدن",
   "pleaseSelectACountry": "الرجاء اختيار بلد",
-  "thereAreNoProducts": "لا يوجد منتجات",
   "thereAreNotFaq": "لا يوجد تعليمات",
   "shops": "متاجر",
   "pleaseSelectACategoryFromProductCategoriesSlid": "الرجاء اختيار مئة من فئات المنتجات",
@@ -277,5 +276,8 @@
   "receiver_name" : "اسم المتلقي",
   "receiver_phone" : "رقم هاتف المتلقي",
   "upToDate" : "جديدنا",
-  "select_a_delivery_day": "اختر يوم التسليم"
+  "select_a_delivery_day": "اختر يوم التسليم",
+  "delivery_day": "يوم التسليم",
+  "thereAreNoProductsInThisShop": "لا يوجد منتجات بهذا المتجر",
+  "thereAreNoRemainItems": "لم يتبقى منتجات"
 }
