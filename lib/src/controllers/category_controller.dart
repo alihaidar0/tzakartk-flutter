@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
-import '../models/cart.dart';
 import '../models/category.dart';
+import '../models/option.dart';
 import '../models/product.dart';
-import '../repository/cart_repository.dart';
 import '../repository/category_repository.dart';
 import '../repository/product_repository.dart';
 
@@ -14,7 +13,6 @@ class CategoryController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
   Category category;
   bool loadCart = false;
-  List<Cart> carts = [];
 
   CategoryController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -24,6 +22,21 @@ class CategoryController extends ControllerMVC {
     final Stream<Product> stream = await getProductsByCategory(id);
     stream.listen((Product _product) {
       setState(() {
+        if (_product.optionGroups.length > 0 && _product.options.length > 0) {
+          _product.optionGroups.forEach((element) {
+            Option _option = _product.options.firstWhere(
+              (option) {
+                return option.optionGroupId == element.id;
+              },
+              orElse: () => null,
+            );
+            if (_option != null) {
+              _product.options.forEach((element) {
+                if (element.id == _option.id) element.checked = true;
+              });
+            }
+          });
+        }
         products.add(_product);
       });
     }, onError: (a) {
@@ -61,54 +74,5 @@ class CategoryController extends ControllerMVC {
         ));
       }
     });
-  }
-
-  void listenForCart() async {
-    carts.clear();
-    final Stream<Cart> stream = await getCart();
-    stream.listen((Cart _cart) {
-      carts.add(_cart);
-    });
-  }
-
-  void addToCart(Product product) async {
-    setState(() {
-      this.loadCart = true;
-    });
-    var _newCart = new Cart();
-    _newCart.product = product;
-    _newCart.options = [];
-    _newCart.quantity = 1;
-    // if product exist in the cart then increment quantity
-    var _oldCart = isExistInCart(_newCart);
-    if (_oldCart != null) {
-      _oldCart.quantity++;
-      updateCart(_oldCart).then((value) {
-        setState(() {
-          this.loadCart = false;
-        });
-      }).whenComplete(() {
-        ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-          content: Text(S.of(state.context).this_product_was_added_to_cart),
-        ));
-      });
-    } else {
-      // the product doesnt exist in the cart add new one
-      listenForCart();
-      addCart(_newCart).then((value) {
-        setState(() {
-          this.loadCart = false;
-        });
-      }).whenComplete(() {
-        ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-          content: Text(S.of(state.context).this_product_was_added_to_cart),
-        ));
-      });
-    }
-  }
-
-  Cart isExistInCart(Cart _cart) {
-    return carts.firstWhere((Cart oldCart) => _cart.isSame(oldCart),
-        orElse: () => null);
   }
 }

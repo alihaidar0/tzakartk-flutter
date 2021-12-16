@@ -8,8 +8,9 @@ import '../models/route_argument.dart';
 class ProductListItemWidget extends StatelessWidget {
   String heroTag;
   Product product;
+  final Function(RouteArgument) onTap;
 
-  ProductListItemWidget({Key key, this.heroTag, this.product})
+  ProductListItemWidget({Key key, this.heroTag, this.product, @required this.onTap})
       : super(key: key);
 
   @override
@@ -19,9 +20,8 @@ class ProductListItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed('/Product',
-            arguments:
-                new RouteArgument(heroTag: this.heroTag, id: this.product.id));
+        this.onTap (new RouteArgument(
+            heroTag: this.heroTag, id: this.product.id));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),

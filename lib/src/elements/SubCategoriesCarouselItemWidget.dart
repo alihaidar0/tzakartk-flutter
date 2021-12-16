@@ -19,13 +19,8 @@ class SubCategoriesCarouselItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       highlightColor: Colors.transparent,
       onTap: () {
-        Navigator.of(context)
-            .pushNamed('/Category',
-                arguments: RouteArgument(id: subCategory.id))
-            .then(
-              (value) => Navigator.of(context)
-                  .pushReplacementNamed('/Pages', arguments: 1),
-            );
+        Navigator.of(context).pushNamed('/Category',
+            arguments: RouteArgument(id: subCategory.id));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

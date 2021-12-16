@@ -279,5 +279,6 @@
   "select_a_delivery_day": "Select a delivery day",
   "delivery_day": "Delivery Day",
   "thereAreNoProductsInThisShop": "There are no products in this shop",
-  "thereAreNoRemainItems": "there are no remain items"
+  "thereAreNoRemainItems": "there are no remain items",
+  "createdAt": "created at"
 }

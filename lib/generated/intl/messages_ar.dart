@@ -73,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "countriesAndCities" : MessageLookupByLibrary.simpleMessage("البلدان والمدن"),
     "country" : MessageLookupByLibrary.simpleMessage("بلد"),
     "couponDiscount" : MessageLookupByLibrary.simpleMessage("خصم الكوبون"),
+    "createdAt" : MessageLookupByLibrary.simpleMessage("وقت الانشاء"),
     "current_location" : MessageLookupByLibrary.simpleMessage("الموقع الحالي"),
     "cvc" : MessageLookupByLibrary.simpleMessage("رمز التحقق من البطاقة"),
     "cvv" : MessageLookupByLibrary.simpleMessage("CVV"),

@@ -3,6 +3,7 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
 import '../models/cart.dart';
+import '../models/option.dart';
 import '../models/product.dart';
 import '../repository/cart_repository.dart';
 import '../repository/product_repository.dart';
@@ -23,7 +24,24 @@ class ProductController extends ControllerMVC {
   void listenForProduct({String productId, String message}) async {
     final Stream<Product> stream = await getProduct(productId);
     stream.listen((Product _product) {
-      setState(() => product = _product);
+      setState(() {
+        if (_product.optionGroups.length > 0 && _product.options.length > 0) {
+          _product.optionGroups.forEach((element) {
+            Option _option = _product.options.firstWhere(
+              (option) {
+                return option.optionGroupId == element.id;
+              },
+              orElse: () => null,
+            );
+            if (_option != null) {
+              _product.options.forEach((element) {
+                if (element.id == _option.id) element.checked = true;
+              });
+            }
+          });
+        }
+        product = _product;
+      });
     }, onError: (a) {
       print("##################");
       print("######### Error getProduct with SnackBar #########");

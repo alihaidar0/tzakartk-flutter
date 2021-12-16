@@ -20,7 +20,7 @@ Future<Stream<Order>> getOrders() async {
     return new Stream.value(null);
   }
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}orders?with=user;productOrders;productOrders.product;productOrders.options;orderStatus;payment&search=user.id:${_user.id}&searchFields=user.id:=&orderBy=id&sortedBy=desc';
+      '${GlobalConfiguration().getValue('api_base_url')}orders?with=productOrders;productOrders.product;productOrders.options;orderStatus;payment&search=user.id:${_user.id}&searchFields=user.id:=&orderBy=id&sortedBy=desc';
   try {
     final client = new MyClient();
     final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -45,7 +45,7 @@ Future<Stream<Order>> getOrder(orderId) async {
     return new Stream.value(null);
   }
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}orders/$orderId?with=user;productOrders;productOrders.product;productOrders.options;orderStatus;deliveryAddress;payment';
+      '${GlobalConfiguration().getValue('api_base_url')}orders/$orderId?with=productOrders;productOrders.product;productOrders.options;orderStatus;deliveryAddress;payment';
   final client = new MyClient();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
@@ -64,7 +64,7 @@ Future<Stream<Order>> getRecentOrders() async {
     return new Stream.value(null);
   }
   final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}orders?with=user;productOrders;productOrders.product;productOrders.options;orderStatus;payment&search=user.id:${_user.id}&searchFields=user.id:=&orderBy=updated_at&sortedBy=desc&limit=3';
+      '${GlobalConfiguration().getValue('api_base_url')}orders?with=productOrders;productOrders.product;productOrders.options;orderStatus;payment&search=user.id:${_user.id}&searchFields=user.id:=&orderBy=updated_at&sortedBy=desc&limit=3';
 
   final client = new MyClient();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -99,13 +99,33 @@ Future<Stream<OrderStatus>> getOrderStatus() async {
   });
 }
 
+Future<Stream<OrderStatus>> getOrderTrack(orderId) async {
+  User _user = userRepo.currentUser.value;
+  if (_user.apiToken == null) {
+    return new Stream.value(null);
+  }
+  final String url =
+      '${GlobalConfiguration().getValue('api_base_url')}orders/track/$orderId';
+  final client = new MyClient();
+  final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
+
+  return streamedRest.stream
+      .transform(utf8.decoder)
+      .transform(json.decoder)
+      .map((data) => Helper.getData(data))
+      .expand((data) => (data as List))
+      .map((data) {
+    return OrderStatus.fromJSON(data);
+  });
+}
+
 Future<bool> addOrder(Order order, Payment payment) async {
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {
     return false;
   }
   CreditCard _creditCard = await userRepo.getCreditCard();
-  order.user = _user;
+  order.userId = _user.id;
   order.payment = payment;
   final String url = '${GlobalConfiguration().getValue('api_base_url')}orders';
   final client = new http.Client();

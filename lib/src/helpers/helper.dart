@@ -231,40 +231,6 @@ class Helper {
     return distance != null ? distance.toStringAsFixed(2) + " " + unit : "";
   }
 
-  /// I HID THIS FOR MARKET
-  // static bool canDelivery(Market _market, {List<Cart> carts}) {
-  //   bool _can = true;
-  //   String _unit = setting.value.distanceUnit;
-  //   double _deliveryRange = _market.deliveryRange;
-  //   double _distance = _market.distance;
-  //   carts?.forEach((Cart _cart) {
-  //     /// I HID THIS ""START""
-  //     // _can &= _cart.product.deliverable;
-  //     /// I HID THIS ""END""
-  //   });
-  //
-  //   if (_unit == 'km') {
-  //     _deliveryRange /= 1.60934;
-  //   }
-  //   if (_distance == 0 && !deliveryAddress.value.isUnknown()) {
-  //     _distance = sqrt(pow(
-  //             69.1 *
-  //                 (double.parse(_market.latitude) -
-  //                     deliveryAddress.value.latitude),
-  //             2) +
-  //         pow(
-  //             69.1 *
-  //                 (deliveryAddress.value.longitude -
-  //                     double.parse(_market.longitude)) *
-  //                 cos(double.parse(_market.latitude) / 57.3),
-  //             2));
-  //   }
-  //   _can &= _market.availableForDelivery &&
-  //       (_distance < _deliveryRange) &&
-  //       !deliveryAddress.value.isUnknown();
-  //   return _can;
-  // }
-
   static String skipHtml(String htmlString) {
     try {
       var document = parse(htmlString);

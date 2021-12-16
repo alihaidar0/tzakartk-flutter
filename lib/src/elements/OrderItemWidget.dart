@@ -25,7 +25,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
     return Stack(
       children: <Widget>[
         Opacity(
-          opacity: widget.order.active ? 1 : 0.4,
+          opacity: widget.order.orderStatus.flag != 2 ? 1 : 0.4,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
@@ -46,23 +46,43 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                   child: ExpansionTile(
                     initiallyExpanded: widget.expanded,
                     title: Column(
-                      children: <Widget>[
-                        Text('${S.of(context).order_id}: #${widget.order.id}'),
-                        Text(
-                          DateFormat('dd-MM-yyyy | HH:mm')
-                              .format(widget.order.dateTime),
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                      ],
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('${S.of(context).order_id}: #${widget.order.id}'),
+                        Row(
+                          children: [
+                            Text(
+                              S.of(context).createdAt + ': ',
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                            Text(
+                              DateFormat('dd-MM-yyyy | HH:mm')
+                                  .format(widget.order.dateTime),
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              S.of(context).delivery_day + ': ',
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                            Text(
+                              DateFormat('dd-MM-yyyy')
+                                  .format(widget.order.deliveryDate),
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     trailing: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Helper.getPrice(
-                            Helper.getTotalOrdersPrice(widget.order), context,
+                        Helper.getPrice(widget.order.payment.price, context,
                             style: Theme.of(context).textTheme.headline4),
                         Text(
                           '${widget.order.payment.method}',
@@ -72,56 +92,17 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                     ),
                     children: <Widget>[
                       Column(
-                          children: List.generate(
-                        widget.order.productOrders.length,
-                        (indexProduct) {
-                          return ProductOrderItemWidget(
-                              heroTag: 'mywidget.orders',
-                              order: widget.order,
-                              productOrder: widget.order.productOrders
-                                  .elementAt(indexProduct));
-                        },
-                      )),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    S.of(context).delivery_fee,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                ),
-                                Helper.getPrice(
-                                  widget.order.deliveryFee,
-                                  context,
-                                  style: Theme.of(context).textTheme.subtitle1,
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    S.of(context).total,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                ),
-                                Helper.getPrice(
-                                    Helper.getTotalOrdersPrice(widget.order),
-                                    context,
-                                    style:
-                                        Theme.of(context).textTheme.headline4)
-                              ],
-                            ),
-                          ],
+                        children: List.generate(
+                          widget.order.productOrders.length,
+                          (indexProduct) {
+                            return ProductOrderItemWidget(
+                                heroTag: 'mywidget.orders',
+                                order: widget.order,
+                                productOrder: widget.order.productOrders
+                                    .elementAt(indexProduct));
+                          },
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -155,14 +136,14 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           width: 140,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(100)),
-              color: widget.order.active
+              color: widget.order.orderStatus.flag != 2
                   ? Theme.of(context).accentColor
-                  : Colors.redAccent),
+                  : Colors.redAccent,),
           alignment: AlignmentDirectional.center,
           child: Text(
-            widget.order.active
-                ? '${widget.order.orderStatus.status}'
-                : S.of(context).canceled,
+            Localizations.localeOf(context).languageCode == 'en'?
+            widget.order.orderStatus.status:
+            widget.order.orderStatus.ar_status,
             maxLines: 1,
             overflow: TextOverflow.fade,
             softWrap: false,

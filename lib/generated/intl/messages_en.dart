@@ -73,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "countriesAndCities" : MessageLookupByLibrary.simpleMessage("Countries And Cities"),
     "country" : MessageLookupByLibrary.simpleMessage("Country"),
     "couponDiscount" : MessageLookupByLibrary.simpleMessage("Coupon Discount"),
+    "createdAt" : MessageLookupByLibrary.simpleMessage("created at"),
     "current_location" : MessageLookupByLibrary.simpleMessage("Current location"),
     "cvc" : MessageLookupByLibrary.simpleMessage("CVC"),
     "cvv" : MessageLookupByLibrary.simpleMessage("CVV"),

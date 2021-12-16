@@ -32,7 +32,7 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
 
   @override
   void initState() {
-    _con.listenForOrder(orderId: widget.routeArgument.id);
+    _con.listenForOrder(widget.routeArgument.id);
     _tabController =
         TabController(length: 2, initialIndex: _tabIndex, vsync: this);
     _tabController.addListener(_handleTabSelection);
@@ -58,7 +58,8 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
     return SafeArea(
       child: Scaffold(
         key: _con.scaffoldKey,
-        body: _con.order == null || _con.orderStatus.isEmpty
+        // body: _con.order == null || _con.orderStatus.isEmpty
+        body: _con.order == null || _con.orderTrack.isEmpty
             ? CircularLoadingWidget(height: 400)
             : CustomScrollView(
                 slivers: <Widget>[
@@ -135,7 +136,9 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                               alignment: AlignmentDirectional.topCenter,
                               children: <Widget>[
                                 Opacity(
-                                  opacity: _con.order.active ? 1 : 0.4,
+                                  opacity: _con.order.orderStatus.flag != 2
+                                      ? 1
+                                      : 0.4,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
@@ -164,14 +167,46 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                               children: <Widget>[
                                                 Text(
                                                     '${S.of(context).order_id}: #${_con.order.id}'),
-                                                Text(
-                                                  DateFormat(
-                                                          'dd-MM-yyyy | HH:mm')
-                                                      .format(
-                                                          _con.order.dateTime),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .caption,
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      S.of(context).createdAt +
+                                                          ': ',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .caption,
+                                                    ),
+                                                    Text(
+                                                      DateFormat(
+                                                              'dd-MM-yyyy | HH:mm')
+                                                          .format(_con
+                                                              .order.dateTime),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .caption,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      S
+                                                              .of(context)
+                                                              .delivery_day +
+                                                          ': ',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .caption,
+                                                    ),
+                                                    Text(
+                                                      DateFormat('dd-MM-yyyy')
+                                                          .format(_con.order
+                                                              .deliveryDate),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .caption,
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                               crossAxisAlignment:
@@ -186,8 +221,7 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                                   MainAxisAlignment.center,
                                               children: <Widget>[
                                                 Helper.getPrice(
-                                                    Helper.getTotalOrdersPrice(
-                                                        _con.order),
+                                                    _con.order.payment.price,
                                                     context,
                                                     style: Theme.of(context)
                                                         .textTheme
@@ -217,6 +251,84 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                                   },
                                                 ),
                                               ),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10,
+                                                    horizontal: 20),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Expanded(
+                                                          child: Text(
+                                                            S
+                                                                .of(context)
+                                                                .delivery_fee,
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText1,
+                                                          ),
+                                                        ),
+                                                        Helper.getPrice(
+                                                          _con.order
+                                                              .deliveryFee,
+                                                          context,
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .subtitle1,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Expanded(
+                                                          child: Text(
+                                                            S
+                                                                .of(context)
+                                                                .couponDiscount,
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText1,
+                                                          ),
+                                                        ),
+                                                        Helper.getPrice(
+                                                          _con.order
+                                                              .couponDiscount,
+                                                          context,
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .subtitle1,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Expanded(
+                                                          child: Text(
+                                                            S.of(context).total,
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText1,
+                                                          ),
+                                                        ),
+                                                        Helper.getPrice(
+                                                            _con.order.payment
+                                                                .price,
+                                                            context,
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .headline4)
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -231,14 +343,16 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(100)),
-                                      color: _con.order.active
+                                      color: _con.order.orderStatus.flag != 2
                                           ? Theme.of(context).accentColor
                                           : Colors.redAccent),
                                   alignment: AlignmentDirectional.center,
                                   child: Text(
-                                    _con.order.active
-                                        ? '${_con.order.orderStatus.status}'
-                                        : S.of(context).canceled,
+                                    Localizations.localeOf(context)
+                                                .languageCode ==
+                                            'en'
+                                        ? _con.order.orderStatus.status
+                                        : _con.order.orderStatus.ar_status,
                                     maxLines: 1,
                                     overflow: TextOverflow.fade,
                                     softWrap: false,
@@ -276,10 +390,9 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                       return SizedBox(height: 0);
                                     },
                                     steps: _con.getTrackingSteps(context),
-                                    currentStep: int.tryParse(
-                                          this._con.order.orderStatus.id,
-                                        ) -
-                                        1,
+                                    currentStep:
+                                        _con.getTrackingSteps(context).length -
+                                            1,
                                   ),
                                 ),
                               ),
@@ -295,8 +408,8 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                             MainAxisAlignment.start,
                                         children: <Widget>[
                                           Container(
-                                            height: 55,
-                                            width: 55,
+                                            height: 70,
+                                            width: 70,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(5)),
@@ -337,6 +450,28 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 3,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .caption,
+                                                ),
+                                                Text(
+                                                  _con.order.deliveryAddress
+                                                          ?.receiver_name ??
+                                                      S.of(context).unknown,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .caption,
+                                                ),
+                                                Text(
+                                                  _con.order.deliveryAddress
+                                                          ?.receiver_phone ??
+                                                      S.of(context).unknown,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .caption,

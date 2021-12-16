@@ -279,5 +279,6 @@
   "select_a_delivery_day": "اختر يوم التسليم",
   "delivery_day": "يوم التسليم",
   "thereAreNoProductsInThisShop": "لا يوجد منتجات بهذا المتجر",
-  "thereAreNoRemainItems": "لم يتبقى منتجات"
+  "thereAreNoRemainItems": "لم يتبقى منتجات",
+  "createdAt": "وقت الانشاء"
 }

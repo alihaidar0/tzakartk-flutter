@@ -2844,6 +2844,16 @@ class S {
       args: [],
     );
   }
+
+  /// `created at`
+  String get createdAt {
+    return Intl.message(
+      'created at',
+      name: 'createdAt',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

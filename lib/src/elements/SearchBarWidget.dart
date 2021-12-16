@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
-import '../elements/SearchWidget.dart';
 
 class SearchBarWidget extends StatelessWidget {
-  final String categoryId;
+  final VoidCallback onTap;
 
-  const SearchBarWidget({Key key, this.categoryId}) : super(key: key);
+  const SearchBarWidget({Key key, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context).push(SearchModal(this.categoryId));
-      },
+      onTap: this.onTap,
+          // () {
+        // Navigator.of(context).push(SearchModal(this.categoryId));
+      // },
       child: Container(
         padding: EdgeInsets.all(9),
         decoration: BoxDecoration(

@@ -2,21 +2,25 @@ import '../models/address.dart';
 import '../models/order_status.dart';
 import '../models/payment.dart';
 import '../models/product_order.dart';
-import '../models/user.dart';
 
 class Order {
   String id;
-  List<ProductOrder> productOrders;
-  OrderStatus orderStatus;
+  String userId;
+  String orderStatusId;
   double tax;
   double deliveryFee;
   String hint;
-  bool active;
+  String deliveryAddressId;
+  String paymentId;
+  String couponId;
   DateTime dateTime;
   DateTime deliveryDate;
-  User user;
+  double couponDiscount;
+  OrderStatus orderStatus;
   Payment payment;
   Address deliveryAddress;
+  List<ProductOrder> productOrders;
+
   String coupon;
 
   Order();
@@ -24,25 +28,30 @@ class Order {
   Order.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
+      userId = jsonMap['userId'].toString();
+      orderStatusId = jsonMap['orderStatusId'].toString();
       tax = jsonMap['tax'] != null ? jsonMap['tax'].toDouble() : 0.0;
       deliveryFee = jsonMap['delivery_fee'] != null
           ? jsonMap['delivery_fee'].toDouble()
           : 0.0;
       hint = jsonMap['hint'] != null ? jsonMap['hint'].toString() : '';
-      active = jsonMap['active'] ?? false;
+      deliveryAddressId = jsonMap['delivery_address_id'].toString();
+      paymentId = jsonMap['payment_id'].toString();
+      couponId = jsonMap['coupon_id'].toString();
+      dateTime = DateTime.parse(jsonMap['updated_at']);
+      deliveryDate = DateTime.parse(jsonMap['delivery_date']);
+      couponDiscount = jsonMap['coupon_discount'] != null
+          ? jsonMap['coupon_discount'].toDouble()
+          : 0.0;
       orderStatus = jsonMap['order_status'] != null
           ? OrderStatus.fromJSON(jsonMap['order_status'])
           : OrderStatus.fromJSON({});
-      dateTime = DateTime.parse(jsonMap['updated_at']);
-      user = jsonMap['user'] != null
-          ? User.fromJSON(jsonMap['user'])
-          : User.fromJSON({});
-      deliveryAddress = jsonMap['delivery_address'] != null
-          ? Address.fromJSON(jsonMap['delivery_address'])
-          : Address.fromJSON({});
       payment = jsonMap['payment'] != null
           ? Payment.fromJSON(jsonMap['payment'])
           : Payment.fromJSON({});
+      deliveryAddress = jsonMap['delivery_address'] != null
+          ? Address.fromJSON(jsonMap['delivery_address'])
+          : Address.fromJSON({});
       productOrders = jsonMap['product_orders'] != null
           ? List.from(jsonMap['product_orders'])
               .map((element) => ProductOrder.fromJSON(element))
@@ -50,23 +59,29 @@ class Order {
           : [];
     } catch (e) {
       id = '';
+      userId = '';
+      orderStatusId = '';
       tax = 0.0;
       deliveryFee = 0.0;
       hint = '';
-      active = false;
-      orderStatus = OrderStatus.fromJSON({});
+      deliveryAddressId = '';
+      paymentId = '';
+      couponId = '';
       dateTime = DateTime(0);
-      user = User.fromJSON({});
+      deliveryDate = DateTime(0);
+      couponDiscount = 0.0;
+      orderStatus = OrderStatus.fromJSON({});
       payment = Payment.fromJSON({});
       deliveryAddress = Address.fromJSON({});
       productOrders = [];
       print(jsonMap);
+      print(e);
     }
   }
 
   Map toMap() {
     var map = new Map<String, dynamic>();
-    map["user_id"] = user?.id;
+    map["user_id"] = userId;
     map["order_status_id"] = orderStatus?.id;
     map['hint'] = hint;
     map["payment"] = payment?.toMap();
@@ -78,27 +93,5 @@ class Order {
         : "${deliveryDate.year.toString()}-${deliveryDate.month.toString().padLeft(2, '0')}-${deliveryDate.day.toString().padLeft(2, '0')}";
     map['coupon'] = coupon;
     return map;
-  }
-
-  Map deliveredMap() {
-    var map = new Map<String, dynamic>();
-    map["id"] = id;
-    map["order_status_id"] = 5;
-    if (deliveryAddress?.id != null && deliveryAddress?.id != 'null')
-      map["delivery_address_id"] = deliveryAddress.id;
-    return map;
-  }
-
-  Map cancelMap() {
-    var map = new Map<String, dynamic>();
-    map["id"] = id;
-    if (orderStatus?.id != null && orderStatus?.id == '1')
-      map["active"] = false;
-    return map;
-  }
-
-  bool canCancelOrder() {
-    return this.active == true &&
-        this.orderStatus.id == '1'; // 1 for order received status
   }
 }

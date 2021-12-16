@@ -8,11 +8,11 @@ import '../elements/CircularLoadingWidgetWithText.dart';
 import '../elements/ProductGridItemWidget.dart';
 import '../elements/ProductListItemWidget.dart';
 import '../elements/SearchBarWidget.dart';
+import '../elements/SearchWidget.dart';
 import '../elements/ShoppingCartButtonWidget.dart';
 import '../models/category.dart';
 import '../models/product.dart';
 import '../models/route_argument.dart';
-import '../repository/user_repository.dart';
 
 class CategoryWidget extends StatefulWidget {
   final RouteArgument routeArgument;
@@ -35,7 +35,6 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
   void initState() {
     _con.listenForProductsByCategory(id: widget.routeArgument.id);
     _con.listenForCategory(id: widget.routeArgument.id);
-    _con.listenForCart();
     super.initState();
   }
 
@@ -102,7 +101,15 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SearchBarWidget(
-                    categoryId: _con?.category?.id.toString(),
+                    // categoryId: _con?.category?.id.toString(),
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(SearchModal(_con?.category?.id.toString()))
+                          .then((value) {
+                        Navigator.of(context).pushReplacementNamed('/Category',
+                            arguments: widget.routeArgument);
+                      });
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
@@ -168,6 +175,16 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                             return ProductListItemWidget(
                               heroTag: 'favorites_list',
                               product: _con.products.elementAt(index),
+                              onTap: (RouteArgument routeArgument) {
+                                Navigator.of(context)
+                                    .pushNamed('/Product',
+                                        arguments: routeArgument)
+                                    .then((value) {
+                                  Navigator.of(context).pushReplacementNamed(
+                                      '/Category',
+                                      arguments: widget.routeArgument);
+                                });
+                              },
                             );
                           },
                         ),
@@ -193,29 +210,13 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                               return ProductGridItemWidget(
                                 heroTag: 'category_grid',
                                 product: _con.products.elementAt(index),
-                                onPressed: () {
-                                  if (currentUser.value.apiToken == null) {
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                      '/Login',
-                                      (Route<dynamic> route) => false,
-                                    );
-                                  } else {
-                                    _con.addToCart(
-                                      _con.products.elementAt(index),
-                                    );
-                                  }
-                                },
                                 onTap: (RouteArgument routeArgument) {
                                   Navigator.of(context)
                                       .pushNamed('/Product',
                                           arguments: routeArgument)
                                       .then((value) {
-                                    Navigator.of(context).pushNamedAndRemoveUntil(
-                                        '/Pages', (Route<dynamic> route) => false,
-                                        arguments: 1);
-                                    Navigator.of(context)
-                                        .pushNamed('/Category',
+                                    Navigator.of(context).pushReplacementNamed(
+                                        '/Category',
                                         arguments: widget.routeArgument);
                                   });
                                 },

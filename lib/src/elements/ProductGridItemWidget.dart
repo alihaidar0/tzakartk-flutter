@@ -6,10 +6,9 @@ import '../models/route_argument.dart';
 class ProductGridItemWidget extends StatefulWidget {
   final String heroTag;
   final Product product;
-  final VoidCallback onPressed;
   final Function(RouteArgument) onTap;
 
-  ProductGridItemWidget({Key key, this.heroTag, this.product, this.onPressed, @required this.onTap})
+  ProductGridItemWidget({Key key, this.heroTag, this.product, @required this.onTap})
       : super(key: key);
 
   @override
@@ -62,25 +61,6 @@ class _ProductGridItemWidgetState extends State<ProductGridItemWidget> {
                 overflow: TextOverflow.ellipsis,
               ),
             ],
-          ),
-          Container(
-            margin: EdgeInsets.all(10),
-            width: 40,
-            height: 40,
-            child: MaterialButton(
-              elevation: 0,
-              padding: EdgeInsets.all(0),
-              onPressed: () {
-                widget.onPressed();
-              },
-              child: Icon(
-                Icons.shopping_cart_outlined,
-                color: Theme.of(context).primaryColor,
-                size: 24,
-              ),
-              color: Theme.of(context).accentColor.withOpacity(0.9),
-              shape: StadiumBorder(),
-            ),
           ),
         ],
       ),
