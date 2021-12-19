@@ -123,6 +123,11 @@ class CartController extends ControllerMVC {
   void doApplyCoupon(String code, {String message}) async {
     verifyCoupon(code).then((value) {
       settingRepo.coupon = value;
+      if (value != null && value.enabled) {
+        calculateCartPrice(value.code);
+      } else {
+        calculateCartPrice('');
+      }
     }).catchError((e) {
       print("##################");
       print("######### Error doApplyCoupon with SnackBar #########");
@@ -133,43 +138,47 @@ class CartController extends ControllerMVC {
       ));
     }).whenComplete(() {
       saveCoupon(settingRepo.coupon);
-      calculateCartPrice(settingRepo.coupon.code);
     });
   }
 
   incrementQuantity(Cart cart) {
     // if (cart.quantity <= cart?.product?.packageItemsCount) {
     if (cart.quantity <= 99) {
-      ++cart.quantity;
-      updateCart(cart).then((value) {
-        if (!value) {
-          --cart.quantity;
-        }
-        calculateCartPrice(settingRepo.coupon.code);
-      });
-      listenForCartsCount();
+      if (!incrementQuantityLoading) {
+        incrementQuantityLoading = true;
+        ++cart.quantity;
+        updateCart(cart).then((value) {
+          if (!value) {
+            --cart.quantity;
+          }
+          calculateCartPrice(settingRepo.coupon.code);
+        }).whenComplete(() {
+          incrementQuantityLoading = false;
+          listenForCartsCount();
+        });
+      }
     } else {
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S
-            .of(state.context)
-            .thereAreNoRemainItems),
+        content: Text(S.of(state.context).thereAreNoRemainItems),
       ));
     }
   }
 
   decrementQuantity(Cart cart) {
-    if (cart.quantity > 1) {
+    if (cart.quantity > 1 && !decrementQuantityLoading) {
+      decrementQuantityLoading = true;
       --cart.quantity;
       updateCart(cart).then((value) {
         if (!value) {
           ++cart.quantity;
         }
         calculateCartPrice(settingRepo.coupon.code);
+      }).whenComplete(() {
+        decrementQuantityLoading = false;
+        listenForCartsCount();
       });
-      listenForCartsCount();
     }
   }
-
 
   void goCheckout(BuildContext context) {
     Navigator.of(state.context).pushNamed('/DeliveryPickup');

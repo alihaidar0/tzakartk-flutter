@@ -68,9 +68,8 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                         shrinkWrap: false,
                         slivers: <Widget>[
                           SliverAppBar(
-                            backgroundColor: Theme.of(context)
-                                .accentColor
-                                .withOpacity(0.9),
+                            backgroundColor:
+                                Theme.of(context).accentColor.withOpacity(0.9),
                             expandedHeight: 275,
                             elevation: 0,
                             iconTheme: IconThemeData(
@@ -95,8 +94,8 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                         });
                                       },
                                     ),
-                                    items: _con.product.images
-                                        .map((Media image) {
+                                    items:
+                                        _con.product.images.map((Media image) {
                                       return Builder(
                                         builder: (BuildContext context) {
                                           return CachedNetworkImage(
@@ -130,8 +129,7 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                           width: 20.0,
                                           height: 5.0,
                                           margin: EdgeInsets.symmetric(
-                                              vertical: 20.0,
-                                              horizontal: 2.0),
+                                              vertical: 20.0, horizontal: 2.0),
                                           decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10),
@@ -173,10 +171,8 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                               Localizations.localeOf(context)
                                                           .languageCode ==
                                                       "en"
-                                                  ? _con.product?.en_name ??
-                                                      ''
-                                                  : _con.product?.ar_name ??
-                                                      '',
+                                                  ? _con.product?.en_name ?? ''
+                                                  : _con.product?.ar_name ?? '',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               style: Theme.of(context)
@@ -216,12 +212,10 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                   .headline2,
                                             ),
                                             _con.product.featured &&
-                                                    _con.product
-                                                            .discountPrice >
+                                                    _con.product.discountPrice >
                                                         0
                                                 ? Helper.getPrice(
-                                                    _con.product
-                                                        .discountPrice,
+                                                    _con.product.discountPrice,
                                                     context,
                                                     style: Theme.of(context)
                                                         .textTheme
@@ -254,8 +248,7 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                         'null' &&
                                                     _con.product.capacity !=
                                                         '' &&
-                                                    _con.product.unit !=
-                                                        null &&
+                                                    _con.product.unit != null &&
                                                     _con.product.unit !=
                                                         'null' &&
                                                     _con.product.unit != ''
@@ -268,8 +261,8 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                       color: Theme.of(context)
                                                           .focusColor,
                                                       borderRadius:
-                                                          BorderRadius
-                                                              .circular(24),
+                                                          BorderRadius.circular(
+                                                              24),
                                                     ),
                                                     child: Text(
                                                       _con.product.capacity +
@@ -303,16 +296,15 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                             horizontal: 12,
                                                             vertical: 3),
                                                     decoration: BoxDecoration(
-                                                        color:
-                                                            Theme.of(context)
-                                                                .focusColor,
+                                                        color: Theme.of(context)
+                                                            .focusColor,
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(
-                                                                    24)),
+                                                                .circular(24)),
                                                     child: Text(
                                                       _con.product
-                                                              .packageItemsCount.toString() +
+                                                              .packageItemsCount
+                                                              .toString() +
                                                           " " +
                                                           S.of(context).items,
                                                       style: Theme.of(context)
@@ -344,10 +336,9 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                           : _con.product.ar_description,
                                     ),
                                   ),
-                                  _con.product.optionGroups.isEmpty ||
-                                          _con.product.optionGroups == null
-                                      ? CircularLoadingWidget(height: 100)
-                                      : ListView.separated(
+                                  _con.product.optionGroups.isNotEmpty ||
+                                          _con.product.optionGroups != null
+                                      ? ListView.separated(
                                           padding: EdgeInsets.all(0),
                                           itemBuilder:
                                               (context, optionGroupIndex) {
@@ -392,8 +383,7 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                           optionGroup:
                                                               _optionGroup,
                                                           options: _con
-                                                              .product
-                                                              .options,
+                                                              .product.options,
                                                           option: _option,
                                                           onChanged: _con
                                                               .calculateTotal);
@@ -406,10 +396,14 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                           separatorBuilder: (context, index) {
                                             return SizedBox(height: 20);
                                           },
-                                          itemCount: _con
-                                              .product.optionGroups.length,
+                                          itemCount:
+                                              _con.product.optionGroups.length,
                                           primary: false,
                                           shrinkWrap: true,
+                                        )
+                                      : SizedBox(
+                                          height: 0,
+                                          width: 0,
                                         ),
                                 ],
                               ),
@@ -424,10 +418,9 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                           Localizations.localeOf(context).languageCode == 'en'
                               ? 20
                               : null,
-                      left:
-                          Localizations.localeOf(context).languageCode == 'en'
-                              ? null
-                              : 20,
+                      left: Localizations.localeOf(context).languageCode == 'en'
+                          ? null
+                          : 20,
                       child: _con.loadCart
                           ? SizedBox(
                               width: 60,
@@ -473,9 +466,8 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                   Expanded(
                                     child: Text(
                                       S.of(context).quantity,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle1,
                                     ),
                                   ),
                                   Row(
@@ -488,8 +480,7 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                         iconSize: 30,
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 5, vertical: 10),
-                                        icon:
-                                            Icon(Icons.remove_circle_outline),
+                                        icon: Icon(Icons.remove_circle_outline),
                                         color: Theme.of(context).hintColor,
                                       ),
                                       Text(
@@ -519,9 +510,8 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                   alignment: AlignmentDirectional.centerEnd,
                                   children: <Widget>[
                                     SizedBox(
-                                      width:
-                                          MediaQuery.of(context).size.width -
-                                              110,
+                                      width: MediaQuery.of(context).size.width -
+                                          110,
                                       child: MaterialButton(
                                         elevation: 0,
                                         onPressed: () {
@@ -533,8 +523,8 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                             _con.addToCart(_con.product);
                                           }
                                         },
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 14),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 14),
                                         color: Theme.of(context).accentColor,
                                         shape: StadiumBorder(),
                                         child: Container(

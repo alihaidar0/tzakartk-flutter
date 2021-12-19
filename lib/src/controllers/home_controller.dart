@@ -139,12 +139,10 @@ class HomeController extends ControllerMVC {
   }
 
   Future<void> refreshHome() async {
-    setState(() {
-      bannerSlider.clear();
-      ourNewSlider.clear();
-      categories.clear();
-      subCategories.clear();
-    });
+    bannerSlider.clear();
+    ourNewSlider.clear();
+    categories.clear();
+    subCategories.clear();
     await listenForBanners();
     await listenForOurNew();
   }

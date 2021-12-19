@@ -47,7 +47,12 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
 
   Future<void> _refreshHome() async {
     setState(() {
-      _con.refreshHome;
+      _con.bannerSlider.clear();
+      _con.ourNewSlider.clear();
+      _con.categories.clear();
+      _con.subCategories.clear();
+      _con.listenForBanners();
+      _con.listenForOurNew();
       if (_selectedCity != null) _con.listenForCategories(_selectedCity.id);
       if (_selectedCategoryId != null) {
         _con.listenForSubCategories(_selectedCategoryId);

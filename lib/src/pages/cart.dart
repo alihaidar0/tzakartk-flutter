@@ -105,18 +105,17 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                               cart: _con.carts.elementAt(index),
                               heroTag: 'cart',
                               increment: () {
-                                  _con.incrementQuantity(
-                                      _con.carts.elementAt(index));
+                                _con.incrementQuantity(
+                                    _con.carts.elementAt(index));
                               },
                               decrement: () {
-                                  if (_con.carts.elementAt(index).quantity <=
-                                      1) {
-                                    _con.removeFromCart(
-                                        _con.carts.elementAt(index));
-                                  } else {
-                                    _con.decrementQuantity(
-                                        _con.carts.elementAt(index));
-                                  }
+                                if (_con.carts.elementAt(index).quantity <= 1) {
+                                  _con.removeFromCart(
+                                      _con.carts.elementAt(index));
+                                } else {
+                                  _con.decrementQuantity(
+                                      _con.carts.elementAt(index));
+                                }
                               },
                               onDismissed: () {
                                 _con.removeFromCart(
@@ -131,16 +130,17 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                       padding: const EdgeInsets.all(18),
                       margin: EdgeInsets.only(bottom: 15),
                       decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.15),
-                                offset: Offset(0, 2),
-                                blurRadius: 5.0)
-                          ]),
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Theme.of(context)
+                                  .focusColor
+                                  .withOpacity(0.15),
+                              offset: Offset(0, 2),
+                              blurRadius: 5.0)
+                        ],
+                      ),
                       child: TextField(
                         keyboardType: TextInputType.text,
                         onSubmitted: (String value) {
@@ -151,7 +151,9 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                           ..text = settingRepo.coupon?.code ?? '',
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 15),
+                            horizontal: 20,
+                            vertical: 15,
+                          ),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           hintStyle: Theme.of(context).textTheme.bodyText1,
                           suffixText: settingRepo.coupon?.enabled == null
