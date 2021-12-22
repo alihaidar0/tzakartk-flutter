@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:tzakartk/src/elements/CircularLoadingWidget.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/delivery_pickup_controller.dart';
@@ -16,7 +15,8 @@ import '../models/route_argument.dart';
 class DeliveryPickupWidget extends StatefulWidget {
   final RouteArgument routeArgument;
 
-  DeliveryPickupWidget({Key key, this.routeArgument}) : super(key: key);
+  DeliveryPickupWidget({Key key, this.routeArgument})
+      : super(key: key);
 
   @override
   _DeliveryPickupWidgetState createState() => _DeliveryPickupWidgetState();
@@ -55,23 +55,28 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                 labelColor: Theme.of(context).accentColor),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            Address _newAddress = new Address();
-            DeliveryAddressDialog(
-              context: context,
-              address: _newAddress,
-              onChanged: (Address _address) {
-                _con.addAddress(_address);
-              },
-            );
-          },
-          backgroundColor: Theme.of(context).accentColor,
-          child: Icon(
-            Icons.add,
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
+        floatingActionButton: _con.freeDelivery
+            ? SizedBox(
+                height: 0,
+                width: 0,
+              )
+            : FloatingActionButton(
+                onPressed: () async {
+                  Address _newAddress = new Address();
+                  DeliveryAddressDialog(
+                    context: context,
+                    address: _newAddress,
+                    onChanged: (Address _address) {
+                      _con.addAddress(_address);
+                    },
+                  );
+                },
+                backgroundColor: Theme.of(context).accentColor,
+                child: Icon(
+                  Icons.add,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
         body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(vertical: 10),
           child: Column(
@@ -113,32 +118,40 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
               SizedBox(
                 height: 15,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 20, bottom: 10, left: 20, right: 10),
-                child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 0),
-                    leading: Icon(
-                      Icons.map_outlined,
-                      color: Theme.of(context).hintColor,
+              _con.freeDelivery
+                  ? SizedBox(
+                      height: 0,
+                      width: 0,
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(
+                          top: 20, bottom: 10, left: 20, right: 10),
+                      child: ListTile(
+                          contentPadding: EdgeInsets.symmetric(vertical: 0),
+                          leading: Icon(
+                            Icons.map_outlined,
+                            color: Theme.of(context).hintColor,
+                          ),
+                          title: Text(
+                            S.of(context).delivery_address,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.headline4,
+                          ),
+                          subtitle: Text(
+                            S
+                                .of(context)
+                                .click_to_confirm_your_address_and_pay_or_long_press,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.caption,
+                          )),
                     ),
-                    title: Text(
-                      S.of(context).delivery_address,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
-                    subtitle: Text(
-                      S
-                          .of(context)
-                          .click_to_confirm_your_address_and_pay_or_long_press,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.caption,
-                    )),
-              ),
-              _con.addresses.isEmpty
-                  ? CircularLoadingWidget(height: 250)
+              _con.addresses.isEmpty || _con.freeDelivery
+                  ? SizedBox(
+                      height: 0,
+                      width: 0,
+                    )
                   : ListView.separated(
                       padding: EdgeInsets.symmetric(vertical: 15),
                       scrollDirection: Axis.vertical,

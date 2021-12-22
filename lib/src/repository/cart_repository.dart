@@ -30,6 +30,28 @@ Future<Stream<Cart>> getCart() async {
   });
 }
 
+Future<Stream<bool>> getDelivery() async {
+  User _user = userRepo.currentUser.value;
+  if (_user.apiToken == null) {
+    return new Stream.value(false);
+  }
+  final String url =
+      '${GlobalConfiguration().getValue('api_base_url')}carts';
+  try {
+    final client = new MyClient();
+    final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
+    return streamedRest.stream
+        .transform(utf8.decoder)
+        .transform(json.decoder)
+        .map(
+          (data) => Helper.getBoolFreeDeliveryInCart(data),
+    );
+  } catch (e) {
+    print(CustomTrace(StackTrace.current, message: url).toString());
+    return new Stream.value(false);
+  }
+}
+
 Future<Stream<int>> getCartCount() async {
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {

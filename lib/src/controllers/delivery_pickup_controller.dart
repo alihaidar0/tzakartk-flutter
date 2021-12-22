@@ -15,6 +15,7 @@ class DeliveryPickupController extends CartController {
 
   DeliveryPickupController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
+    super.listenForDelivery();
     super.listenForCarts();
     listenForDeliveryAddressDay();
     listenForAddresses();
@@ -25,7 +26,7 @@ class DeliveryPickupController extends CartController {
     final Stream<Address> stream = await userRepo.getAddresses();
     stream.listen((Address _address) {
       setState(() {
-        if( isSame(_address, settingRepo.deliveryAddress.value)) {
+        if (isSame(_address, settingRepo.deliveryAddress.value)) {
           _address.selected = true;
         }
         addresses.add(_address);
@@ -58,7 +59,7 @@ class DeliveryPickupController extends CartController {
 
   void addAddress(Address address) {
     userRepo.addAddress(address).then((value) {
-        listenForAddresses();
+      listenForAddresses();
     }).whenComplete(() {
       listenForAddresses();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
@@ -69,7 +70,7 @@ class DeliveryPickupController extends CartController {
 
   void updateAddress(Address address) {
     userRepo.updateAddress(address).then((value) {
-        listenForAddresses();
+      listenForAddresses();
     }).whenComplete(() {
       listenForAddresses();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
@@ -105,15 +106,23 @@ class DeliveryPickupController extends CartController {
 
   @override
   void goCheckout(BuildContext context) {
-    Address _address = addresses.firstWhere((element) => element.selected == true ,orElse: () => null,);
-    if (_address != null &&
-        settingRepo.deliveryAddress.value != null &&
-        isSame(_address, settingRepo.deliveryAddress.value)) {
-      Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+    if (!freeDelivery) {
+      Address _address = addresses.firstWhere(
+        (element) => element.selected == true,
+        orElse: () => null,
+      );
+      if (_address != null &&
+          settingRepo.deliveryAddress.value != null &&
+          isSame(_address, settingRepo.deliveryAddress.value)) {
+        Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+      } else {
+        ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+          content: Text(S.of(state.context).select_your_delivery_address),
+        ));
+      }
     } else {
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).select_your_delivery_address),
-      ));
+      settingRepo.deliveryAddress.value = new Address();
+      Navigator.of(state.context).pushNamed(getSelectedMethod().route);
     }
   }
 }

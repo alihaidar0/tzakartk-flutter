@@ -34,6 +34,18 @@ class Helper {
     return data['data'] ?? [];
   }
 
+  static bool getBoolFreeDeliveryInCart(Map<String, dynamic> data) {
+    if (data['success'] == true) {
+      if (data['delivery'] == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   static int getIntData(Map<String, dynamic> data) {
     if (data['success'] == true) {
       if (data['data'] == null ||

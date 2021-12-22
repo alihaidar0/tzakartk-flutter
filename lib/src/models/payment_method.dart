@@ -17,7 +17,6 @@ class PaymentMethod {
 
 class PaymentMethodList {
   List<PaymentMethod> _paymentsList;
-  // List<PaymentMethod> _pickupList;
   PaymentMethod _deliveryMethod;
 
   PaymentMethodList(BuildContext _context) {
@@ -50,24 +49,9 @@ class PaymentMethodList {
         S.of(_context).click_to_pay_on_pickup,
         "/PaymentMethod",
         "assets/img/pay_pickup.png");
-    // this._pickupList = [
-    //   new PaymentMethod(
-    //       "pop",
-    //       S.of(_context).pay_on_pickup,
-    //       S.of(_context).click_to_pay_on_pickup,
-    //       "/PayOnPickup",
-    //       "assets/img/pay_pickup.png"),
-    //   new PaymentMethod(
-    //       "delivery",
-    //       S.of(_context).delivery_address,
-    //       S.of(_context).click_to_pay_on_pickup,
-    //       "/PaymentMethod",
-    //       "assets/img/pay_pickup.png"),
-    // ];
   }
 
   List<PaymentMethod> get paymentsList => _paymentsList;
 
-  // List<PaymentMethod> get pickupList => _pickupList;
   PaymentMethod get deliveryMethod => _deliveryMethod;
 }

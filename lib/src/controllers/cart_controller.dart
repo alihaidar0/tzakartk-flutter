@@ -20,6 +20,7 @@ class CartController extends ControllerMVC {
   double total = 0.0;
   double couponDiscount = 0.0;
   int cartCount = 0;
+  bool freeDelivery = true;
   double taxAmount = 0.0;
   bool incrementQuantityLoading = false;
   bool decrementQuantityLoading = false;
@@ -60,6 +61,22 @@ class CartController extends ControllerMVC {
     });
   }
 
+  void listenForDelivery({String message}) async {
+    final Stream<bool> stream = await getDelivery();
+    stream.listen((bool _delivery) {
+        this.freeDelivery = _delivery;
+    }, onError: (a) {
+      this.freeDelivery = false;
+      print("##################");
+      print("######### Error getDelivery with SnackBar #########");
+      print("##################");
+      print(a);
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S.of(state.context).verify_your_internet_connection),
+      ));
+    });
+  }
+
   void listenForCartsCount({String message}) async {
     final Stream<int> stream = await getCartCount();
     stream.listen((int _count) {
@@ -82,6 +99,7 @@ class CartController extends ControllerMVC {
       carts = [];
     });
     listenForCarts(message: S.of(state.context).carts_refreshed_successfully);
+    listenForDelivery();
     listenForCartsCount();
   }
 
@@ -92,6 +110,7 @@ class CartController extends ControllerMVC {
     removeCart(_cart).then((value) {
       calculateCartPrice(settingRepo.coupon.code);
       listenForCartsCount();
+      listenForDelivery();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S
             .of(state.context)
@@ -142,8 +161,8 @@ class CartController extends ControllerMVC {
   }
 
   incrementQuantity(Cart cart) {
-    // if (cart.quantity <= cart?.product?.packageItemsCount) {
-    if (cart.quantity <= 99) {
+    if (cart.quantity <= cart?.product?.packageItemsCount) {
+      // if (cart.quantity <= 99) {
       if (!incrementQuantityLoading) {
         incrementQuantityLoading = true;
         ++cart.quantity;
@@ -155,6 +174,7 @@ class CartController extends ControllerMVC {
         }).whenComplete(() {
           incrementQuantityLoading = false;
           listenForCartsCount();
+          listenForDelivery();
         });
       }
     } else {
@@ -176,12 +196,13 @@ class CartController extends ControllerMVC {
       }).whenComplete(() {
         decrementQuantityLoading = false;
         listenForCartsCount();
+        listenForDelivery();
       });
     }
   }
 
   void goCheckout(BuildContext context) {
-    Navigator.of(state.context).pushNamed('/DeliveryPickup');
+      Navigator.of(state.context).pushNamed('/DeliveryPickup');
   }
 
   Color getCouponIconColor() {

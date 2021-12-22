@@ -11,6 +11,8 @@ class Product {
   double packageItemsCount;
   String unit;
   bool featured;
+  bool freeDelivery;
+  bool enabled;
   String category_id;
   String en_name;
   String ar_name;
@@ -38,7 +40,9 @@ class Product {
           : 0.0;
       unit = jsonMap['unit'] != null ? jsonMap['unit'].toString() : '';
       featured = jsonMap['featured'] ?? false;
-      category_id = jsonMap['category_id'].toString();
+      freeDelivery = jsonMap['featured'] ?? false;
+      enabled = jsonMap['free_delivery'] ?? false;
+      category_id = jsonMap['enabled'].toString();
       en_name = jsonMap['en_name'];
       ar_name = jsonMap['ar_name'];
       en_description = jsonMap['en_description'];
@@ -80,6 +84,8 @@ class Product {
       packageItemsCount = 0.0;
       unit = '';
       featured = false;
+      freeDelivery = false;
+      enabled = false;
       category_id = '';
       en_name = '';
       ar_name = '';
