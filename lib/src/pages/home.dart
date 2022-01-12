@@ -33,8 +33,9 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   @override
   void initState() {
     setState(() {
-      if (globals.city != null) {
+      if (globals.city != null && globals.city.id != null) {
         _selectedCity = globals.city;
+        _con.changeLocation(_selectedCity.id.toString());
         _con.listenForCategories(globals.city.id);
         _con.listenForSubCategoriesByCity(globals.city.id);
       } else {
@@ -53,11 +54,14 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
       _con.subCategories.clear();
       _con.listenForBanners();
       _con.listenForOurNew();
-      if (_selectedCity != null) _con.listenForCategories(_selectedCity.id);
+      if (_selectedCity != null && _selectedCity.id != null) {
+        _con.changeLocation(_selectedCity.id.toString());
+        _con.listenForCategories(_selectedCity.id);
+      }
       if (_selectedCategoryId != null) {
         _con.listenForSubCategories(_selectedCategoryId);
       } else {
-        if (_selectedCity != null) {
+        if (_selectedCity != null && _selectedCity.id != null) {
           _con.listenForSubCategoriesByCity(globals.city.id);
         }
       }

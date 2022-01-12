@@ -524,11 +524,12 @@ class SetGlobalsScreenState extends StateMVC<SetGlobalsScreen> {
                         padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                         onPressed: () {
                           if (_selectedCountry != null &&
-                              _selectedCity != null) {
+                              _selectedCity != null &&
+                              _selectedCountry.id != null &&
+                              _selectedCity.id != null) {
                             globals.country = _selectedCountry;
                             globals.city = _selectedCity;
-                            Navigator.of(context)
-                                .pushReplacementNamed('/Pages', arguments: 1);
+                            _con.changeLocation(_selectedCity.id.toString());
                           }
                         },
                         child: Center(

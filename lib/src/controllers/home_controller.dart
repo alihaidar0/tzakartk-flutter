@@ -1,4 +1,5 @@
 import 'package:mvc_pattern/mvc_pattern.dart';
+import '../repository/change_location_repository.dart';
 
 import '../models/category.dart';
 import '../models/sub_category.dart';
@@ -136,6 +137,10 @@ class HomeController extends ControllerMVC {
         },
       );
     }
+  }
+
+  void changeLocation(String cityId, {String message}) async {
+    changeLocationRepo(cityId);
   }
 
   Future<void> refreshHome() async {

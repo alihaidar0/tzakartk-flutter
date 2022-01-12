@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
+import '../../generated/l10n.dart';
 import '../models/city.dart';
 import '../models/country.dart';
+import '../repository/change_location_repository.dart';
 import '../repository/city_repository.dart';
 import '../repository/country_repository.dart';
 
@@ -42,5 +44,23 @@ class CountriesCitiesController extends ControllerMVC {
       cities.clear();
     });
     await listenForCountries();
+  }
+
+  void changeLocation(String cityId, {String message}) async {
+    changeLocationRepo(cityId).then((value) {
+      if (value)
+        {
+          Navigator.of(scaffoldKey.currentContext)
+              .pushReplacementNamed('/Pages', arguments: 1);
+        }
+    }).catchError((e) {
+      print("##################");
+      print("######### Error changeLocation with SnackBar #########");
+      print("##################");
+      print(e);
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S.of(state.context).verify_your_internet_connection),
+      ));
+    });
   }
 }

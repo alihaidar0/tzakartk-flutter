@@ -192,7 +192,6 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 30, vertical: 14),
                         ),
-//                      SizedBox(height: 10),
                       ],
                     ),
                   ),
