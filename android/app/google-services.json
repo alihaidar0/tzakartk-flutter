@@ -1,49 +1,33 @@
 {
   "project_info": {
-    "project_number": "1049103410047",
-    "project_id": "tzakartk",
-    "storage_bucket": "tzakartk.appspot.com"
+    "project_number": "597958821596",
+    "project_id": "tazakartk",
+    "storage_bucket": "tazakartk.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1049103410047:android:2ac858a67715ce03b5704a",
+        "mobilesdk_app_id": "1:597958821596:android:7f14b057874e15f0001619",
         "android_client_info": {
           "package_name": "com.vroad.tzakartk"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1049103410047-d13ed10lcdsiui7e2q0vjtuc2glni89g.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.vroad.tzakartk",
-            "certificate_hash": "0e61b3e0a3cf6fd1433313abad4cc563c3758d75"
-          }
-        },
-        {
-          "client_id": "1049103410047-j51kpbt2ejuemuvd4aj7shpkndctbsel.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.vroad.tzakartk",
-            "certificate_hash": "560e727489e5d40ec0cd09c62f078fb1e8737c4e"
-          }
-        },
-        {
-          "client_id": "1049103410047-nhus4jp82p8i73b2207tbsoh3o5v28qo.apps.googleusercontent.com",
+          "client_id": "597958821596-57681q0ka7c3grkqdme9efc63pluo7nd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDsy0zB6cuIxt4CBUnn98qOFjU57aebkl8"
+          "current_key": "AIzaSyBkRarMvaY7oAAUSVQYy3LYXPhnBJzz_6I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1049103410047-nhus4jp82p8i73b2207tbsoh3o5v28qo.apps.googleusercontent.com",
+              "client_id": "597958821596-57681q0ka7c3grkqdme9efc63pluo7nd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
