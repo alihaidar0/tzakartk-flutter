@@ -185,6 +185,16 @@ class S {
     );
   }
 
+  /// `Order code`
+  String get order_code {
+    return Intl.message(
+      'Order code',
+      name: 'order_code',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Category`
   String get category {
     return Intl.message(

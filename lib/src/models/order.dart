@@ -15,6 +15,7 @@ class Order {
   String couponId;
   DateTime dateTime;
   DateTime deliveryDate;
+  String order_code;
   double couponDiscount;
   OrderStatus orderStatus;
   Payment payment;
@@ -40,6 +41,7 @@ class Order {
       couponId = jsonMap['coupon_id'].toString();
       dateTime = DateTime.parse(jsonMap['updated_at']);
       deliveryDate = DateTime.parse(jsonMap['delivery_date']);
+      order_code = jsonMap['order_code'];
       couponDiscount = jsonMap['coupon_discount'] != null
           ? jsonMap['coupon_discount'].toDouble()
           : 0.0;

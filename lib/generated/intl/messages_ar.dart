@@ -183,6 +183,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "order" : MessageLookupByLibrary.simpleMessage("طلب"),
     "orderDetails" : MessageLookupByLibrary.simpleMessage("تفاصيل الطلب"),
     "orderThisOrderIdHasBeenCanceled" : m0,
+    "order_code" : MessageLookupByLibrary.simpleMessage("رقم التعريف الخاص بالطلب"),
     "order_id" : MessageLookupByLibrary.simpleMessage("رقم التعريف الخاص بالطلب"),
     "order_refreshed_successfully" : MessageLookupByLibrary.simpleMessage("تم تحديث الطلب بنجاح"),
     "order_status_changed" : MessageLookupByLibrary.simpleMessage("تغيرت حالة الطلب"),

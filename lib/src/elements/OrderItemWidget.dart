@@ -49,7 +49,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('${S.of(context).order_id}: #${widget.order.id}'),
+                        Text('${S.of(context).order_code}: #${widget.order.order_code}'),
                         Row(
                           children: [
                             Text(

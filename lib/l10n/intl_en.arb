@@ -14,6 +14,7 @@
   "verify": "Verify",
   "select_your_preferred_languages": "Select your preferred languages",
   "order_id": "Order Id",
+  "order_code": "Order code",
   "category": "Category",
   "checkout": "Checkout",
   "payment_mode": "Payment Mode",

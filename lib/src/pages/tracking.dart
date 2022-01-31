@@ -166,7 +166,7 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                             title: Column(
                                               children: <Widget>[
                                                 Text(
-                                                    '${S.of(context).order_id}: #${_con.order.id}'),
+                                                    '${S.of(context).order_code}: #${_con.order.order_code}'),
                                                 Row(
                                                   children: [
                                                     Text(

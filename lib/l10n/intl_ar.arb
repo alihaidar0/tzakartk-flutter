@@ -14,6 +14,7 @@
   "verify": "تحقق",
   "select_your_preferred_languages": "حدد لغاتك المفضلة",
   "order_id": "رقم التعريف الخاص بالطلب",
+  "order_code": "رقم التعريف الخاص بالطلب",
   "category": "الفئة",
   "checkout": "الدفع",
   "payment_mode": "طريقة الدفع",
