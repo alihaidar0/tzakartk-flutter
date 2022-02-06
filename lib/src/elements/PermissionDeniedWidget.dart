@@ -82,7 +82,7 @@ class _PermissionDeniedWidgetState extends State<PermissionDeniedWidget> {
           Opacity(
             opacity: 0.4,
             child: Text(
-              S.of(context).you_must_signin_to_access_to_this_section,
+              S.of(context).you_must_sign_in_to_access_to_this_section,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme

@@ -41,5 +41,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This option is needed to determine the address that we deliver to</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This option is needed to determine the address that we deliver to</string>
 </dict>
 </plist>

@@ -25,6 +25,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   HomeController _con;
   City _selectedCity;
   String _selectedCategoryId;
+  bool loadSubCategory;
 
   _HomeWidgetState() : super(HomeController()) {
     _con = controller;
@@ -33,11 +34,11 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   @override
   void initState() {
     setState(() {
+      loadSubCategory = false;
       if (globals.city != null && globals.city.id != null) {
         _selectedCity = globals.city;
         _con.changeLocation(_selectedCity.id.toString());
         _con.listenForCategories(globals.city.id);
-        _con.listenForSubCategoriesByCity(globals.city.id);
       } else {
         _selectedCity = null;
       }
@@ -47,25 +48,24 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   }
 
   Future<void> _refreshHome() async {
-    setState(() {
-      _con.bannerSlider.clear();
-      _con.ourNewSlider.clear();
-      _con.categories.clear();
-      _con.subCategories.clear();
-      _con.listenForBanners();
-      _con.listenForOurNew();
-      if (_selectedCity != null && _selectedCity.id != null) {
-        _con.changeLocation(_selectedCity.id.toString());
-        _con.listenForCategories(_selectedCity.id);
-      }
-      if (_selectedCategoryId != null) {
-        _con.listenForSubCategories(_selectedCategoryId);
-      } else {
+    setState(
+      () {
+        loadSubCategory = false;
+        _con.bannerSlider.clear();
+        _con.ourNewSlider.clear();
+        _con.categories.clear();
+        _con.subCategories.clear();
+        _con.listenForBanners();
+        _con.listenForOurNew();
         if (_selectedCity != null && _selectedCity.id != null) {
-          _con.listenForSubCategoriesByCity(globals.city.id);
+          _con.changeLocation(_selectedCity.id.toString());
+          _con.listenForCategories(_selectedCity.id);
         }
-      }
-    });
+        if (_selectedCategoryId != null) {
+          _con.listenForSubCategories(_selectedCategoryId);
+        }
+      },
+    );
   }
 
   @override
@@ -141,6 +141,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                           categories: _con.categories,
                           onPressed: (String categoryId) {
                             setState(() {
+                              loadSubCategory = true;
                               _con.subCategories.clear();
                               _con.listenForSubCategories(categoryId);
                             });
@@ -156,9 +157,11 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                       style: Theme.of(context).textTheme.headline4,
                     ),
                   ),
-                  SubCategoriesCarouselWidget(
-                    subCategories: _con.subCategories,
-                  ),
+                  loadSubCategory
+                      ? SubCategoriesCarouselWidget(
+                          subCategories: _con.subCategories,
+                        )
+                      : SizedBox(height: 0, width: 0),
                 ],
               ),
             ),

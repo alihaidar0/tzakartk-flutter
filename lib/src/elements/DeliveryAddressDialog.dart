@@ -41,8 +41,9 @@ class DeliveryAddressDialog {
                         style: TextStyle(color: Theme.of(context).hintColor),
                         keyboardType: TextInputType.text,
                         decoration: getInputDecoration(
-                            hintText: S.of(context).home_address,
-                            labelText: S.of(context).description),
+                          hintText: S.of(context).areaAndStreet,
+                          labelText: S.of(context).description,
+                        ),
                         initialValue: address != null
                             ? address.description?.isNotEmpty ?? false
                                 ? address.description

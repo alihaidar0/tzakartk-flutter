@@ -51,15 +51,19 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-      Navigator.of(context).pop(true);
-      return true;
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            '/Pages', (Route<dynamic> route) => false,
+            arguments: 1);
+        return false;
       },
       child: SafeArea(
         child: Scaffold(
           key: _con.scaffoldKey,
           appBar: AppBar(
             leading: IconButton(
-              onPressed: () => Navigator.of(context).pop(true),
+              onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/Pages', (Route<dynamic> route) => false,
+                  arguments: 1),
               icon: Icon(Icons.arrow_back),
               color: Theme.of(context).hintColor,
             ),
@@ -106,15 +110,9 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: SearchBarWidget(
-                      // categoryId: _con?.category?.id.toString(),
                       onTap: () {
                         Navigator.of(context)
-                            .push(SearchModal(_con?.category?.id.toString()))
-                            .then((value) {
-                          // Navigator.of(context).pushReplacementNamed('/Category',
-                          //     arguments: widget.routeArgument);
-                          Navigator.of(context).pop(false);
-                        });
+                            .push(SearchModal(_con?.category?.id.toString()));
                       },
                     ),
                   ),
@@ -184,13 +182,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                                 onTap: (RouteArgument routeArgument) {
                                   Navigator.of(context)
                                       .pushNamed('/Product',
-                                          arguments: routeArgument)
-                                      .then((value) {
-                                    // Navigator.of(context).pushReplacementNamed(
-                                    //     '/Category',
-                                    //     arguments: widget.routeArgument);
-                                    Navigator.of(context).pop(false);
-                                  });
+                                          arguments: routeArgument);
                                 },
                               );
                             },
@@ -220,13 +212,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                                   onTap: (RouteArgument routeArgument) {
                                     Navigator.of(context)
                                         .pushNamed('/Product',
-                                            arguments: routeArgument)
-                                        .then((value) {
-                                      // Navigator.of(context).pushReplacementNamed(
-                                      //     '/Category',
-                                      //     arguments: widget.routeArgument);
-                                      Navigator.of(context).pop(false);
-                                    });
+                                            arguments: routeArgument);
                                   },
                                 );
                               },

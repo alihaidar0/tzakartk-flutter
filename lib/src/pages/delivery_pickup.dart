@@ -94,13 +94,13 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                     color: Theme.of(context).hintColor,
                   ),
                   title: Text(
-                    S.of(context).delivery_day,
+                    S.of(context).delivery_date,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headline4,
                   ),
                   subtitle: Text(
-                    S.of(context).select_a_delivery_day,
+                    S.of(context).select_a_delivery_date,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.caption,

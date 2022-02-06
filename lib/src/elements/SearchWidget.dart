@@ -54,7 +54,6 @@ class SearchModal extends ModalRoute<void> {
     var end = Offset.zero;
     var tween = Tween(begin: begin, end: end);
     Animation<Offset> offsetAnimation = animation.drive(tween);
-    // You can add your own animations for the overlay content
     return SlideTransition(
       position: offsetAnimation,
       child: FadeTransition(

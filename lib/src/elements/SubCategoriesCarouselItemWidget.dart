@@ -21,30 +21,7 @@ class SubCategoriesCarouselItemWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context)
             .pushNamed('/Category',
-                arguments: RouteArgument(id: subCategory.id))
-            .then((value) {
-          if (value != null) {
-            if (value == true) {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/Pages', (Route<dynamic> route) => false,
-                  arguments: 1);
-            }
-            if (value == false) {
-              Navigator.of(context)
-                  .pushNamed('/Category',
-                      arguments: RouteArgument(id: subCategory.id))
-                  .then((value) {
-                if (value != null) {
-                  if (value == true) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/Pages', (Route<dynamic> route) => false,
-                        arguments: 1);
-                  }
-                }
-              });
-            }
-          } else {}
-        });
+                arguments: RouteArgument(id: subCategory.id));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
