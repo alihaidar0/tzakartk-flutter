@@ -5,3 +5,4 @@ import '../models/country.dart';
 
 Country country = null;
 City city = null;
+String lang = null;

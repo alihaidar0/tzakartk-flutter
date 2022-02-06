@@ -387,7 +387,7 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                     controlsBuilder: (BuildContext context,
                                         {VoidCallback onStepContinue,
                                         VoidCallback onStepCancel}) {
-                                      return SizedBox(height: 0);
+                                      return Container(height: 0);
                                     },
                                     steps: _con.getTrackingSteps(context),
                                     currentStep:

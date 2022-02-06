@@ -7,7 +7,7 @@ import '../helpers/custom_trace.dart';
 import '../helpers/helper.dart';
 import '../models/address.dart';
 import '../models/product.dart';
-
+import '../library/globals.dart' as globals;
 Future<Stream<Product>> getProduct(String productId) async {
   final String url =
       '${GlobalConfiguration().getValue('api_base_url')}products/$productId';
@@ -55,7 +55,11 @@ Future<Stream<Product>> searchProducts(
 
 Future<Stream<Product>> getProductsByCategory(categoryId) async {
   Uri uri = Helper.getUri('api/products');
-  Map<String, dynamic> _queryParams = {'category_id': categoryId};
+  String orderBy =
+  globals.lang != null && globals.lang == 'ar' ? 'ar_name' : 'en_name';
+  Map<String, dynamic> _queryParams = {};
+  _queryParams['category_id'] = '$categoryId';
+  _queryParams['orderBy'] = orderBy;
   uri = uri.replace(queryParameters: _queryParams);
   try {
     final client = new http.Client();

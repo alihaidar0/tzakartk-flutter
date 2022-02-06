@@ -48,7 +48,6 @@ class _CircularLoadingWidgetWithTextState
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.white,
       height: widget.height,
       child: Stack(
         alignment: Alignment.center,

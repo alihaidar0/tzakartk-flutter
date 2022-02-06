@@ -5,10 +5,14 @@ import 'package:http/http.dart' as http;
 import '../helpers/custom_trace.dart';
 import '../helpers/helper.dart';
 import '../models/sub_category.dart';
-
+import '../library/globals.dart' as globals;
 Future<Stream<SubCategory>> getSubCategories(String parentId) async {
   Uri uri = Helper.getUri('api/children');
-  Map<String, dynamic> _queryParams = {"parent_id": parentId};
+  String orderBy =
+  globals.lang != null && globals.lang == 'ar' ? 'ar_name' : 'en_name';
+  Map<String, dynamic> _queryParams = {};
+  _queryParams['parent_id'] = '$parentId';
+  _queryParams['orderBy'] = orderBy;
 
   uri = uri.replace(queryParameters: _queryParams);
   try {
@@ -29,7 +33,11 @@ Future<Stream<SubCategory>> getSubCategories(String parentId) async {
 
 Future<Stream<SubCategory>> getSubCategoriesByCity(String cityId) async {
   Uri uri = Helper.getUri('api/children');
-  Map<String, dynamic> _queryParams = {"city_id": cityId};
+  String orderBy =
+  globals.lang != null && globals.lang == 'ar' ? 'ar_name' : 'en_name';
+  Map<String, dynamic> _queryParams = {};
+  _queryParams['city_id'] = '$cityId';
+  _queryParams['orderBy'] = orderBy;
 
   uri = uri.replace(queryParameters: _queryParams);
   try {

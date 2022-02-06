@@ -41,6 +41,7 @@ class SetGlobalsScreenState extends StateMVC<SetGlobalsScreen> {
     _selectedCountry = null;
     _selectedCity = null;
     _load = false;
+    globals.lang = 'en';
     super.initState();
   }
 
@@ -71,6 +72,7 @@ class SetGlobalsScreenState extends StateMVC<SetGlobalsScreen> {
                       onPressed: () async {
                         settingsRepo.setting.value.mobileLanguage.value =
                             new Locale('ar');
+                        globals.lang = 'ar';
                         settingsRepo.setting.notifyListeners();
                         Navigator.pop(context);
                       },
@@ -94,6 +96,7 @@ class SetGlobalsScreenState extends StateMVC<SetGlobalsScreen> {
                       onPressed: () async {
                         settingsRepo.setting.value.mobileLanguage.value =
                             new Locale('en');
+                        globals.lang = 'en';
                         settingsRepo.setting.notifyListeners();
                         Navigator.pop(context);
                       },

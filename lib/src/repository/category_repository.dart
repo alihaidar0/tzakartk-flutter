@@ -2,23 +2,19 @@ import 'dart:convert';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/custom_trace.dart';
 import '../helpers/helper.dart';
+import '../library/globals.dart' as globals;
 import '../models/category.dart';
-import '../models/filter.dart';
 
 Future<Stream<Category>> getCategories(String cityId) async {
   Uri uri = Helper.getUri('api/parents');
-  Map<String, dynamic> _queryParams = {"city_id": cityId};
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  Filter filter =
-      Filter.fromJSON(json.decode(prefs.getString('filter') ?? '{}'));
-  filter.delivery = false;
-  filter.open = false;
-
-  _queryParams.addAll(filter.toQuery());
+  String orderBy =
+      globals.lang != null && globals.lang == 'ar' ? 'ar_name' : 'en_name';
+  Map<String, dynamic> _queryParams = {};
+  _queryParams['city_id'] = '$cityId';
+  _queryParams['orderBy'] = orderBy;
   uri = uri.replace(queryParameters: _queryParams);
   try {
     final client = new http.Client();

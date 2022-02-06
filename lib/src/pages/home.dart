@@ -148,15 +148,17 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                           },
                         )
                       : SizedBox(),
-                  ListTile(
-                    dense: true,
-                    contentPadding: EdgeInsets.only(
-                        left: 20.0, top: 5.0, right: 20.0, bottom: 5.0),
-                    title: Text(
-                      S.of(context).shops,
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
-                  ),
+                  loadSubCategory
+                      ? ListTile(
+                          dense: true,
+                          contentPadding: EdgeInsets.only(
+                              left: 20.0, top: 5.0, right: 20.0, bottom: 5.0),
+                          title: Text(
+                            S.of(context).shops,
+                            style: Theme.of(context).textTheme.headline4,
+                          ),
+                        )
+                      : SizedBox(height: 0, width: 0),
                   loadSubCategory
                       ? SubCategoriesCarouselWidget(
                           subCategories: _con.subCategories,
