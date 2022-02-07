@@ -1995,6 +1995,16 @@ class S {
     );
   }
 
+  /// `Receiver full name`
+  String get receiverFullName {
+    return Intl.message(
+      'Receiver full name',
+      name: 'receiverFullName',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Receiver phone`
   String get receiver_phone {
     return Intl.message(
@@ -2220,6 +2230,16 @@ class S {
     return Intl.message(
       'Settings',
       name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shops Categories`
+  String get shopsCategories {
+    return Intl.message(
+      'Shops Categories',
+      name: 'shopsCategories',
       desc: '',
       args: [],
     );

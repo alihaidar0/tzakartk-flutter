@@ -132,7 +132,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                     contentPadding: EdgeInsets.only(
                         left: 20.0, top: 10.0, right: 20.0, bottom: 5.0),
                     title: Text(
-                      S.of(context).product_categories,
+                      S.of(context).shopsCategories,
                       style: Theme.of(context).textTheme.headline4,
                     ),
                   ),

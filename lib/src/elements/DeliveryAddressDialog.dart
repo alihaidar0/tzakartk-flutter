@@ -81,7 +81,7 @@ class DeliveryAddressDialog {
                         keyboardType: TextInputType.text,
                         decoration: getInputDecoration(
                             hintText: S.of(context).john_doe,
-                            labelText: S.of(context).receiver_name),
+                            labelText: S.of(context).receiverFullName),
                         initialValue: address != null
                             ? address.receiver_name?.isNotEmpty ?? false
                                 ? address.receiver_name
