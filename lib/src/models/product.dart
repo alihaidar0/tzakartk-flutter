@@ -6,7 +6,9 @@ import '../models/option_group.dart';
 class Product {
   String id;
   double price;
+  double priceHelp;
   double discountPrice;
+  double discountPriceHelp;
   String capacity;
   double packageItemsCount;
   String unit;
@@ -74,8 +76,10 @@ class Product {
               .toSet()
               .toList()
           : [];
-      price = featured && discountPrice > 0 ? discountPrice : price;
-      discountPrice = featured && discountPrice > 0 ? price : discountPrice;
+      priceHelp = featured && discountPrice > 0 ? discountPrice : price;
+      discountPriceHelp = featured && discountPrice > 0 ? price : discountPrice;
+      price = priceHelp;
+      discountPrice = discountPriceHelp;
     } catch (e) {
       id = '';
       price = 0.0;

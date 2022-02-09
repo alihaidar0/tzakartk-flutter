@@ -24,6 +24,12 @@ class ProductController extends ControllerMVC {
   void listenForProduct({String productId, String message}) async {
     final Stream<Product> stream = await getProduct(productId);
     stream.listen((Product _product) {
+      print("######### Product #########");
+      print("${_product.id}");
+      print("${_product.price}");
+      print("${_product.discountPrice}");
+      print("${_product.featured}");
+      print("##################");
       setState(() {
         if (_product.optionGroups.length > 0 && _product.options.length > 0) {
           _product.optionGroups.forEach((element) {
