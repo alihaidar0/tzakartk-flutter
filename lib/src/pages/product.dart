@@ -81,7 +81,7 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                         .pushReplacementNamed('/Category',
                                         arguments: RouteArgument(id: _con.product.category.id)),
                                 icon: Icon(Icons.arrow_back),
-                                color: Colors.white,
+                                color: Colors.red,
                               ),
                               backgroundColor:
                                   Theme.of(context).accentColor.withOpacity(0.9),

@@ -139,10 +139,17 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                   _selectedCity != null
                       ? CategoriesCarouselWidget(
                           categories: _con.categories,
-                          onPressed: (String categoryId) {
+                          selected: _con.selected,
+                          onPressed: (String categoryId, int index) {
                             setState(() {
                               loadSubCategory = true;
                               _con.subCategories.clear();
+                              if (_con.selected.length>0 )
+                                {
+                                  _con.selected = List.generate(_con.categories.length, (index) => false);
+                                }
+                              if (index != null && _con.selected.isNotEmpty)
+                                _con.selected[index] = true;
                               _con.listenForSubCategories(categoryId);
                             });
                           },

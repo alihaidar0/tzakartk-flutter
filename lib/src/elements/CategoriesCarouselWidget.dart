@@ -7,10 +7,15 @@ import '../models/category.dart';
 // ignore: must_be_immutable
 class CategoriesCarouselWidget extends StatelessWidget {
   List<Category> categories;
-  final Function(String) onPressed;
+  List<bool> selected;
+  final Function(String, int) onPressed;
 
-  CategoriesCarouselWidget({Key key, this.categories, @required this.onPressed})
-      : super(key: key);
+  CategoriesCarouselWidget({
+    Key key,
+    this.categories,
+    this.selected,
+    @required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +33,9 @@ class CategoriesCarouselWidget extends StatelessWidget {
                 return new CategoriesCarouselItemWidget(
                   marginLeft: _marginLeft,
                   category: this.categories.elementAt(index),
+                  selected: selected[index],
                   onTap: (String categoryId) {
-                    onPressed(categoryId);
+                    onPressed(categoryId, index);
                   },
                 );
               },

@@ -1,10 +1,10 @@
 import 'package:mvc_pattern/mvc_pattern.dart';
-import '../repository/change_location_repository.dart';
 
 import '../models/category.dart';
 import '../models/sub_category.dart';
 import '../repository/banner_slider_repository.dart';
 import '../repository/category_repository.dart';
+import '../repository/change_location_repository.dart';
 import '../repository/our_new_repository.dart';
 import '../repository/sub_category_repository.dart';
 
@@ -12,6 +12,7 @@ class HomeController extends ControllerMVC {
   List<String> bannerSlider = <String>[];
   List<String> ourNewSlider = <String>[];
   List<Category> categories = <Category>[];
+  List<bool> selected = <bool>[];
   List<SubCategory> subCategories = <SubCategory>[];
   bool loadingBanners = false;
   bool loadingOurNew = false;
@@ -74,10 +75,14 @@ class HomeController extends ControllerMVC {
     if (!loadingCategories) {
       loadingCategories = true;
       categories.clear();
+      selected.clear();
       final Stream<Category> stream = await getCategories(cityId);
       stream.listen(
         (Category _category) {
-          setState(() => categories.add(_category));
+          setState(() {
+            categories.add(_category);
+            selected.add(false);
+          });
         },
         onError: (a) {
           loadingCategories = false;
@@ -147,6 +152,7 @@ class HomeController extends ControllerMVC {
     bannerSlider.clear();
     ourNewSlider.clear();
     categories.clear();
+    selected.clear();
     subCategories.clear();
     await listenForBanners();
     await listenForOurNew();
