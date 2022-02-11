@@ -89,7 +89,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                 style: Theme.of(context)
                     .textTheme
                     .headline6
-                    .merge(TextStyle(letterSpacing: 1.3)),
+                    ?.merge(TextStyle(letterSpacing: 1.3,fontSize: 20)),
               );
             },
           ),
@@ -118,10 +118,15 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                   ListTile(
                     dense: true,
                     contentPadding: EdgeInsets.only(
-                        left: 20.0, top: 10.0, right: 20.0, bottom: 5.0),
-                    title: Text(
-                      S.of(context).upToDate,
-                      style: Theme.of(context).textTheme.headline4,
+                        left: 20.0, top: 5.0, right: 20.0, bottom: 0),
+                    title: Center(
+                      child: Text(
+                        S.of(context).upToDate,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            ?.merge(TextStyle(letterSpacing: 1.3,fontSize: 20)),
+                      ),
                     ),
                   ),
                   OurNewCarouselWidget(
@@ -130,10 +135,15 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                   ListTile(
                     dense: true,
                     contentPadding: EdgeInsets.only(
-                        left: 20.0, top: 10.0, right: 20.0, bottom: 5.0),
-                    title: Text(
-                      S.of(context).shopsCategories,
-                      style: Theme.of(context).textTheme.headline4,
+                        left: 20.0, top: 10.0, right: 20.0, bottom: 0),
+                    title: Center(
+                      child: Text(
+                        S.of(context).shopsCategories,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            ?.merge(TextStyle(letterSpacing: 1.3,fontSize: 20)),
+                      ),
                     ),
                   ),
                   _selectedCity != null
@@ -160,9 +170,14 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                           dense: true,
                           contentPadding: EdgeInsets.only(
                               left: 20.0, top: 5.0, right: 20.0, bottom: 5.0),
-                          title: Text(
-                            S.of(context).shops,
-                            style: Theme.of(context).textTheme.headline4,
+                          title: Center(
+                            child: Text(
+                              S.of(context).shops,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  ?.merge(TextStyle(letterSpacing: 1.3,fontSize: 20)),
+                            ),
                           ),
                         )
                       : SizedBox(height: 0, width: 0),
