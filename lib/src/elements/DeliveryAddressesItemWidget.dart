@@ -76,28 +76,28 @@ class DeliveryAddressesItemWidget extends StatelessWidget {
                       width: (address?.isDefault ?? true) ? 3 : 0,
                     ),
                     color:
-                    // (paymentMethod?.selected ?? false)
-                    (address?.selected ?? false)
-                        ? Theme.of(context).accentColor
-                        : (address?.isDefault ?? false)
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).focusColor,
+                        // (paymentMethod?.selected ?? false)
+                        (address?.selected ?? false)
+                            ? Theme.of(context).accentColor
+                            : (address?.isDefault ?? false)
+                                ? Theme.of(context).primaryColor
+                                : Theme.of(context).focusColor,
                   ),
                   child:
-                  // (paymentMethod?.selected ?? false)
-                  (address?.selected ?? false)
-                      ? Icon(
-                          Icons.check,
-                          color: Theme.of(context).primaryColor,
-                          size: 38,
-                        )
-                      : Icon(
-                          Icons.place_outlined,
-                          color: (address?.isDefault ?? false)
-                              ? Theme.of(context).accentColor
-                              : Theme.of(context).primaryColor,
-                          size: 38,
-                        ),
+                      // (paymentMethod?.selected ?? false)
+                      (address?.selected ?? false)
+                          ? Icon(
+                              Icons.check,
+                              color: Theme.of(context).primaryColor,
+                              size: 38,
+                            )
+                          : Icon(
+                              Icons.place_outlined,
+                              color: (address?.isDefault ?? false)
+                                  ? Theme.of(context).accentColor
+                                  : Theme.of(context).primaryColor,
+                              size: 38,
+                            ),
                 ),
               ],
             ),

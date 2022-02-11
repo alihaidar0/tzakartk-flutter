@@ -49,7 +49,8 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('${S.of(context).order_code}: #${widget.order.order_code}'),
+                        Text(
+                            '${S.of(context).order_code}: #${widget.order.order_code}'),
                         Row(
                           children: [
                             Text(
@@ -135,15 +136,16 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           height: 28,
           width: 140,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(100)),
-              color: widget.order.orderStatus.flag != 2
-                  ? Theme.of(context).accentColor
-                  : Colors.redAccent,),
+            borderRadius: BorderRadius.all(Radius.circular(100)),
+            color: widget.order.orderStatus.flag != 2
+                ? Theme.of(context).accentColor
+                : Colors.redAccent,
+          ),
           alignment: AlignmentDirectional.center,
           child: Text(
-            Localizations.localeOf(context).languageCode == 'en'?
-            widget.order.orderStatus.status:
-            widget.order.orderStatus.ar_status,
+            Localizations.localeOf(context).languageCode == 'en'
+                ? widget.order.orderStatus.status
+                : widget.order.orderStatus.ar_status,
             maxLines: 1,
             overflow: TextOverflow.fade,
             softWrap: false,

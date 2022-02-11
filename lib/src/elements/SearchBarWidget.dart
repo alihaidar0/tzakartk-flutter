@@ -11,8 +11,8 @@ class SearchBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: this.onTap,
-          // () {
-        // Navigator.of(context).push(SearchModal(this.categoryId));
+      // () {
+      // Navigator.of(context).push(SearchModal(this.categoryId));
       // },
       child: Container(
         padding: EdgeInsets.all(9),

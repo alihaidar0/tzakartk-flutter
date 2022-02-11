@@ -8,6 +8,7 @@ class Coupon {
   List<Discountable> discountables;
   String discountableId;
   bool enabled;
+
   Coupon();
 
   Coupon.fromJSON(Map<String, dynamic> jsonMap) {
@@ -56,5 +57,5 @@ class Coupon {
   int get hashCode => this.id.hashCode;
 
   @override
-  String toString() =>'code= $code, enabled= $enabled';
+  String toString() => 'code= $code, enabled= $enabled';
 }

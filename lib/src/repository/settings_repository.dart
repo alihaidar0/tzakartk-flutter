@@ -16,8 +16,8 @@ import '../models/setting.dart';
 
 ValueNotifier<Setting> setting = new ValueNotifier(new Setting());
 ValueNotifier<Address> deliveryAddress = new ValueNotifier(new Address());
-ValueNotifier<DateTime> deliveryDay =
-    new ValueNotifier(new DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day + 2));
+ValueNotifier<DateTime> deliveryDay = new ValueNotifier(new DateTime(
+    DateTime.now().year, DateTime.now().month, DateTime.now().day + 2));
 Coupon coupon = new Coupon.fromJSON({});
 final navigatorKey = GlobalKey<NavigatorState>();
 

@@ -89,7 +89,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                 style: Theme.of(context)
                     .textTheme
                     .headline6
-                    ?.merge(TextStyle(letterSpacing: 1.3,fontSize: 20)),
+                    ?.merge(TextStyle(letterSpacing: 1.3, fontSize: 20)),
               );
             },
           ),
@@ -122,10 +122,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                     title: Center(
                       child: Text(
                         S.of(context).upToDate,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.merge(TextStyle(letterSpacing: 1.3,fontSize: 20)),
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
                   ),
@@ -139,10 +136,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                     title: Center(
                       child: Text(
                         S.of(context).shopsCategories,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.merge(TextStyle(letterSpacing: 1.3,fontSize: 20)),
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
                   ),
@@ -154,10 +148,10 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                             setState(() {
                               loadSubCategory = true;
                               _con.subCategories.clear();
-                              if (_con.selected.length>0 )
-                                {
-                                  _con.selected = List.generate(_con.categories.length, (index) => false);
-                                }
+                              if (_con.selected.length > 0) {
+                                _con.selected = List.generate(
+                                    _con.categories.length, (index) => false);
+                              }
                               if (index != null && _con.selected.isNotEmpty)
                                 _con.selected[index] = true;
                               _con.listenForSubCategories(categoryId);
@@ -169,14 +163,11 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                       ? ListTile(
                           dense: true,
                           contentPadding: EdgeInsets.only(
-                              left: 20.0, top: 5.0, right: 20.0, bottom: 5.0),
+                              left: 20.0, top: 5.0, right: 20.0, bottom: 0),
                           title: Center(
                             child: Text(
                               S.of(context).shops,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6
-                                  ?.merge(TextStyle(letterSpacing: 1.3,fontSize: 20)),
+                              style: Theme.of(context).textTheme.headline6,
                             ),
                           ),
                         )

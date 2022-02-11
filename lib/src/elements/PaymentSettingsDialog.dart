@@ -124,19 +124,17 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                       MaterialButton(
                         elevation: 0,
                         onPressed: _submit,
-                        padding: EdgeInsets.symmetric(vertical: 10,horizontal: 18),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 18),
                         color: Theme.of(context).accentColor,
                         shape: StadiumBorder(),
                         child: Text(
                           S.of(context).save,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              .merge(
-                            TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
+                          style: Theme.of(context).textTheme.bodyText1.merge(
+                                TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
                         ),
                       ),
                     ],

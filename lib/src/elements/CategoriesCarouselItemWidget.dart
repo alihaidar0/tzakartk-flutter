@@ -36,12 +36,12 @@ class CategoriesCarouselItemWidget extends StatelessWidget {
             child: Container(
               margin:
                   EdgeInsetsDirectional.only(start: this.marginLeft, end: 20),
-              width: 120,
-              height: 120,
+              width: 110,
+              height: 110,
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                border: Border.all(color: Colors.black12,width: 0.5),
+                  border: Border.all(color: Colors.black12, width: 0.5),
                   boxShadow: [
                     BoxShadow(
                       color: selected != null && selected

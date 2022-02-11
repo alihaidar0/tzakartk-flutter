@@ -12,9 +12,9 @@ class OurNewCarouselWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return this.slides == null || this.slides.isEmpty
-        ? CircularLoadingWidget(height: 120)
+        ? CircularLoadingWidget(height: 110)
         : Container(
-            height: 120,
+            height: 110,
             // padding: EdgeInsets.symmetric(vertical: 5),
             child: ListView.builder(
               itemCount: this.slides.length,
@@ -25,7 +25,7 @@ class OurNewCarouselWidget extends StatelessWidget {
                 return Container(
                   margin:
                       EdgeInsetsDirectional.only(start: _marginLeft, end: 20),
-                  width: 250,
+                  width: 220,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(

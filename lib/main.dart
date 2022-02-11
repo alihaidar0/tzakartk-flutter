@@ -17,9 +17,9 @@ Future<void> main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.white,
-      statusBarIconBrightness: Brightness.dark,// this one for android
-      statusBarBrightness: Brightness.dark// this one for iOS
-  ));
+      statusBarIconBrightness: Brightness.dark, // this one for android
+      statusBarBrightness: Brightness.dark // this one for iOS
+      ));
   await GlobalConfiguration().loadFromAsset("configurations");
   print(CustomTrace(StackTrace.current,
       message: "base_url: ${GlobalConfiguration().getValue('base_url')}"));

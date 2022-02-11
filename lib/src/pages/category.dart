@@ -180,9 +180,8 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                                 heroTag: 'favorites_list',
                                 product: _con.products.elementAt(index),
                                 onTap: (RouteArgument routeArgument) {
-                                  Navigator.of(context)
-                                      .pushNamed('/Product',
-                                          arguments: routeArgument);
+                                  Navigator.of(context).pushNamed('/Product',
+                                      arguments: routeArgument);
                                 },
                               );
                             },
@@ -199,10 +198,11 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 20,
                             padding: EdgeInsets.symmetric(horizontal: 20),
-                            crossAxisCount: MediaQuery.of(context).orientation ==
-                                    Orientation.portrait
-                                ? 2
-                                : 4,
+                            crossAxisCount:
+                                MediaQuery.of(context).orientation ==
+                                        Orientation.portrait
+                                    ? 2
+                                    : 4,
                             children: List.generate(
                               _con.products.length,
                               (index) {
@@ -210,9 +210,8 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                                   heroTag: 'category_grid',
                                   product: _con.products.elementAt(index),
                                   onTap: (RouteArgument routeArgument) {
-                                    Navigator.of(context)
-                                        .pushNamed('/Product',
-                                            arguments: routeArgument);
+                                    Navigator.of(context).pushNamed('/Product',
+                                        arguments: routeArgument);
                                   },
                                 );
                               },

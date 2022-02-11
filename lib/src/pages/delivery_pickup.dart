@@ -15,8 +15,7 @@ import '../models/route_argument.dart';
 class DeliveryPickupWidget extends StatefulWidget {
   final RouteArgument routeArgument;
 
-  DeliveryPickupWidget({Key key, this.routeArgument})
-      : super(key: key);
+  DeliveryPickupWidget({Key key, this.routeArgument}) : super(key: key);
 
   @override
   _DeliveryPickupWidgetState createState() => _DeliveryPickupWidgetState();

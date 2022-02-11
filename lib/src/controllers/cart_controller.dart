@@ -47,7 +47,9 @@ class CartController extends ControllerMVC {
       print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).verify_your_internet_connection),
+        content: Text(S
+            .of(state.context)
+            .verify_your_internet_connection),
       ));
     }, onDone: () {
       if (carts.isNotEmpty) {
@@ -64,7 +66,7 @@ class CartController extends ControllerMVC {
   void listenForDelivery({String message}) async {
     final Stream<bool> stream = await getDelivery();
     stream.listen((bool _delivery) {
-        this.freeDelivery = _delivery;
+      this.freeDelivery = _delivery;
     }, onError: (a) {
       this.freeDelivery = false;
       print("##################");
@@ -72,7 +74,9 @@ class CartController extends ControllerMVC {
       print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).verify_your_internet_connection),
+        content: Text(S
+            .of(state.context)
+            .verify_your_internet_connection),
       ));
     });
   }
@@ -89,7 +93,9 @@ class CartController extends ControllerMVC {
       print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).verify_your_internet_connection),
+        content: Text(S
+            .of(state.context)
+            .verify_your_internet_connection),
       ));
     });
   }
@@ -98,7 +104,9 @@ class CartController extends ControllerMVC {
     setState(() {
       carts = [];
     });
-    listenForCarts(message: S.of(state.context).carts_refreshed_successfully);
+    listenForCarts(message: S
+        .of(state.context)
+        .carts_refreshed_successfully);
     listenForDelivery();
     listenForCartsCount();
   }
@@ -134,7 +142,9 @@ class CartController extends ControllerMVC {
       print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).verify_your_internet_connection),
+        content: Text(S
+            .of(state.context)
+            .verify_your_internet_connection),
       ));
     });
   }
@@ -153,7 +163,9 @@ class CartController extends ControllerMVC {
       print("##################");
       print(e);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).verify_your_internet_connection),
+        content: Text(S
+            .of(state.context)
+            .verify_your_internet_connection),
       ));
     }).whenComplete(() {
       saveCoupon(settingRepo.coupon);
@@ -179,7 +191,9 @@ class CartController extends ControllerMVC {
       }
     } else {
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).thereAreNoRemainItems),
+        content: Text(S
+            .of(state.context)
+            .thereAreNoRemainItems),
       ));
     }
   }
@@ -202,7 +216,7 @@ class CartController extends ControllerMVC {
   }
 
   void goCheckout(BuildContext context) {
-      Navigator.of(state.context).pushNamed('/DeliveryPickup');
+    Navigator.of(state.context).pushNamed('/DeliveryPickup');
   }
 
   Color getCouponIconColor() {
@@ -211,7 +225,10 @@ class CartController extends ControllerMVC {
     } else if (settingRepo.coupon?.enabled == false) {
       return Colors.redAccent;
     }
-    return Theme.of(state.context).focusColor.withOpacity(0.7);
+    return Theme
+        .of(state.context)
+        .focusColor
+        .withOpacity(0.7);
   }
 
   Future<void> getCoupon() async {

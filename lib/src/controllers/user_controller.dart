@@ -43,7 +43,9 @@ class UserController extends ControllerMVC {
         } else {
           ScaffoldMessenger.of(scaffoldKey?.currentContext)
               .showSnackBar(SnackBar(
-            content: Text(S.of(state.context).make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong),
+            content: Text(S
+                .of(state.context)
+                .make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong),
           ));
         }
       }).catchError((e) {

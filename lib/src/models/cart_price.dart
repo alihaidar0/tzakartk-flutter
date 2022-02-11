@@ -14,7 +14,9 @@ class CartPrice {
           ? jsonMap['delivery_fee'].toDouble()
           : 0.0;
       total = jsonMap['total'] != null ? jsonMap['total'].toDouble() : 0.0;
-      couponDiscount = jsonMap['couponDiscount'] != null ? jsonMap['couponDiscount'].toDouble() : 0.0;
+      couponDiscount = jsonMap['couponDiscount'] != null
+          ? jsonMap['couponDiscount'].toDouble()
+          : 0.0;
     } catch (e) {
       sub_total = 0.0;
       delivery_fee = 0.0;
@@ -31,6 +33,8 @@ class CartPrice {
     map["couponDiscount"] = couponDiscount;
     return map;
   }
+
   @override
-  String toString() => 'sub_total= $sub_total, delivery_fee= $delivery_fee, total= $total, couponDiscount= $couponDiscount, ';
+  String toString() =>
+      'sub_total= $sub_total, delivery_fee= $delivery_fee, total= $total, couponDiscount= $couponDiscount, ';
 }

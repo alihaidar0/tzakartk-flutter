@@ -54,7 +54,9 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
               SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: config.App(context).appHeight(29.5) - 50,),
+                    SizedBox(
+                      height: config.App(context).appHeight(29.5) - 50,
+                    ),
                     Container(
                       decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,

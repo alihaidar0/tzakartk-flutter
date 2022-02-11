@@ -35,8 +35,7 @@ Future<Stream<bool>> getDelivery() async {
   if (_user.apiToken == null) {
     return new Stream.value(false);
   }
-  final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}carts';
+  final String url = '${GlobalConfiguration().getValue('api_base_url')}carts';
   try {
     final client = new MyClient();
     final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -45,7 +44,7 @@ Future<Stream<bool>> getDelivery() async {
         .transform(json.decoder)
         .map(
           (data) => Helper.getBoolFreeDeliveryInCart(data),
-    );
+        );
   } catch (e) {
     print(CustomTrace(StackTrace.current, message: url).toString());
     return new Stream.value(false);
@@ -131,9 +130,9 @@ Future<bool> updateCart(Cart cart) async {
     },
     body: json.encode(cart.toMap()),
   );
-  if(json.decode(response.body)['success'] == true)
+  if (json.decode(response.body)['success'] == true)
     return true;
-  else{
+  else {
     return false;
   }
 }

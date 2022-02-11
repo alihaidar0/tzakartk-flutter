@@ -57,8 +57,9 @@ class _PayPalPaymentWidgetState extends StateMVC<PayPalPaymentWidget> {
                     _con.url = url;
                   });
                   if (url ==
-                      "${GlobalConfiguration().getValue('base_url')}/client/account" || url ==
-                      "${GlobalConfiguration().getValue('base_url')}/client/login" ) {
+                          "${GlobalConfiguration().getValue('base_url')}/client/account" ||
+                      url ==
+                          "${GlobalConfiguration().getValue('base_url')}/client/login") {
                     settingRepo.coupon = new Coupon.fromJSON({});
                     saveCoupon(settingRepo.coupon);
                     Navigator.of(context).pushNamedAndRemoveUntil(
@@ -68,7 +69,6 @@ class _PayPalPaymentWidgetState extends StateMVC<PayPalPaymentWidget> {
                   }
                   if (url ==
                       "${GlobalConfiguration().getValue('base_url')}/client/checkout") {
-
                     Navigator.pop(context);
                   }
                 },

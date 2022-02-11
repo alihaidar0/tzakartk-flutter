@@ -48,11 +48,10 @@ class CountriesCitiesController extends ControllerMVC {
 
   void changeLocation(String cityId, {String message}) async {
     changeLocationRepo(cityId).then((value) {
-      if (value)
-        {
-          Navigator.of(scaffoldKey.currentContext)
-              .pushReplacementNamed('/Pages', arguments: 1);
-        }
+      if (value) {
+        Navigator.of(scaffoldKey.currentContext)
+            .pushReplacementNamed('/Pages', arguments: 1);
+      }
     }).catchError((e) {
       print("##################");
       print("######### Error changeLocation with SnackBar #########");

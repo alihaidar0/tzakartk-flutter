@@ -25,7 +25,8 @@ class PayPalController extends ControllerMVC {
     final String _deliveryAddress =
         'delivery_address_id=${settingRepo.deliveryAddress.value?.id}';
     final String _couponCode = 'coupon_code=${settingRepo.coupon?.code}';
-    final String _deliveryDate = 'delivery_date=${settingRepo.deliveryDay.value?.year.toString()}-${settingRepo.deliveryDay.value?.month.toString().padLeft(2, '0')}-${settingRepo.deliveryDay.value?.day.toString().padLeft(2, '0')}';
+    final String _deliveryDate =
+        'delivery_date=${settingRepo.deliveryDay.value?.year.toString()}-${settingRepo.deliveryDay.value?.month.toString().padLeft(2, '0')}-${settingRepo.deliveryDay.value?.day.toString().padLeft(2, '0')}';
     url =
         '${GlobalConfiguration().getValue('base_url')}payments/paypal/express-checkout?$_apiToken&$_userId&$_deliveryAddress&$_couponCode&$_deliveryDate';
     setState(() {});

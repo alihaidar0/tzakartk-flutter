@@ -13,9 +13,9 @@ class SubCategoriesCarouselWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return this.subCategories.isEmpty
-        ? CircularLoadingWidget(height: 170)
+        ? CircularLoadingWidget(height: 150)
         : Container(
-            height: 170,
+            height: 150,
             padding: EdgeInsets.symmetric(vertical: 5),
             child: ListView.builder(
               itemCount: this.subCategories.length,

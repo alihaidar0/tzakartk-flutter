@@ -22,12 +22,12 @@ class _HomeBannerSliderWidgetState extends State<HomeBannerSliderWidget> {
   @override
   Widget build(BuildContext context) {
     return widget.slides == null || widget.slides.isEmpty
-        ? CircularLoadingWidget(height: 150)
+        ? CircularLoadingWidget(height: 140)
         : CarouselSlider(
             options: CarouselOptions(
               autoPlay: widget.slides.length > 1 ? true : false,
               autoPlayInterval: Duration(seconds: 7),
-              height: 150,
+              height: 140,
               viewportFraction: 0.6,
               enlargeCenterPage: true,
               onPageChanged: (index, reason) {
@@ -40,9 +40,8 @@ class _HomeBannerSliderWidgetState extends State<HomeBannerSliderWidget> {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 0),
-                    height: 150,
+                    margin: const EdgeInsets.symmetric(horizontal: 0),
+                    height: 140,
                     width: 250,
                     decoration: BoxDecoration(
                       boxShadow: [

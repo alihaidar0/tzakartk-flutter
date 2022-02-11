@@ -19,9 +19,8 @@ class SubCategoriesCarouselItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       highlightColor: Colors.transparent,
       onTap: () {
-        Navigator.of(context)
-            .pushNamed('/Category',
-                arguments: RouteArgument(id: subCategory.id));
+        Navigator.of(context).pushNamed('/Category',
+            arguments: RouteArgument(id: subCategory.id));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,8 +30,8 @@ class SubCategoriesCarouselItemWidget extends StatelessWidget {
             child: Container(
               margin:
                   EdgeInsetsDirectional.only(start: this.marginLeft, end: 20),
-              width: 120,
-              height: 120,
+              width: 110,
+              height: 110,
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
