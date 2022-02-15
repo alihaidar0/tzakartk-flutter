@@ -2,6 +2,7 @@ import '../models/address.dart';
 import '../models/order_status.dart';
 import '../models/payment.dart';
 import '../models/product_order.dart';
+import 'package:intl/intl.dart';
 
 class Order {
   String id;
@@ -92,7 +93,7 @@ class Order {
     }
     map['delivery_date'] = deliveryDate == null
         ? null
-        : "${deliveryDate.year.toString()}-${deliveryDate.month.toString().padLeft(2, '0')}-${deliveryDate.day.toString().padLeft(2, '0')}";
+        : DateFormat('yyyy-MM-dd HH:MM:SS').format(deliveryDate);
     map['coupon'] = coupon;
     return map;
   }
