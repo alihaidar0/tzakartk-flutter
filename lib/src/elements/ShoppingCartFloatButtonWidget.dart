@@ -52,10 +52,17 @@ class _ShoppingCartFloatButtonWidgetState
                 .pushNamed('/Cart', arguments: widget.routeArgument)
                 .then((value) => _con.listenForCartsCount());
           } else {
-            Navigator.of(context).pushNamedAndRemoveUntil(
+            Navigator.of(context)
+                .pushNamed(
               '/Login',
-              (Route<dynamic> route) => false,
-            );
+              arguments: true,
+            )
+                .then((value) {
+              if (value)
+                Navigator.of(context)
+                    .pushNamed('/Cart', arguments: widget.routeArgument)
+                    .then((value) => _con.listenForCartsCount());
+            });
           }
         },
         child: Stack(

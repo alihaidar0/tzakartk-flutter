@@ -23,7 +23,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
             onTap: () {
               currentUser.value.apiToken != null
                   ? Navigator.of(context).pushNamed('/Profile')
-                  : Navigator.of(context).pushReplacementNamed('/Login');
+                  : Navigator.of(context)
+                      .pushReplacementNamed('/Login', arguments: false);
             },
             child: currentUser.value.apiToken != null
                 ? UserAccountsDrawerHeader(
@@ -61,8 +62,9 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                             MaterialButton(
                               elevation: 0,
                               onPressed: () {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/Login');
+                                Navigator.of(context).pushReplacementNamed(
+                                    '/Login',
+                                    arguments: false);
                               },
                               color: Theme.of(context).accentColor,
                               height: 40,
@@ -181,7 +183,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               if (currentUser.value.apiToken != null) {
                 Navigator.of(context).pushNamed('/Settings');
               } else {
-                Navigator.of(context).pushReplacementNamed('/Login');
+                Navigator.of(context)
+                    .pushReplacementNamed('/Login', arguments: false);
               }
             },
             leading: Icon(
@@ -250,7 +253,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                       arguments: 1);
                 });
               } else {
-                Navigator.of(context).pushReplacementNamed('/Login');
+                Navigator.of(context)
+                    .pushReplacementNamed('/Login', arguments: false);
               }
             },
             leading: Icon(

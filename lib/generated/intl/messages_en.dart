@@ -181,8 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "help_support": MessageLookupByLibrary.simpleMessage("Help & Support"),
         "help_supports":
             MessageLookupByLibrary.simpleMessage("Help & Supports"),
-        "hint_full_address": MessageLookupByLibrary.simpleMessage(
-            "12 Street, City 21663, Country"),
+        "hint_full_address": MessageLookupByLibrary.simpleMessage("12 Street"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "home_address": MessageLookupByLibrary.simpleMessage("Home Address"),
         "how_would_you_rate_this_market": MessageLookupByLibrary.simpleMessage(
@@ -269,6 +268,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Not a valid phone"),
         "not_deliverable":
             MessageLookupByLibrary.simpleMessage("Not Deliverable"),
+        "note": MessageLookupByLibrary.simpleMessage("Note"),
         "notificationWasRemoved":
             MessageLookupByLibrary.simpleMessage("Notification was removed"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),

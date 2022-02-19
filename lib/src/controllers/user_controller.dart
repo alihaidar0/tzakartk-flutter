@@ -27,7 +27,7 @@ class UserController extends ControllerMVC {
     });
   }
 
-  void login() async {
+  void login(bool mustBack) async {
     loader = Helper.overlayLoader(state.context);
     FocusScope.of(state.context).unfocus();
     if (loginFormKey.currentState.validate()) {
@@ -38,14 +38,21 @@ class UserController extends ControllerMVC {
         print("${value}");
         print("##################");
         if (value != null && value.apiToken != null) {
-          Navigator.of(scaffoldKey.currentContext)
-              .pushReplacementNamed('/Pages', arguments: 1);
+          if (mustBack != null && mustBack) {
+            Navigator.of(scaffoldKey.currentContext).pop(true);
+          } else {
+            Navigator.of(scaffoldKey.currentContext).pushNamedAndRemoveUntil(
+                '/Pages', (Route<dynamic> route) => false,
+                arguments: 1);
+          }
         } else {
           ScaffoldMessenger.of(scaffoldKey?.currentContext)
               .showSnackBar(SnackBar(
-            content: Text(S
-                .of(state.context)
-                .make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong),
+            content: Text(
+              S
+                  .of(state.context)
+                  .make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong,
+            ),
           ));
         }
       }).catchError((e) {
@@ -71,7 +78,8 @@ class UserController extends ControllerMVC {
         print("######### value in register #########");
         print("${value}");
         print("##################");
-        Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Login');
+        Navigator.of(scaffoldKey.currentContext)
+            .pushReplacementNamed('/Login', arguments: false);
       } else {
         ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
           content: Text(S.of(state.context).wrong_email_or_password),
@@ -107,7 +115,7 @@ class UserController extends ControllerMVC {
               label: S.of(state.context).login,
               onPressed: () {
                 Navigator.of(scaffoldKey.currentContext)
-                    .pushReplacementNamed('/Login');
+                    .pushReplacementNamed('/Login', arguments: false);
               },
             ),
             duration: Duration(seconds: 10),

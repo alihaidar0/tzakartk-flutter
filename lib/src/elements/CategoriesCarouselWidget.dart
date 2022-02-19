@@ -1,8 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-import '../elements/CategoriesCarouselItemWidget.dart';
 import '../elements/CircularLoadingWidget.dart';
 import '../models/category.dart';
+import 'CategoriesCarouselItemWidget.dart';
 
 // ignore: must_be_immutable
 class CategoriesCarouselWidget extends StatelessWidget {
@@ -21,25 +22,30 @@ class CategoriesCarouselWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return this.categories.isEmpty
         ? CircularLoadingWidget(height: 150)
-        : Container(
-            height: 150,
-            padding: EdgeInsets.symmetric(vertical: 5),
-            child: ListView.builder(
-              itemCount: this.categories.length,
+        : CarouselSlider.builder(
+            options: CarouselOptions(
               scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                double _marginLeft = 0;
-                (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
-                return new CategoriesCarouselItemWidget(
-                  marginLeft: _marginLeft,
-                  category: this.categories.elementAt(index),
-                  selected: selected[index],
-                  onTap: (String categoryId) {
-                    onPressed(categoryId, index);
-                  },
-                );
-              },
+              autoPlay: this.categories.length > 1 ? true : false,
+              autoPlayInterval: Duration(seconds: 3),
+              height: 150,
+              initialPage: 1,
+              enableInfiniteScroll: false,
+              disableCenter: true,
+              viewportFraction: 0.33,
             ),
+            itemCount: this.categories.length,
+            itemBuilder:
+                (BuildContext context, int itemIndex, int pageViewIndex) {
+              double _marginLeft = 0;
+              return CategoriesCarouselItemWidget(
+                marginLeft: _marginLeft,
+                category: this.categories.elementAt(itemIndex),
+                selected: selected[itemIndex],
+                onTap: (String categoryId) {
+                  onPressed(categoryId, itemIndex);
+                },
+              );
+            },
           );
   }
 }

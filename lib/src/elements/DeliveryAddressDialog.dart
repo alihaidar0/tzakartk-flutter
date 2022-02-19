@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
 import '../helpers/checkbox_form_field.dart';
+import '../library/globals.dart' as globals;
 import '../models/address.dart';
 
 // ignore: must_be_immutable
@@ -31,9 +32,72 @@ class DeliveryAddressDialog {
               ],
             ),
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).country,
+                      style: Theme.of(context).textTheme.bodyText2.merge(
+                            TextStyle(color: Theme.of(context).hintColor),
+                          ),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      Localizations.localeOf(context).languageCode == 'en'
+                          ? "${globals.country.en_name}"
+                          : "${globals.country.ar_name}",
+                      style: Theme.of(context).textTheme.headline6.merge(
+                            TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).city,
+                      style: Theme.of(context).textTheme.bodyText2.merge(
+                            TextStyle(color: Theme.of(context).hintColor),
+                          ),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      Localizations.localeOf(context).languageCode == 'en'
+                          ? "${globals.city.en_name}"
+                          : "${globals.city.ar_name}",
+                      style: Theme.of(context).textTheme.headline6.merge(
+                            TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                    ),
+                  ],
+                ),
+              ),
               Form(
                 key: _deliveryAddressFormKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -71,7 +135,16 @@ class DeliveryAddressDialog {
                         validator: (input) => input.trim().length == 0
                             ? S.of(context).notValidAddress
                             : null,
-                        onSaved: (input) => address.address = input,
+                        onSaved: (input) {
+                          input = Localizations.localeOf(context)
+                                      .languageCode ==
+                                  'en'
+                              ? "${globals.country.en_name}, ${globals.city.en_name}, " +
+                                  input
+                              : "${globals.country.ar_name}, ${globals.city.ar_name}, " +
+                                  input;
+                          address.address = input;
+                        },
                       ),
                     ),
                     Padding(
@@ -99,21 +172,26 @@ class DeliveryAddressDialog {
                         style: TextStyle(color: Theme.of(context).hintColor),
                         keyboardType: TextInputType.phone,
                         decoration: getInputDecoration(
-                            hintText: '+1 623-648-8699',
-                            labelText: S.of(context).receiver_phone),
+                            hintText: '623 648 699',
+                            labelText: S.of(context).receiver_phone,
+                            prefixText: "${globals.country.code} "),
                         initialValue: address != null
                             ? address.receiver_phone?.isNotEmpty ?? false
                                 ? address.receiver_phone
                                 : null
                             : null,
                         validator: (input) {
-                          print(input.startsWith('\+'));
-                          return !input.startsWith('\+') &&
-                                  !input.startsWith('00')
-                              ? "Should be valid mobile number with country code"
+                          input = input.replaceAll(' ', '');
+                          input = "${globals.country.code}" + input;
+                          return input.length != 13
+                              ? "Should be valid mobile number"
                               : null;
                         },
-                        onSaved: (input) => address.receiver_phone = input,
+                        onSaved: (input) {
+                          input = input.replaceAll(' ', '');
+                          input = "${globals.country.code}" + input;
+                          address.receiver_phone = input;
+                        },
                       ),
                     ),
                     SizedBox(
@@ -157,8 +235,10 @@ class DeliveryAddressDialog {
         });
   }
 
-  InputDecoration getInputDecoration({String hintText, String labelText}) {
+  InputDecoration getInputDecoration(
+      {String hintText, String labelText, String prefixText}) {
     return new InputDecoration(
+      prefixText: prefixText,
       hintText: hintText,
       labelText: labelText,
       hintStyle: Theme.of(context).textTheme.bodyText2.merge(

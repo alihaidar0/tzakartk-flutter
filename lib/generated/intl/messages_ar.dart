@@ -180,8 +180,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "help_support": MessageLookupByLibrary.simpleMessage("ساعد لدعم"),
         "help_supports":
             MessageLookupByLibrary.simpleMessage("المساعدة والدعم"),
-        "hint_full_address": MessageLookupByLibrary.simpleMessage(
-            "12 شارع المدينة 21663 ، البلد"),
+        "hint_full_address": MessageLookupByLibrary.simpleMessage("12 شارع"),
         "home": MessageLookupByLibrary.simpleMessage("الصفحة الرئيسية"),
         "home_address": MessageLookupByLibrary.simpleMessage("عنوان المنزل"),
         "how_would_you_rate_this_market":
@@ -269,6 +268,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ليس هاتفًا صالحًا"),
         "not_deliverable":
             MessageLookupByLibrary.simpleMessage("غير قابل للتسليم"),
+        "note": MessageLookupByLibrary.simpleMessage("ملاحظة"),
         "notificationWasRemoved":
             MessageLookupByLibrary.simpleMessage("تم مسح التنبيه"),
         "notifications": MessageLookupByLibrary.simpleMessage("إشعارات"),

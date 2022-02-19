@@ -28,6 +28,35 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
     _con = controller;
   }
 
+  createAlertDialog(BuildContext context, String note) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              S.of(context).note,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            content: Text(
+              note,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            actions: [
+              MaterialButton(
+                elevation: 0,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  S.of(context).ok,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_con.list == null) {
@@ -61,6 +90,11 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
               )
             : FloatingActionButton(
                 onPressed: () async {
+                  await createAlertDialog(
+                      context,
+                      Localizations.localeOf(context).languageCode == "en"
+                          ? _con.note.english_note
+                          : _con.note.english_note);
                   Address _newAddress = new Address();
                   DeliveryAddressDialog(
                     context: context,
@@ -163,7 +197,7 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                       itemBuilder: (context, index) {
                         return DeliveryAddressesItemWidget(
                           address: _con.addresses.elementAt(index),
-                          onPressed: (Address _address) {
+                          onPressed: (Address _address) async {
                             if (_con.addresses.elementAt(index).id == null ||
                                 _con.addresses.elementAt(index).id == 'null') {
                               DeliveryAddressDialog(
@@ -174,6 +208,13 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                                 },
                               );
                             } else {
+                              await createAlertDialog(
+                                  context,
+                                  Localizations.localeOf(context)
+                                              .languageCode ==
+                                          "en"
+                                      ? _con.note.english_note
+                                      : _con.note.english_note);
                               _con.toggleDelivery(
                                   _con.addresses.elementAt(index));
                             }

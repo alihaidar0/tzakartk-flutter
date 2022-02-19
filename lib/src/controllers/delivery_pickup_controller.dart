@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
 import '../models/address.dart';
+import '../models/note.dart';
 import '../models/payment_method.dart';
+import '../repository/note_repository.dart';
 import '../repository/settings_repository.dart' as settingRepo;
 import '../repository/user_repository.dart' as userRepo;
 import 'cart_controller.dart';
@@ -12,6 +14,7 @@ class DeliveryPickupController extends CartController {
   List<Address> addresses = <Address>[];
   PaymentMethodList list;
   DateTime deliveryDay;
+  Note note;
 
   DeliveryPickupController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -19,6 +22,7 @@ class DeliveryPickupController extends CartController {
     super.listenForCarts();
     listenForDeliveryAddressDay();
     listenForAddresses();
+    listenForNote();
   }
 
   void listenForAddresses() async {
@@ -124,5 +128,19 @@ class DeliveryPickupController extends CartController {
       settingRepo.deliveryAddress.value = new Address();
       Navigator.of(state.context).pushNamed(getSelectedMethod().route);
     }
+  }
+
+  void listenForNote() async {
+    final Stream<Note> stream = await getNote();
+    stream.listen((Note _note) {
+      setState(() {
+        note = _note;
+      });
+    }, onError: (a) {
+      print("##################");
+      print("######### Error getNote #########");
+      print("##################");
+      print(a);
+    }, onDone: () {});
   }
 }

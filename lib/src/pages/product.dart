@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:photo_view/photo_view.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/product_controller.dart';
@@ -111,25 +112,33 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                       ),
                                       items: _con.product.images
                                           .map((Media image) {
-                                        return Builder(
-                                          builder: (BuildContext context) {
-                                            return CachedNetworkImage(
-                                              height: 300,
-                                              width: double.infinity,
-                                              fit: BoxFit.cover,
-                                              imageUrl: image.url,
-                                              placeholder: (context, url) =>
-                                                  Image.asset(
-                                                'assets/img/loading.gif',
-                                                fit: BoxFit.cover,
-                                                width: double.infinity,
-                                                height: 300,
-                                              ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.error_outline),
-                                            );
+                                        return GestureDetector(
+                                          onTap: () {
+                                            if (image.url != null ||
+                                                image.url != '')
+                                              showDialogFunc(
+                                                  context, image.url);
                                           },
+                                          child: Builder(
+                                            builder: (BuildContext context) {
+                                              return CachedNetworkImage(
+                                                height: 300,
+                                                width: double.infinity,
+                                                fit: BoxFit.cover,
+                                                imageUrl: image.url,
+                                                placeholder: (context, url) =>
+                                                    Image.asset(
+                                                  'assets/img/loading.gif',
+                                                  fit: BoxFit.cover,
+                                                  width: double.infinity,
+                                                  height: 300,
+                                                ),
+                                                errorWidget: (context, url,
+                                                        error) =>
+                                                    Icon(Icons.error_outline),
+                                              );
+                                            },
+                                          ),
                                         );
                                       }).toList(),
                                     ),
@@ -545,8 +554,9 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                           onPressed: () {
                                             if (currentUser.value.apiToken ==
                                                 null) {
-                                              Navigator.of(context)
-                                                  .pushNamed("/Login");
+                                              Navigator.of(context).pushNamed(
+                                                  "/Login",
+                                                  arguments: true);
                                             } else {
                                               _con.addToCart(_con.product);
                                             }
@@ -603,4 +613,23 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
       ),
     );
   }
+}
+
+showDialogFunc(context, String image) {
+  return showDialog(
+    barrierColor: Colors.white.withOpacity(0.8),
+    context: context,
+    builder: (context) {
+      return Center(
+        child: Container(
+          height: 300,
+          width: double.infinity,
+          child: PhotoView(
+            backgroundDecoration: BoxDecoration(color: Colors.transparent),
+            imageProvider: NetworkImage(image),
+          ),
+        ),
+      );
+    },
+  );
 }

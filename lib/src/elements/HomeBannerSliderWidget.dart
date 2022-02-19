@@ -41,7 +41,6 @@ class _HomeBannerSliderWidgetState extends State<HomeBannerSliderWidget> {
                 builder: (BuildContext context) {
                   return Container(
                     margin: const EdgeInsets.symmetric(horizontal: 0),
-                    height: 140,
                     width: 250,
                     decoration: BoxDecoration(
                       boxShadow: [
@@ -55,15 +54,11 @@ class _HomeBannerSliderWidgetState extends State<HomeBannerSliderWidget> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: CachedNetworkImage(
-                        height: 170,
-                        width: 250,
                         fit: BoxFit.cover,
                         imageUrl: slide,
                         placeholder: (context, url) => Image.asset(
                           'assets/img/loading.gif',
                           fit: BoxFit.cover,
-                          height: 170,
-                          width: 250,
                         ),
                         errorWidget: (context, url, error) =>
                             Icon(Icons.error_outline),

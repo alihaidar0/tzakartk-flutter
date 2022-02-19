@@ -9,6 +9,10 @@ import '../helpers/helper.dart';
 import '../repository/user_repository.dart' as userRepo;
 
 class LoginWidget extends StatefulWidget {
+  final bool mustBack;
+
+  const LoginWidget({Key key, this.mustBack}) : super(key: key);
+
   @override
   _LoginWidgetState createState() => _LoginWidgetState();
 }
@@ -176,7 +180,7 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                           ),
                           color: Theme.of(context).accentColor,
                           onPressed: () {
-                            _con.login();
+                            _con.login(widget.mustBack);
                           },
                         ),
                         SizedBox(height: 15),

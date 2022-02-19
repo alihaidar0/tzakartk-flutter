@@ -5,6 +5,7 @@ class Country {
   String id;
   String en_name;
   String ar_name;
+  String code;
   bool has_media;
   List<Media> images;
   Media image;
@@ -16,6 +17,7 @@ class Country {
       id = jsonMap['id'].toString();
       en_name = jsonMap['en_name'];
       ar_name = jsonMap['ar_name'];
+      code = jsonMap['code'];
       has_media = jsonMap['has_media'];
       images = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
           ? List.from(jsonMap['media'])
@@ -30,6 +32,7 @@ class Country {
       id = '';
       en_name = '';
       ar_name = '';
+      code = '';
       has_media = false;
       images = [];
       image = new Media();
@@ -37,6 +40,6 @@ class Country {
     }
   }
 
-  @override
-  String toString() => "$en_name ($ar_name)";
+// @override
+// String toString() => "$en_name ($ar_name)";
 }

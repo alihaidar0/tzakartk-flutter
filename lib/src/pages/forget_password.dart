@@ -138,7 +138,8 @@ class _ForgetPasswordWidgetState extends StateMVC<ForgetPasswordWidget> {
                     MaterialButton(
                       elevation: 0,
                       onPressed: () {
-                        Navigator.of(context).pushReplacementNamed('/Login');
+                        Navigator.of(context)
+                            .pushReplacementNamed('/Login', arguments: false);
                       },
                       textColor: Theme.of(context).hintColor,
                       child: Text(

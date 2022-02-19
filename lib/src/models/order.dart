@@ -1,8 +1,9 @@
+import 'package:intl/intl.dart';
+
 import '../models/address.dart';
 import '../models/order_status.dart';
 import '../models/payment.dart';
 import '../models/product_order.dart';
-import 'package:intl/intl.dart';
 
 class Order {
   String id;

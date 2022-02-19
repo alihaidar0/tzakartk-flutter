@@ -1007,10 +1007,10 @@ class S {
     );
   }
 
-  /// `12 Street, City 21663, Country`
+  /// `12 Street`
   String get hint_full_address {
     return Intl.message(
-      '12 Street, City 21663, Country',
+      '12 Street',
       name: 'hint_full_address',
       desc: '',
       args: [],
@@ -1504,6 +1504,16 @@ class S {
     return Intl.message(
       'Not Deliverable',
       name: 'not_deliverable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note`
+  String get note {
+    return Intl.message(
+      'Note',
+      name: 'note',
       desc: '',
       args: [],
     );

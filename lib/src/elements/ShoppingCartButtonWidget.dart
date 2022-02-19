@@ -47,10 +47,20 @@ class _ShoppingCartButtonWidgetState
               )
               .then((value) => _con.listenForCartsCount());
         } else {
-          Navigator.of(context).pushNamedAndRemoveUntil(
+          Navigator.of(context)
+              .pushNamed(
             '/Login',
-            (Route<dynamic> route) => false,
-          );
+            arguments: true,
+          )
+              .then((value) {
+            if (value)
+              Navigator.of(context)
+                  .pushNamed(
+                    '/Cart',
+                    arguments: RouteArgument(param: '/Pages', id: '1'),
+                  )
+                  .then((value) => _con.listenForCartsCount());
+          });
         }
       },
       child: Stack(
