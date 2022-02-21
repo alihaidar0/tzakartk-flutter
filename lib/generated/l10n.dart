@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -15,23 +14,22 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-
+  
   static S current;
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       S.current = S();
-
+      
       return S.current;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -357,11 +355,11 @@ class S {
     );
   }
 
-  /// `Click to confirm your address and pay or Long press to edit your address`
-  String get click_to_confirm_your_address_and_pay_or_long_press {
+  /// `Click to confirm your address and pay or Long press to edit your address, swipe item to delete it`
+  String get click_to_confirm_your_address_and_pay_or_long_press_or_swipe {
     return Intl.message(
-      'Click to confirm your address and pay or Long press to edit your address',
-      name: 'click_to_confirm_your_address_and_pay_or_long_press',
+      'Click to confirm your address and pay or Long press to edit your address, swipe item to delete it',
+      name: 'click_to_confirm_your_address_and_pay_or_long_press_or_swipe',
       desc: '',
       args: [],
     );
@@ -1248,12 +1246,10 @@ class S {
   }
 
   /// `make sure that you confirmed your email or that your email and password isn't wrong`
-  String
-      get make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong {
+  String get make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong {
     return Intl.message(
       'make sure that you confirmed your email or that your email and password isn\'t wrong',
-      name:
-          'make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong',
+      name: 'make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong',
       desc: '',
       args: [],
     );
@@ -1999,21 +1995,21 @@ class S {
     );
   }
 
-  /// `Receiver name`
-  String get receiver_name {
-    return Intl.message(
-      'Receiver name',
-      name: 'receiver_name',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Receiver full name`
   String get receiverFullName {
     return Intl.message(
       'Receiver full name',
       name: 'receiverFullName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receiver name`
+  String get receiver_name {
+    return Intl.message(
+      'Receiver name',
+      name: 'receiver_name',
       desc: '',
       args: [],
     );
@@ -2249,16 +2245,6 @@ class S {
     );
   }
 
-  /// `Shops Categories`
-  String get shopsCategories {
-    return Intl.message(
-      'Shops Categories',
-      name: 'shopsCategories',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Shopping`
   String get shopping {
     return Intl.message(
@@ -2284,6 +2270,16 @@ class S {
     return Intl.message(
       'Shops',
       name: 'shops',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shops Categories`
+  String get shopsCategories {
+    return Intl.message(
+      'Shops Categories',
+      name: 'shopsCategories',
       desc: '',
       args: [],
     );
@@ -2942,10 +2938,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   @override
   bool isSupported(Locale locale) => _isSupported(locale);
-
   @override
   Future<S> load(Locale locale) => S.load(locale);
-
   @override
   bool shouldReload(AppLocalizationDelegate old) => false;
 

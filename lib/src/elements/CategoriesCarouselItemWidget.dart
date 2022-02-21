@@ -6,14 +6,12 @@ import '../models/category.dart';
 
 // ignore: must_be_immutable
 class CategoriesCarouselItemWidget extends StatelessWidget {
-  double marginLeft;
   Category category;
   bool selected;
   final Function(String) onTap;
 
   CategoriesCarouselItemWidget({
     Key key,
-    this.marginLeft,
     this.category,
     this.selected,
     @required this.onTap,
@@ -34,8 +32,6 @@ class CategoriesCarouselItemWidget extends StatelessWidget {
           Hero(
             tag: category.id,
             child: Container(
-              margin:
-                  EdgeInsetsDirectional.only(start: this.marginLeft, end: 20),
               width: 110,
               height: 110,
               decoration: BoxDecoration(
@@ -71,15 +67,12 @@ class CategoriesCarouselItemWidget extends StatelessWidget {
             ),
           ),
           SizedBox(height: 5),
-          Container(
-            margin: EdgeInsetsDirectional.only(start: this.marginLeft, end: 20),
-            child: Text(
-              Localizations.localeOf(context).languageCode == "en"
-                  ? category?.en_name ?? ''
-                  : category?.ar_name ?? '',
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
+          Text(
+            Localizations.localeOf(context).languageCode == "en"
+                ? category?.en_name ?? ''
+                : category?.ar_name ?? '',
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyText2,
           ),
         ],
       ),

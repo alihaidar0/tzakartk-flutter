@@ -36,9 +36,7 @@ class CategoriesCarouselWidget extends StatelessWidget {
             itemCount: this.categories.length,
             itemBuilder:
                 (BuildContext context, int itemIndex, int pageViewIndex) {
-              double _marginLeft = 0;
               return CategoriesCarouselItemWidget(
-                marginLeft: _marginLeft,
                 category: this.categories.elementAt(itemIndex),
                 selected: selected[itemIndex],
                 onTap: (String categoryId) {

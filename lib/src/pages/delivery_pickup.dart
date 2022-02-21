@@ -174,7 +174,7 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                           subtitle: Text(
                             S
                                 .of(context)
-                                .click_to_confirm_your_address_and_pay_or_long_press,
+                                .click_to_confirm_your_address_and_pay_or_long_press_or_swipe,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.caption,
@@ -227,6 +227,9 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                                 _con.updateAddress(_address);
                               },
                             );
+                          },
+                          onDismissed: (Address _address) {
+                            _con.removeDeliveryAddress(_address);
                           },
                         );
                       },

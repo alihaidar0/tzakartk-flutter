@@ -15,6 +15,7 @@ class DeliveryPickupController extends CartController {
   PaymentMethodList list;
   DateTime deliveryDay;
   Note note;
+  bool loadingRemoveDeliveryAddress = false;
 
   DeliveryPickupController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -85,6 +86,27 @@ class DeliveryPickupController extends CartController {
 
   void listenForDeliveryAddressDay() {
     this.deliveryDay = settingRepo.deliveryDay.value;
+  }
+
+  void removeDeliveryAddress(Address address) async {
+    if (!loadingRemoveDeliveryAddress) {
+      loadingRemoveDeliveryAddress = true;
+      userRepo.removeDeliveryAddress(address).then(
+            (value) {
+          setState(() {
+            this.addresses.remove(address);
+          });
+          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(
+            SnackBar(
+              content: Text(
+                S.of(state.context).delivery_address_removed_successfully,
+              ),
+            ),
+          );
+          loadingRemoveDeliveryAddress = false;
+        },
+      );
+    }
   }
 
   void updateDeliveryDay(DateTime date) {

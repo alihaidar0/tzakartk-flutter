@@ -125,7 +125,6 @@ class DeliveryAddressDialog {
                         style: TextStyle(color: Theme.of(context).hintColor),
                         keyboardType: TextInputType.text,
                         decoration: getInputDecoration(
-                            hintText: S.of(context).hint_full_address,
                             labelText: S.of(context).full_address),
                         initialValue: address != null
                             ? address.address?.isNotEmpty ?? false
@@ -153,7 +152,6 @@ class DeliveryAddressDialog {
                         style: TextStyle(color: Theme.of(context).hintColor),
                         keyboardType: TextInputType.text,
                         decoration: getInputDecoration(
-                            hintText: S.of(context).john_doe,
                             labelText: S.of(context).receiverFullName),
                         initialValue: address != null
                             ? address.receiver_name?.isNotEmpty ?? false
@@ -172,7 +170,6 @@ class DeliveryAddressDialog {
                         style: TextStyle(color: Theme.of(context).hintColor),
                         keyboardType: TextInputType.phone,
                         decoration: getInputDecoration(
-                            hintText: '623 648 699',
                             labelText: S.of(context).receiver_phone,
                             prefixText: "${globals.country.code} "),
                         initialValue: address != null
