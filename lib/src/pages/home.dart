@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import '../elements/CustomShoppingCartButtonWidget.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/home_controller.dart';
 import '../elements/CategoriesCarouselWidget.dart';
 import '../elements/HomeBannerSliderWidget.dart';
 import '../elements/OurNewCarouselWidget.dart';
-import '../elements/ShoppingCartButtonWidget.dart';
 import '../elements/SubCategoriesCarouselWidget.dart';
 import '../library/globals.dart' as globals;
 import '../models/city.dart';
+import '../models/route_argument.dart';
 import '../repository/settings_repository.dart' as settingsRepo;
+import '../repository/user_repository.dart';
 
 class HomeWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> parentScaffoldKey;
@@ -26,6 +28,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   City _selectedCity;
   String _selectedCategoryId;
   bool loadSubCategory;
+  bool refreshCartCount = false;
 
   _HomeWidgetState() : super(HomeController()) {
     _con = controller;
@@ -34,6 +37,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   @override
   void initState() {
     setState(() {
+      _con.listenForCartsCount();
       loadSubCategory = false;
       if (globals.city != null && globals.city.id != null) {
         _selectedCity = globals.city;
@@ -55,6 +59,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
         _con.ourNewSlider.clear();
         _con.categories.clear();
         _con.subCategories.clear();
+        _con.listenForCartsCount();
         _con.listenForBanners();
         _con.listenForOurNew();
         if (_selectedCity != null && _selectedCity.id != null) {
@@ -94,9 +99,35 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
             },
           ),
           actions: <Widget>[
-            new ShoppingCartButtonWidget(
+            CustomShoppingCartButtonWidget(
               iconColor: Theme.of(context).hintColor,
               labelColor: Theme.of(context).accentColor,
+              count: _con.cartCount,
+              onPressed: (){
+                if (currentUser.value.apiToken != null) {
+                  Navigator.of(context)
+                      .pushNamed(
+                    '/Cart',
+                    arguments: RouteArgument(param: '/Pages', id: '1'),
+                  )
+                      .then((value) => _con.listenForCartsCount());
+                } else {
+                  Navigator.of(context)
+                      .pushNamed(
+                    '/Login',
+                    arguments: true,
+                  )
+                      .then((value) {
+                    if (value)
+                      Navigator.of(context)
+                          .pushNamed(
+                        '/Cart',
+                        arguments: RouteArgument(param: '/Pages', id: '1'),
+                      )
+                          .then((value) => _con.listenForCartsCount());
+                  });
+                }
+              },
             ),
           ],
         ),
@@ -175,6 +206,12 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                   loadSubCategory
                       ? SubCategoriesCarouselWidget(
                           subCategories: _con.subCategories,
+                          onTap: (String subCategoryId) {
+                            Navigator.of(context)
+                                .pushNamed('/Category',
+                                    arguments: RouteArgument(id: subCategoryId))
+                                .then((value) => _con.listenForCartsCount());
+                          },
                         )
                       : SizedBox(height: 0, width: 0),
                 ],

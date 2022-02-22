@@ -2,16 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../models/route_argument.dart';
 import '../models/sub_category.dart';
 
 // ignore: must_be_immutable
 class SubCategoriesCarouselItemWidget extends StatelessWidget {
   double marginLeft;
   SubCategory subCategory;
+  final Function(String) onTap;
 
-  SubCategoriesCarouselItemWidget({Key key, this.marginLeft, this.subCategory})
-      : super(key: key);
+  SubCategoriesCarouselItemWidget({
+    Key key,
+    this.marginLeft,
+    this.subCategory,
+    @required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +23,9 @@ class SubCategoriesCarouselItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       highlightColor: Colors.transparent,
       onTap: () {
-        Navigator.of(context).pushNamed('/Category',
-            arguments: RouteArgument(id: subCategory.id));
+        // Navigator.of(context).pushNamed('/Category',
+        //     arguments: RouteArgument(id: subCategory.id));
+        onTap(subCategory.id);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

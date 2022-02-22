@@ -1,5 +1,3 @@
-import 'package:mvc_pattern/mvc_pattern.dart';
-
 import '../models/category.dart';
 import '../models/sub_category.dart';
 import '../repository/banner_slider_repository.dart';
@@ -7,8 +5,9 @@ import '../repository/category_repository.dart';
 import '../repository/change_location_repository.dart';
 import '../repository/our_new_repository.dart';
 import '../repository/sub_category_repository.dart';
+import 'cart_controller.dart';
 
-class HomeController extends ControllerMVC {
+class HomeController extends CartController {
   List<String> bannerSlider = <String>[];
   List<String> ourNewSlider = <String>[];
   List<Category> categories = <Category>[];

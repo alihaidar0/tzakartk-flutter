@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
 import '../models/category.dart';
@@ -7,12 +6,12 @@ import '../models/option.dart';
 import '../models/product.dart';
 import '../repository/category_repository.dart';
 import '../repository/product_repository.dart';
+import 'cart_controller.dart';
 
-class CategoryController extends ControllerMVC {
+class CategoryController extends CartController {
   List<Product> products = <Product>[];
   GlobalKey<ScaffoldState> scaffoldKey;
   Category category;
-  bool loadCart = false;
 
   CategoryController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
