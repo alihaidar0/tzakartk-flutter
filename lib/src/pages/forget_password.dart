@@ -90,11 +90,6 @@ class _ForgetPasswordWidgetState extends StateMVC<ForgetPasswordWidget> {
                             labelStyle:
                                 TextStyle(color: Theme.of(context).accentColor),
                             contentPadding: EdgeInsets.all(12),
-                            hintText: 'johndoe@gmail.com',
-                            hintStyle: TextStyle(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.7)),
                             prefixIcon: Icon(Icons.alternate_email,
                                 color: Theme.of(context).accentColor),
                             border: OutlineInputBorder(

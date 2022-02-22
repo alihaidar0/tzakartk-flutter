@@ -60,6 +60,7 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
   void addAddress(Address address) {
     userRepo.addAddress(address).then((value) {
       listenForAddresses();
+    }).whenComplete(() {
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).new_address_added_successfully),
       ));

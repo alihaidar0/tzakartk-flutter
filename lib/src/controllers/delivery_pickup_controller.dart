@@ -66,7 +66,6 @@ class DeliveryPickupController extends CartController {
     userRepo.addAddress(address).then((value) {
       listenForAddresses();
     }).whenComplete(() {
-      listenForAddresses();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).new_address_added_successfully),
       ));
