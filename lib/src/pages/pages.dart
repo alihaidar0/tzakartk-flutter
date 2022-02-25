@@ -6,6 +6,7 @@ import '../models/route_argument.dart';
 import '../pages/home.dart';
 import '../pages/notifications.dart';
 import '../pages/orders.dart';
+import '../repository/user_repository.dart';
 
 // ignore: must_be_immutable
 class PagesWidget extends StatefulWidget {
@@ -87,7 +88,22 @@ class _PagesWidgetState extends State<PagesWidget> {
             unselectedItemColor: Theme.of(context).focusColor.withOpacity(1),
             currentIndex: widget.currentTab,
             onTap: (int i) {
-              this._selectTab(i);
+              if (i != 1) {
+                if (currentUser.value.apiToken != null) {
+                  this._selectTab(i);
+                } else {
+                  Navigator.of(context)
+                      .pushNamed(
+                    '/Login',
+                    arguments: true,
+                  )
+                      .then((value) {
+                    this._selectTab(i);
+                  });
+                }
+              } else {
+                this._selectTab(i);
+              }
             },
             items: [
               BottomNavigationBarItem(

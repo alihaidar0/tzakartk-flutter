@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import '../elements/CustomShoppingCartButtonWidget.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/home_controller.dart';
 import '../elements/CategoriesCarouselWidget.dart';
+import '../elements/CustomShoppingCartButtonWidget.dart';
 import '../elements/HomeBannerSliderWidget.dart';
 import '../elements/OurNewCarouselWidget.dart';
 import '../elements/SubCategoriesCarouselWidget.dart';
@@ -103,13 +103,13 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
               iconColor: Theme.of(context).hintColor,
               labelColor: Theme.of(context).accentColor,
               count: _con.cartCount,
-              onPressed: (){
+              onPressed: () {
                 if (currentUser.value.apiToken != null) {
                   Navigator.of(context)
                       .pushNamed(
-                    '/Cart',
-                    arguments: RouteArgument(param: '/Pages', id: '1'),
-                  )
+                        '/Cart',
+                        arguments: RouteArgument(param: '/Pages', id: '1'),
+                      )
                       .then((value) => _con.listenForCartsCount());
                 } else {
                   Navigator.of(context)
@@ -121,9 +121,9 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                     if (value)
                       Navigator.of(context)
                           .pushNamed(
-                        '/Cart',
-                        arguments: RouteArgument(param: '/Pages', id: '1'),
-                      )
+                            '/Cart',
+                            arguments: RouteArgument(param: '/Pages', id: '1'),
+                          )
                           .then((value) => _con.listenForCartsCount());
                   });
                 }

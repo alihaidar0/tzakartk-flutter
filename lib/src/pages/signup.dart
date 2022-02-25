@@ -151,8 +151,10 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                                 print(input.startsWith('\+'));
                                 return !input.startsWith('\+') &&
                                         !input.startsWith('00')
-                                    ? "Should be valid mobile number with country code"
-                                    : null;
+                                    ? "Should be valid mobile number"
+                                    : input.length < 10
+                                        ? "Should be valid mobile number"
+                                        : null;
                               },
                               decoration: InputDecoration(
                                 labelText: S.of(context).phoneNumber,

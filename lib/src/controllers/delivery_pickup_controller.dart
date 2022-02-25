@@ -91,7 +91,7 @@ class DeliveryPickupController extends CartController {
     if (!loadingRemoveDeliveryAddress) {
       loadingRemoveDeliveryAddress = true;
       userRepo.removeDeliveryAddress(address).then(
-            (value) {
+        (value) {
           setState(() {
             this.addresses.remove(address);
           });

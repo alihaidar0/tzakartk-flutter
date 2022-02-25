@@ -180,7 +180,7 @@ class DeliveryAddressDialog {
                         validator: (input) {
                           input = input.replaceAll(' ', '');
                           input = "${globals.country.code}" + input;
-                          return 11 <= input.length && 12 >=input.length
+                          return 11 <= input.length && 12 >= input.length
                               ? null
                               : "Should be valid mobile number";
                         },

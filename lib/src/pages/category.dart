@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import '../elements/CustomShoppingCartButtonWidget.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/category_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
 import '../elements/CircularLoadingWidgetWithText.dart';
+import '../elements/CustomShoppingCartButtonWidget.dart';
 import '../elements/ProductGridItemWidget.dart';
 import '../elements/ProductListItemWidget.dart';
 import '../elements/SearchBarWidget.dart';
@@ -79,13 +79,13 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
               iconColor: Theme.of(context).hintColor,
               labelColor: Theme.of(context).accentColor,
               count: _con.cartCount,
-              onPressed: (){
+              onPressed: () {
                 if (currentUser.value.apiToken != null) {
                   Navigator.of(context)
                       .pushNamed(
-                    '/Cart',
-                    arguments: RouteArgument(param: '/Pages', id: '1'),
-                  )
+                        '/Cart',
+                        arguments: RouteArgument(param: '/Pages', id: '1'),
+                      )
                       .then((value) => _con.listenForCartsCount());
                 } else {
                   Navigator.of(context)
@@ -97,9 +97,9 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                     if (value)
                       Navigator.of(context)
                           .pushNamed(
-                        '/Cart',
-                        arguments: RouteArgument(param: '/Pages', id: '1'),
-                      )
+                            '/Cart',
+                            arguments: RouteArgument(param: '/Pages', id: '1'),
+                          )
                           .then((value) => _con.listenForCartsCount());
                   });
                 }

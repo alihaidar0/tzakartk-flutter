@@ -57,7 +57,6 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.number,
                           decoration: getInputDecoration(
-                            hintText: '4242 4242 4242 4242',
                             labelText: S.of(context).number,
                           ),
                           initialValue: widget.creditCard.number.isNotEmpty
@@ -90,7 +89,6 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                                     '/' +
                                     widget.creditCard.expYear
                                 : null,
-                            // TODO validate date
                             validator: (input) =>
                                 !input.contains('/') || input.length != 5
                                     ? S.of(context).not_a_valid_date
@@ -105,7 +103,8 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.number,
                           decoration: getInputDecoration(
-                              hintText: '253', labelText: S.of(context).cvc),
+                            labelText: S.of(context).cvc,
+                          ),
                           initialValue: widget.creditCard.cvc.isNotEmpty
                               ? widget.creditCard.cvc
                               : null,
