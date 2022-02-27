@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/profile_controller.dart';
@@ -14,6 +15,16 @@ class DrawerWidget extends StatefulWidget {
 
 class _DrawerWidgetState extends StateMVC<DrawerWidget> {
   _DrawerWidgetState() : super(ProfileController()) {}
+
+  void launchWhatApp({@required number, @required message}) async {
+    String url = "whatsapp://send?phone=$number&text=$message";
+    await canLaunch(url) ? launch(url) : print("can't open whatsapp");
+  }
+
+  void launchTiktok({@required user}) async {
+    String url = "https://tiktok.com/$user";
+    await canLaunch(url) ? launch(url) : print("can't open whatsapp");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -325,37 +336,70 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            S.of(context).phoneNumber + ": ",
-                            style: Theme.of(context).textTheme.subtitle1,
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            '472026-011',
-                            style: Theme.of(context).textTheme.subtitle1,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                      InkWell(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              S.of(context).email + ": ",
+                              style: Theme.of(context).textTheme.subtitle2,
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              'customerservice@tzakartk.com',
+                              style: Theme.of(context).textTheme.subtitle2,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        onTap: () async {
+                          await launch("mailto:customerservice@tzakartk.com");
+                        },
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            S.of(context).mobileNumber + ": ",
-                            style: Theme.of(context).textTheme.subtitle1,
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            '080111-0994',
-                            style: Theme.of(context).textTheme.subtitle1,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                      SizedBox(height: 5),
+                      InkWell(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              S.of(context).phoneNumber + ": ",
+                              style: Theme.of(context).textTheme.subtitle2,
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              '+9611252213',
+                              style: Theme.of(context).textTheme.subtitle2,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        onTap: () async {
+                          await launch("tel://+9611252213");
+                        },
+                      ),
+                      SizedBox(height: 5),
+                      InkWell(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              S.of(context).mobileNumber + ": ",
+                              style: Theme.of(context).textTheme.subtitle2,
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              '+96170701670',
+                              style: Theme.of(context).textTheme.subtitle2,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        onTap: () async {
+                          await launch("tel://+96170701670");
+                        },
                       ),
                     ],
                   ),
@@ -382,24 +426,29 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              launchTiktok(user: '@tzakartk');
+                            },
                             icon: SvgPicture.asset(
-                              'assets/img/facebook.svg',
-                              height: 30,
+                              'assets/img/tiktok.svg',
+                              height: 50,
                             ),
                           ),
                           IconButton(
                             onPressed: () {},
                             icon: SvgPicture.asset(
                               'assets/img/instagram.svg',
-                              height: 30,
+                              height: 50,
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              launchWhatApp(
+                                  number: '+96170701670', message: '');
+                            },
                             icon: SvgPicture.asset(
                               'assets/img/whatsapp.svg',
-                              height: 30,
+                              height: 50,
                             ),
                           ),
                         ],
