@@ -13,6 +13,7 @@ class MyClient extends http.BaseClient {
   Future<http.StreamedResponse> send(http.BaseRequest request) {
     final Map<String, String> defaultHeaders = {
       "Authorization": "${_user.apiToken}",
+      "Accept": "application/json",
     };
     request.headers.addAll(defaultHeaders);
     return _httpClient.send(request);

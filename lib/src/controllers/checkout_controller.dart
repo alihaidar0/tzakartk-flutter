@@ -11,6 +11,7 @@ import '../repository/coupon_repository.dart';
 import '../repository/order_repository.dart' as orderRepo;
 import '../repository/settings_repository.dart' as settingRepo;
 import '../repository/user_repository.dart' as userRepo;
+import '../library/receiver_info.dart' as receiverInfo;
 import 'cart_controller.dart';
 
 class CheckoutController extends CartController {
@@ -39,7 +40,9 @@ class CheckoutController extends CartController {
     _orderStatus.id = '1'; // TODO default order status Id
     _order.orderStatus = _orderStatus;
     _order.deliveryAddress = settingRepo.deliveryAddress.value;
-    _order.hint = ' ';
+    _order.hint = receiverInfo.note;
+    _order.receiverName = receiverInfo.receiverName;
+    _order.receiverPhone = receiverInfo.receiverPhone;
     _order.deliveryDate = settingRepo.deliveryDay.value;
     _order.coupon = settingRepo.coupon.code;
     orderRepo.addOrder(_order, _payment).then((value) async {

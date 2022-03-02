@@ -435,7 +435,36 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              var url = 'https://www.facebook.com/tzakartk/';
+
+                              if (await canLaunch(url)) {
+                                await launch(
+                                  url,
+                                  universalLinksOnly: true,
+                                );
+                              } else {
+                                throw 'There was a problem to open the url: $url';
+                              }
+                            },
+                            icon: SvgPicture.asset(
+                              'assets/img/facebook.svg',
+                              height: 50,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () async {
+                              var url = 'https://www.instagram.com/tzakartk/';
+
+                              if (await canLaunch(url)) {
+                                await launch(
+                                  url,
+                                  universalLinksOnly: true,
+                                );
+                              } else {
+                                throw 'There was a problem to open the url: $url';
+                              }
+                            },
                             icon: SvgPicture.asset(
                               'assets/img/instagram.svg',
                               height: 50,

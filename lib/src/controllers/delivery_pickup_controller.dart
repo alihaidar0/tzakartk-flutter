@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tzakartk/src/repository/shop_repository.dart';
 
 import '../../generated/l10n.dart';
 import '../models/address.dart';
 import '../models/note.dart';
 import '../models/payment_method.dart';
+import '../models/shop.dart';
 import '../repository/note_repository.dart';
 import '../repository/settings_repository.dart' as settingRepo;
 import '../repository/user_repository.dart' as userRepo;
@@ -16,6 +18,7 @@ class DeliveryPickupController extends CartController {
   DateTime deliveryDay;
   Note note;
   bool loadingRemoveDeliveryAddress = false;
+  List<Shop> shops = <Shop>[];
 
   DeliveryPickupController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -23,6 +26,7 @@ class DeliveryPickupController extends CartController {
     super.listenForCarts();
     listenForDeliveryAddressDay();
     listenForAddresses();
+    listenForShops();
     listenForNote();
   }
 
@@ -160,6 +164,19 @@ class DeliveryPickupController extends CartController {
     }, onError: (a) {
       print("##################");
       print("######### Error getNote #########");
+      print("##################");
+      print(a);
+    }, onDone: () {});
+  }
+
+  Future<void> listenForShops() async {
+    shops.clear();
+    final Stream<Shop> stream = await getShops();
+    stream.listen((Shop _shop) {
+      setState(() => shops.add(_shop));
+    }, onError: (a) {
+      print("##################");
+      print("######### Error getShops #########");
       print("##################");
       print(a);
     }, onDone: () {});

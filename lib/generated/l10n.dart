@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -15,23 +14,22 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-
+  
   static S current;
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       S.current = S();
-
+      
       return S.current;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -1258,12 +1256,10 @@ class S {
   }
 
   /// `make sure that you confirmed your email or that your email and password isn't wrong`
-  String
-      get make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong {
+  String get make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong {
     return Intl.message(
       'make sure that you confirmed your email or that your email and password isn\'t wrong',
-      name:
-          'make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong',
+      name: 'make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong',
       desc: '',
       args: [],
     );
@@ -2299,6 +2295,16 @@ class S {
     );
   }
 
+  /// `Shop`
+  String get shop {
+    return Intl.message(
+      'Shop',
+      name: 'shop',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Shops`
   String get shops {
     return Intl.message(
@@ -2982,10 +2988,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   @override
   bool isSupported(Locale locale) => _isSupported(locale);
-
   @override
   Future<S> load(Locale locale) => S.load(locale);
-
   @override
   bool shouldReload(AppLocalizationDelegate old) => false;
 

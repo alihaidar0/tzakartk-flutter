@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../generated/l10n.dart';
 import '../helpers/checkbox_form_field.dart';
 import '../library/globals.dart' as globals;
+import '../library/receiver_info.dart' as receiverInfo;
 import '../models/address.dart';
 
 // ignore: must_be_immutable
@@ -161,7 +162,13 @@ class DeliveryAddressDialog {
                         validator: (input) => input.length < 3
                             ? S.of(context).should_be_more_than_3_letters
                             : null,
-                        onSaved: (input) => address.receiver_name = input,
+                        onSaved: (input) {
+                          receiverInfo.receiverName = input;
+                          address.receiver_name = input;
+                          print("######### receiverInfo.receiverName #########");
+                          print("${receiverInfo.receiverName}");
+                          print("##################");
+                        },
                       ),
                     ),
                     Padding(
@@ -174,7 +181,7 @@ class DeliveryAddressDialog {
                             prefixText: "${globals.country.code} "),
                         initialValue: address != null
                             ? address.receiver_phone?.isNotEmpty ?? false
-                                ? address.receiver_phone
+                                ? address.receiver_phone.substring(4)
                                 : null
                             : null,
                         validator: (input) {
@@ -187,7 +194,11 @@ class DeliveryAddressDialog {
                         onSaved: (input) {
                           input = input.replaceAll(' ', '');
                           input = "${globals.country.code}" + input;
+                          receiverInfo.receiverPhone = input;
                           address.receiver_phone = input;
+                          print("######### receiverInfo.receiverPhone #########");
+                          print("${receiverInfo.receiverPhone}");
+                          print("##################");
                         },
                       ),
                     ),

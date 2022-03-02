@@ -12,6 +12,8 @@ class Order {
   double tax;
   double deliveryFee;
   String hint;
+  String receiverName;
+  String receiverPhone;
   String deliveryAddressId;
   String paymentId;
   String couponId;
@@ -38,6 +40,8 @@ class Order {
           ? jsonMap['delivery_fee'].toDouble()
           : 0.0;
       hint = jsonMap['hint'] != null ? jsonMap['hint'].toString() : '';
+      receiverName = jsonMap['receiver_name'] != null ? jsonMap['receiver_name'].toString() : '';
+      receiverPhone = jsonMap['receiver_phone'] != null ? jsonMap['receiver_phone'].toString() : '';
       deliveryAddressId = jsonMap['delivery_address_id'].toString();
       paymentId = jsonMap['payment_id'].toString();
       couponId = jsonMap['coupon_id'].toString();
@@ -68,6 +72,8 @@ class Order {
       tax = 0.0;
       deliveryFee = 0.0;
       hint = '';
+      receiverName = '';
+      receiverPhone = '';
       deliveryAddressId = '';
       paymentId = '';
       couponId = '';
@@ -88,6 +94,8 @@ class Order {
     map["user_id"] = userId;
     map["order_status_id"] = orderStatus?.id;
     map['hint'] = hint;
+    map['receiver_name'] = receiverName;
+    map['receiver_phone'] = receiverPhone;
     map["payment"] = payment?.toMap();
     if (!deliveryAddress.isUnknown()) {
       map["delivery_address_id"] = deliveryAddress?.id;
