@@ -218,7 +218,7 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                               decoration: getInputDecoration(
                                 labelText: S.of(context).receiverFullName,
                               ),
-                              initialValue: receiverInfo.receiverName,
+                              // initialValue: receiverInfo.receiverName,
                               onChanged: (input) {
                                 setState(() {
                                   receiverInfo.receiverName = input;
@@ -237,17 +237,17 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                               decoration: getInputDecoration(
                                   labelText: S.of(context).receiver_phone,
                                   prefixText: "${globals.country.code} "),
-                              initialValue:
-                                  receiverInfo.receiverPhone.length > 4
-                                      ? receiverInfo.receiverPhone.substring(4)
-                                      : '',
-                              validator: (input) {
-                                input = input.replaceAll(' ', '');
-                                input = "${globals.country.code}" + input;
-                                return 11 <= input.length && 12 >= input.length
-                                    ? null
-                                    : "Should be valid mobile number";
-                              },
+                              // initialValue:
+                              //     receiverInfo.receiverPhone.length > 4
+                              //         ? receiverInfo.receiverPhone.substring(4)
+                              //         : '',
+                              // validator: (input) {
+                              //   input = input.replaceAll(' ', '');
+                              //   input = "${globals.country.code}" + input;
+                              //   return 11 <= input.length && 12 >= input.length
+                              //       ? null
+                              //       : "Should be valid mobile number";
+                              // },
                               onChanged: (input) {
                                 setState(() {
                                   input = input.replaceAll(' ', '');
@@ -262,7 +262,7 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                         decoration: getInputDecoration(
                           labelText: S.of(context).note,
                         ),
-                        initialValue: receiverInfo.note,
+                        // initialValue: receiverInfo.note,
                         onChanged: (input) {
                           setState(() {
                             receiverInfo.note = input;
@@ -368,6 +368,8 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                                           "en"
                                       ? _con.note.deliveryNote.english_note
                                       : _con.note.deliveryNote.arabic_note);
+                              receiverInfo.receiverName = _con.addresses.elementAt(index).receiver_name;
+                              receiverInfo.receiverPhone = _con.addresses.elementAt(index).receiver_phone;
                               _con.toggleDelivery(
                                   _con.addresses.elementAt(index));
                             }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -357,19 +359,28 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                           await launch("mailto:customerservice@tzakartk.com");
                         },
                       ),
-                      SizedBox(height: 5),
+                      SizedBox(height: 10),
                       InkWell(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        child: Column(
                           children: [
-                            Text(
-                              S.of(context).phoneNumber + ": ",
-                              style: Theme.of(context).textTheme.subtitle2,
-                              textAlign: TextAlign.center,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  S.of(context).phoneNumber + ": ",
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  '+9611252213',
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
                             Text(
-                              '+9611252213',
+                              '9:00AM - 3:00PM',
                               style: Theme.of(context).textTheme.subtitle2,
                               textAlign: TextAlign.center,
                             ),
@@ -379,19 +390,28 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                           await launch("tel://+9611252213");
                         },
                       ),
-                      SizedBox(height: 5),
+                      SizedBox(height: 10),
                       InkWell(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        child: Column(
                           children: [
-                            Text(
-                              S.of(context).mobileNumber + ": ",
-                              style: Theme.of(context).textTheme.subtitle2,
-                              textAlign: TextAlign.center,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  S.of(context).mobileNumber + ": ",
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  '+96170701670',
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
                             Text(
-                              '+96170701670',
+                              '10:00AM - 6:00PM',
                               style: Theme.of(context).textTheme.subtitle2,
                               textAlign: TextAlign.center,
                             ),
@@ -436,15 +456,23 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                           ),
                           IconButton(
                             onPressed: () async {
-                              var url = 'https://www.facebook.com/tzakartk/';
-
-                              if (await canLaunch(url)) {
-                                await launch(
-                                  url,
-                                  universalLinksOnly: true,
-                                );
+                              String fbProtocolUrl;
+                              if (Platform.isIOS) {
+                                fbProtocolUrl = 'fb://profile/106365055297270';
                               } else {
-                                throw 'There was a problem to open the url: $url';
+                                fbProtocolUrl = 'fb://page/106365055297270';
+                              }
+
+                              String fallbackUrl = 'https://www.facebook.com/tzakartk';
+
+                              try {
+                                bool launched = await launch(fbProtocolUrl, forceSafariVC: false);
+
+                                if (!launched) {
+                                  await launch(fallbackUrl, forceSafariVC: false);
+                                }
+                              } catch (e) {
+                                await launch(fallbackUrl, forceSafariVC: false);
                               }
                             },
                             icon: SvgPicture.asset(

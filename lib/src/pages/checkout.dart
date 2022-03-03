@@ -8,6 +8,10 @@ import '../elements/CreditCardsWidget.dart';
 import '../helpers/helper.dart';
 
 class CheckoutWidget extends StatefulWidget {
+  final String cartType;
+
+  const CheckoutWidget({Key key, @required this.cartType}) : super(key: key);
+
   @override
   _CheckoutWidgetState createState() => _CheckoutWidgetState();
 }
@@ -21,6 +25,7 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
 
   @override
   void initState() {
+    print(widget.cartType);
     _con.listenForCarts();
     super.initState();
   }
@@ -73,6 +78,7 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
                           SizedBox(height: 20),
                           new CreditCardsWidget(
                             creditCard: _con.creditCard,
+                            cartType: widget.cartType,
                             onChanged: (creditCard) {
                               _con.updateCreditCard(creditCard);
                             },

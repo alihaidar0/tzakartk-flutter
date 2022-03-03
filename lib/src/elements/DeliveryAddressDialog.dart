@@ -189,7 +189,7 @@ class DeliveryAddressDialog {
                           input = "${globals.country.code}" + input;
                           return 11 <= input.length && 12 >= input.length
                               ? null
-                              : "Should be valid mobile number";
+                              : S.of(context).shouldBeAValidMobileNumber;
                         },
                         onSaved: (input) {
                           input = input.replaceAll(' ', '');

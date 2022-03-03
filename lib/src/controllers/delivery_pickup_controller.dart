@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tzakartk/src/repository/shop_repository.dart';
 
 import '../../generated/l10n.dart';
+import '../library/receiver_info.dart' as receiverInfo;
 import '../models/address.dart';
 import '../models/note.dart';
 import '../models/payment_method.dart';
 import '../models/shop.dart';
 import '../repository/note_repository.dart';
 import '../repository/settings_repository.dart' as settingRepo;
+import '../repository/shop_repository.dart';
 import '../repository/user_repository.dart' as userRepo;
 import 'cart_controller.dart';
 
@@ -24,7 +25,7 @@ class DeliveryPickupController extends CartController {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
     super.listenForDelivery();
     super.listenForCarts();
-    listenForDeliveryAddressDay();
+    // listenForDeliveryAddressDay();
     listenForAddresses();
     listenForShops();
     listenForNote();
@@ -37,6 +38,8 @@ class DeliveryPickupController extends CartController {
       setState(() {
         if (isSame(_address, settingRepo.deliveryAddress.value)) {
           _address.selected = true;
+          receiverInfo.receiverName = _address.receiver_name;
+          receiverInfo.receiverPhone = _address.receiver_phone;
         }
         addresses.add(_address);
       });
@@ -135,23 +138,48 @@ class DeliveryPickupController extends CartController {
 
   @override
   void goCheckout(BuildContext context) {
-    if (!freeDelivery) {
-      Address _address = addresses.firstWhere(
-        (element) => element.selected == true,
-        orElse: () => null,
-      );
-      if (_address != null &&
-          settingRepo.deliveryAddress.value != null &&
-          isSame(_address, settingRepo.deliveryAddress.value)) {
-        Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+    if (deliveryDay != null) {
+      if (!freeDelivery) {
+        Address _address = addresses.firstWhere(
+          (element) => element.selected == true,
+          orElse: () => null,
+        );
+        if (_address != null &&
+            settingRepo.deliveryAddress.value != null &&
+            isSame(_address, settingRepo.deliveryAddress.value)) {
+          Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+        } else {
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
+            content: Text(S.of(state.context).select_your_delivery_address),
+          ));
+        }
       } else {
-        ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-          content: Text(S.of(state.context).select_your_delivery_address),
-        ));
+        if (receiverInfo.receiverName == null ||
+            receiverInfo.receiverName == '' ||
+            receiverInfo.receiverPhone == null ||
+            receiverInfo.receiverPhone == '') {
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
+            content: Text(
+                S.of(state.context).select_a_receiver_name_and_receiver_phone),
+          ));
+        } else {
+          if (receiverInfo.receiverPhone.length < 11) {
+            ScaffoldMessenger.of(scaffoldKey?.currentContext)
+                .showSnackBar(SnackBar(
+              content: Text(S.of(state.context).shouldBeAValidMobileNumber),
+            ));
+          } else {
+            settingRepo.deliveryAddress.value = new Address();
+            Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+          }
+        }
       }
     } else {
-      settingRepo.deliveryAddress.value = new Address();
-      Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S.of(state.context).select_a_delivery_date),
+      ));
     }
   }
 

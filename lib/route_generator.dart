@@ -74,7 +74,7 @@ class RouteGenerator {
             builder: (_) =>
                 DeliveryPickupWidget(routeArgument: args as RouteArgument));
       case '/Checkout':
-        return MaterialPageRoute(builder: (_) => CheckoutWidget());
+        return MaterialPageRoute(builder: (_) => CheckoutWidget(cartType: args,));
       case '/PayPal':
         return MaterialPageRoute(
             builder: (_) =>

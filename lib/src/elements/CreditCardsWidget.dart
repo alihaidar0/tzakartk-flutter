@@ -8,10 +8,12 @@ import '../models/credit_card.dart';
 // ignore: must_be_immutable
 class CreditCardsWidget extends StatelessWidget {
   CreditCard creditCard;
+  String cartType;
   ValueChanged<CreditCard> onChanged;
 
   CreditCardsWidget({
     this.creditCard,
+    this.cartType,
     this.onChanged,
     Key key,
   }) : super(key: key);
@@ -76,8 +78,10 @@ class CreditCardsWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Image.asset(
-                      'assets/img/visa.png',
-                      height: 22,
+                      this.cartType == 'mastercard'
+                          ? 'assets/img/master.png'
+                          : 'assets/img/visa.png',
+                      height: 28,
                       width: 70,
                     ),
                     ButtonTheme(

@@ -21,7 +21,7 @@ class CheckoutController extends CartController {
 
   CheckoutController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
-    listenForCreditCard();
+    // listenForCreditCard();
     getCoupon();
   }
 
@@ -78,6 +78,9 @@ class CheckoutController extends CartController {
       ));
     }).whenComplete(() {
       Helper.hideLoader(loader);
+      receiverInfo.receiverName = '';
+      receiverInfo.receiverPhone = '';
+      receiverInfo.note = '';
     });
   }
 

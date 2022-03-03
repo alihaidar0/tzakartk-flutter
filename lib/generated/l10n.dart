@@ -2215,6 +2215,16 @@ class S {
     );
   }
 
+  /// `Select a Receiver name and Receiver phone`
+  String get select_a_receiver_name_and_receiver_phone {
+    return Intl.message(
+      'Select a Receiver name and Receiver phone',
+      name: 'select_a_receiver_name_and_receiver_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Select options to add them on the product`
   String get select_options_to_add_them_on_the_product {
     return Intl.message(
@@ -2275,6 +2285,16 @@ class S {
     );
   }
 
+  /// `Shop`
+  String get shop {
+    return Intl.message(
+      'Shop',
+      name: 'shop',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Shopping`
   String get shopping {
     return Intl.message(
@@ -2295,16 +2315,6 @@ class S {
     );
   }
 
-  /// `Shop`
-  String get shop {
-    return Intl.message(
-      'Shop',
-      name: 'shop',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Shops`
   String get shops {
     return Intl.message(
@@ -2320,6 +2330,16 @@ class S {
     return Intl.message(
       'Shops Categories',
       name: 'shopsCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Should be valid mobile number`
+  String get shouldBeAValidMobileNumber {
+    return Intl.message(
+      'Should be valid mobile number',
+      name: 'shouldBeAValidMobileNumber',
       desc: '',
       args: [],
     );
