@@ -28,6 +28,14 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
     await canLaunch(url) ? launch(url) : print("can't open whatsapp");
   }
 
+  void launchURL({@required url}) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -338,25 +346,48 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(height: 10),
+                      InkWell(
+                        child: Text(
+                          S.of(context).customerService,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.merge(TextStyle(
+                                color: Theme.of(context).accentColor,
+                                decoration: TextDecoration.underline,
+                              )),
+                          textAlign: TextAlign.center,
+                        ),
+                        onTap: () {
+                          launchURL(url: "https://tzakartk.com");
+                        },
+                      ),
+                      SizedBox(height: 10),
                       InkWell(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              S.of(context).email + ": ",
+                              S.of(context).complaints + ": ",
                               style: Theme.of(context).textTheme.subtitle2,
                               textAlign: TextAlign.center,
                             ),
                             Text(
-                              'customerservice@tzakartk.com',
-                              style: Theme.of(context).textTheme.subtitle2,
+                              'complaints@tzakartk.com',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.merge(TextStyle(
+                                    decoration: TextDecoration.underline,
+                                  )),
                               textAlign: TextAlign.center,
                             ),
                           ],
                         ),
                         onTap: () async {
-                          await launch("mailto:customerservice@tzakartk.com");
+                          await launch("mailto:complaints@tzakartk.com");
                         },
                       ),
                       SizedBox(height: 10),
@@ -463,13 +494,16 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                                 fbProtocolUrl = 'fb://page/106365055297270';
                               }
 
-                              String fallbackUrl = 'https://www.facebook.com/tzakartk';
+                              String fallbackUrl =
+                                  'https://www.facebook.com/tzakartk';
 
                               try {
-                                bool launched = await launch(fbProtocolUrl, forceSafariVC: false);
+                                bool launched = await launch(fbProtocolUrl,
+                                    forceSafariVC: false);
 
                                 if (!launched) {
-                                  await launch(fallbackUrl, forceSafariVC: false);
+                                  await launch(fallbackUrl,
+                                      forceSafariVC: false);
                                 }
                               } catch (e) {
                                 await launch(fallbackUrl, forceSafariVC: false);

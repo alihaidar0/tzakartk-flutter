@@ -435,6 +435,16 @@ class S {
     );
   }
 
+  /// `Complaints`
+  String get complaints {
+    return Intl.message(
+      'Complaints',
+      name: 'complaints',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Complete your profile details to continue`
   String get completeYourProfileDetailsToContinue {
     return Intl.message(
@@ -550,6 +560,16 @@ class S {
     return Intl.message(
       'Current location',
       name: 'current_location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customer Service`
+  String get customerService {
+    return Intl.message(
+      'Customer Service',
+      name: 'customerService',
       desc: '',
       args: [],
     );
