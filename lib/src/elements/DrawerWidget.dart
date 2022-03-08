@@ -360,7 +360,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                           textAlign: TextAlign.center,
                         ),
                         onTap: () {
-                          launchURL(url: "https://tzakartk.com");
+                          launchURL(url: "https://tzakartk.com/contact");
                         },
                       ),
                       SizedBox(height: 10),
