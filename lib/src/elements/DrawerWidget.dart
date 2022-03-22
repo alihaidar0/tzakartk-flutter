@@ -19,8 +19,14 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
   _DrawerWidgetState() : super(ProfileController()) {}
 
   void launchWhatApp({@required number, @required message}) async {
-    String url = "whatsapp://send?phone=$number&text=$message";
-    await canLaunch(url) ? launch(url) : print("can't open whatsapp");
+    String url() {
+      if (Platform.isAndroid) {
+        return "whatsapp://send?phone=$number&text=$message"; // new line
+      } else {
+        return "https://wa.me/$number?text=${Uri.parse(message)}"; // new line
+      }
+    }
+    await canLaunch(url()) ? launch(url()) : print("can't open whatsapp");
   }
 
   void launchTiktok({@required user}) async {

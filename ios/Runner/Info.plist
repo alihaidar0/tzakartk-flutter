@@ -45,5 +45,10 @@
 	<string>This option is needed to determine the address that we deliver to</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This option is needed to determine the address that we deliver to</string>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>https</string>
+        <string>http</string>
+    </array>
 </dict>
 </plist>
