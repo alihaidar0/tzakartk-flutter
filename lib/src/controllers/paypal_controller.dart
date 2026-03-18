@@ -17,13 +17,18 @@ class PayPalController extends ControllerMVC {
   PayPalController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
   }
+
   @override
   void initState() {
     final String _apiToken = 'api_token=${userRepo.currentUser.value.apiToken}';
     final String _userId = 'user_id=${userRepo.currentUser.value.id}';
-    final String _deliveryAddress = 'delivery_address_id=${settingRepo.deliveryAddress.value?.id}';
+    final String _deliveryAddress =
+        'delivery_address_id=${settingRepo.deliveryAddress.value?.id}';
     final String _couponCode = 'coupon_code=${settingRepo.coupon?.code}';
-    url = '${GlobalConfiguration().getValue('base_url')}payments/paypal/express-checkout?$_apiToken&$_userId&$_deliveryAddress&$_couponCode';
+    final String _deliveryDate =
+        'delivery_date=${settingRepo.deliveryDay.value?.year.toString()}-${settingRepo.deliveryDay.value?.month.toString().padLeft(2, '0')}-${settingRepo.deliveryDay.value?.day.toString().padLeft(2, '0')}';
+    url =
+        '${GlobalConfiguration().getValue('base_url')}payments/paypal/express-checkout?$_apiToken&$_userId&$_deliveryAddress&$_couponCode&$_deliveryDate';
     setState(() {});
     super.initState();
   }

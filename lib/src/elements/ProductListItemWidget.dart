@@ -8,8 +8,11 @@ import '../models/route_argument.dart';
 class ProductListItemWidget extends StatelessWidget {
   String heroTag;
   Product product;
+  final Function(RouteArgument) onTap;
 
-  ProductListItemWidget({Key key, this.heroTag, this.product}) : super(key: key);
+  ProductListItemWidget(
+      {Key key, this.heroTag, this.product, @required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +21,18 @@ class ProductListItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed('/Product', arguments: new RouteArgument(heroTag: this.heroTag, id: this.product.id));
+        this.onTap(
+            new RouteArgument(heroTag: this.heroTag, id: this.product.id));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -38,7 +45,9 @@ class ProductListItemWidget extends StatelessWidget {
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: NetworkImage(product.image.thumb), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image: NetworkImage(product.image.thumb),
+                      fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -52,13 +61,17 @@ class ProductListItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          product.name,
+                          Localizations.localeOf(context).languageCode == "en"
+                              ? product.en_name
+                              : product.ar_name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                         Text(
-                          product.market.name,
+                          Localizations.localeOf(context).languageCode == "en"
+                              ? product.category.en_name
+                              : product.category.ar_name,
                           overflow: TextOverflow.fade,
                           softWrap: false,
                           style: Theme.of(context).textTheme.caption,
@@ -67,7 +80,8 @@ class ProductListItemWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8),
-                  Helper.getPrice(product.price, context, style: Theme.of(context).textTheme.headline4),
+                  Helper.getPrice(product.price, context,
+                      style: Theme.of(context).textTheme.headline4),
                 ],
               ),
             )

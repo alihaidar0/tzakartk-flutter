@@ -11,9 +11,12 @@ class Filter {
     try {
       open = jsonMap['open'] ?? false;
       delivery = jsonMap['delivery'] ?? false;
-      fields = jsonMap['fields'] != null && (jsonMap['fields'] as List).length > 0
-          ? List.from(jsonMap['fields']).map((element) => Field.fromJSON(element)).toList()
-          : [];
+      fields =
+          jsonMap['fields'] != null && (jsonMap['fields'] as List).length > 0
+              ? List.from(jsonMap['fields'])
+                  .map((element) => Field.fromJSON(element))
+                  .toList()
+              : [];
     } catch (e) {
       print(e);
     }
@@ -32,9 +35,11 @@ class Filter {
     String filter = "";
     if (delivery) {
       if (open) {
-        filter = "search=available_for_delivery:1;closed:0&searchFields=available_for_delivery:=;closed:=&searchJoin=and";
+        filter =
+            "search=available_for_delivery:1;closed:0&searchFields=available_for_delivery:=;closed:=&searchJoin=and";
       } else {
-        filter = "search=available_for_delivery:1&searchFields=available_for_delivery:=";
+        filter =
+            "search=available_for_delivery:1&searchFields=available_for_delivery:=";
       }
     } else if (open) {
       filter = "search=closed:${open ? 0 : 1}&searchFields=closed:=";

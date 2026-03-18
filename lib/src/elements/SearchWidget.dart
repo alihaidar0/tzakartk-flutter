@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../elements/SearchResultsWidget.dart';
 
 class SearchModal extends ModalRoute<void> {
+  final String categoryId;
+
+  SearchModal(this.categoryId);
+
   @override
   Duration get transitionDuration => Duration(milliseconds: 400);
 
@@ -37,19 +41,19 @@ class SearchModal extends ModalRoute<void> {
         minimum: EdgeInsets.only(top: 40),
         child: SearchResultWidget(
           heroTag: "search",
+          categoryId: this.categoryId,
         ),
       ),
     );
   }
 
   @override
-  Widget buildTransitions(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
     var begin = Offset(0.0, 1.0);
     var end = Offset.zero;
     var tween = Tween(begin: begin, end: end);
     Animation<Offset> offsetAnimation = animation.drive(tween);
-    // You can add your own animations for the overlay content
     return SlideTransition(
       position: offsetAnimation,
       child: FadeTransition(

@@ -5,23 +5,18 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:global_configuration/global_configuration.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:html/parser.dart';
 
 import '../../generated/l10n.dart';
 import '../elements/CircularLoadingWidget.dart';
-import '../models/cart.dart';
-import '../models/market.dart';
 import '../models/order.dart';
 import '../models/product_order.dart';
 import '../repository/settings_repository.dart';
 import 'app_config.dart' as config;
-import 'custom_trace.dart';
 
 class Helper {
   BuildContext context;
@@ -36,8 +31,31 @@ class Helper {
     return data['data'] ?? [];
   }
 
+  static bool getBoolFreeDeliveryInCart(Map<String, dynamic> data) {
+    if (data['success'] == true) {
+      if (data['delivery'] == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   static int getIntData(Map<String, dynamic> data) {
-    return (data['data'] as int) ?? 0;
+    if (data['success'] == true) {
+      if (data['data'] == null ||
+          data['data'] == '' ||
+          data['data'] == '0' ||
+          data['data'] == 0) {
+        return 0;
+      } else {
+        return (int.parse(data['data'])) ?? 0;
+      }
+    } else {
+      return 0;
+    }
   }
 
   static bool getBoolData(Map<String, dynamic> data) {
@@ -50,40 +68,12 @@ class Helper {
 
   static Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
-  }
-
-  static Future<Marker> getMarker(Map<String, dynamic> res) async {
-    final Uint8List markerIcon = await getBytesFromAsset('assets/img/marker.png', 120);
-    final Marker marker = Marker(
-        markerId: MarkerId(res['id']),
-        icon: BitmapDescriptor.fromBytes(markerIcon),
-//        onTap: () {
-//          //print(res.name);
-//        },
-        anchor: Offset(0.5, 0.5),
-        infoWindow: InfoWindow(
-            title: res['name'],
-            snippet: getDistance(res['distance'].toDouble(), setting.value.distanceUnit),
-            onTap: () {
-              print(CustomTrace(StackTrace.current, message: 'Info Window'));
-            }),
-        position: LatLng(double.parse(res['latitude']), double.parse(res['longitude'])));
-
-    return marker;
-  }
-
-  static Future<Marker> getMyPositionMarker(double latitude, double longitude) async {
-    final Uint8List markerIcon = await getBytesFromAsset('assets/img/my_marker.png', 120);
-    final Marker marker = Marker(
-        markerId: MarkerId(Random().nextInt(100).toString()),
-        icon: BitmapDescriptor.fromBytes(markerIcon),
-        anchor: Offset(0.5, 0.5),
-        position: LatLng(latitude, longitude));
-
-    return marker;
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+        .buffer
+        .asUint8List();
   }
 
   static List<Icon> getStarsList(double rate, {double size = 18}) {
@@ -94,13 +84,15 @@ class Helper {
     if (rate - rate.floor() > 0) {
       list.add(Icon(Icons.star_half, size: size, color: Color(0xFFFFB24D)));
     }
-    list.addAll(List.generate(5 - rate.floor() - (rate - rate.floor()).ceil(), (index) {
+    list.addAll(
+        List.generate(5 - rate.floor() - (rate - rate.floor()).ceil(), (index) {
       return Icon(Icons.star_border, size: size, color: Color(0xFFFFB24D));
     }));
     return list;
   }
 
-  static Widget getPrice(double myPrice, BuildContext context, {TextStyle style, String zeroPlaceholder = '-'}) {
+  static Widget getPrice(double myPrice, BuildContext context,
+      {TextStyle style, String zeroPlaceholder = '-'}) {
     if (style != null) {
       style = style.merge(TextStyle(fontSize: style.fontSize + 2));
     }
@@ -112,29 +104,52 @@ class Helper {
         softWrap: false,
         overflow: TextOverflow.fade,
         maxLines: 1,
-        text: setting.value?.currencyRight != null && setting.value?.currencyRight == false
+        text: setting.value?.currencyRight != null &&
+                setting.value?.currencyRight == false
             ? TextSpan(
                 text: setting.value?.defaultCurrency,
                 style: style == null
                     ? Theme.of(context).textTheme.subtitle1.merge(
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: Theme.of(context).textTheme.subtitle1.fontSize - 6),
+                          TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .fontSize -
+                                  6),
                         )
-                    : style.merge(TextStyle(fontWeight: FontWeight.w400, fontSize: style.fontSize - 6)),
+                    : style.merge(TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: style.fontSize - 6)),
                 children: <TextSpan>[
-                  TextSpan(text: myPrice.toStringAsFixed(setting.value?.currencyDecimalDigits) ?? '', style: style ?? Theme.of(context).textTheme.subtitle1),
+                  TextSpan(
+                      text: myPrice.toStringAsFixed(
+                              setting.value?.currencyDecimalDigits) ??
+                          '',
+                      style: style ?? Theme.of(context).textTheme.subtitle1),
                 ],
               )
             : TextSpan(
-                text: myPrice.toStringAsFixed(setting.value?.currencyDecimalDigits) ?? '',
+                text: myPrice.toStringAsFixed(
+                        setting.value?.currencyDecimalDigits) ??
+                    '',
                 style: style ?? Theme.of(context).textTheme.subtitle1,
                 children: <TextSpan>[
                   TextSpan(
                     text: setting.value?.defaultCurrency,
                     style: style == null
                         ? Theme.of(context).textTheme.subtitle1.merge(
-                              TextStyle(fontWeight: FontWeight.w400, fontSize: Theme.of(context).textTheme.subtitle1.fontSize - 6),
+                              TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .fontSize -
+                                      6),
                             )
-                        : style.merge(TextStyle(fontWeight: FontWeight.w400, fontSize: style.fontSize - 6)),
+                        : style.merge(TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: style.fontSize - 6)),
                   ),
                 ],
               ),
@@ -185,26 +200,6 @@ class Helper {
       distance *= 1.60934;
     }
     return distance != null ? distance.toStringAsFixed(2) + " " + unit : "";
-  }
-
-  static bool canDelivery(Market _market, {List<Cart> carts}) {
-    bool _can = true;
-    String _unit = setting.value.distanceUnit;
-    double _deliveryRange = _market.deliveryRange;
-    double _distance = _market.distance;
-    carts?.forEach((Cart _cart) {
-      _can &= _cart.product.deliverable;
-    });
-
-    if (_unit == 'km') {
-      _deliveryRange /= 1.60934;
-    }
-    if (_distance == 0 && !deliveryAddress.value.isUnknown()) {
-      _distance = sqrt(pow(69.1 * (double.parse(_market.latitude) - deliveryAddress.value.latitude), 2) +
-          pow(69.1 * (deliveryAddress.value.longitude - double.parse(_market.longitude)) * cos(double.parse(_market.latitude) / 57.3), 2));
-    }
-    _can &= _market.availableForDelivery && (_distance < _deliveryRange) && !deliveryAddress.value.isUnknown();
-    return _can;
   }
 
   static String skipHtml(String htmlString) {
@@ -270,8 +265,10 @@ class Helper {
     });
   }
 
-  static String limitString(String text, {int limit = 24, String hiddenText = "..."}) {
-    return text.substring(0, min<int>(limit, text.length)) + (text.length > limit ? hiddenText : '');
+  static String limitString(String text,
+      {int limit = 24, String hiddenText = "..."}) {
+    return text.substring(0, min<int>(limit, text.length)) +
+        (text.length > limit ? hiddenText : '');
   }
 
   static String getCreditCardNumber(String number) {
@@ -327,7 +324,8 @@ class Helper {
     }
   }
 
-  static AlignmentDirectional getAlignmentDirectional(String alignmentDirectional) {
+  static AlignmentDirectional getAlignmentDirectional(
+      String alignmentDirectional) {
     switch (alignmentDirectional) {
       case 'top_start':
         return AlignmentDirectional.topStart;
@@ -354,7 +352,8 @@ class Helper {
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null || now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       Fluttertoast.showToast(msg: S.of(context).tapAgainToLeave);
       return Future.value(false);

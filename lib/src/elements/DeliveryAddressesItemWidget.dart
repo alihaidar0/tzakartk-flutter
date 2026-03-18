@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
-import '../models/address.dart' as model;
+import '../models/address.dart';
 import '../models/payment_method.dart';
 
 // ignore: must_be_immutable
 class DeliveryAddressesItemWidget extends StatelessWidget {
   String heroTag;
-  model.Address address;
+  Address address;
   PaymentMethod paymentMethod;
-  ValueChanged<model.Address> onPressed;
-  ValueChanged<model.Address> onLongPress;
-  ValueChanged<model.Address> onDismissed;
+  ValueChanged<Address> onPressed;
+  ValueChanged<Address> onLongPress;
+  ValueChanged<Address> onDismissed;
 
-  DeliveryAddressesItemWidget({Key key, this.address, this.onPressed, this.onLongPress, this.onDismissed, this.paymentMethod}) : super(key: key);
+  DeliveryAddressesItemWidget(
+      {Key key,
+      this.address,
+      this.onPressed,
+      this.onLongPress,
+      this.onDismissed,
+      this.paymentMethod})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +53,11 @@ class DeliveryAddressesItemWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+              color: Theme.of(context).focusColor.withOpacity(0.1),
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
           ],
         ),
         child: Row(
@@ -56,17 +67,37 @@ class DeliveryAddressesItemWidget extends StatelessWidget {
               alignment: AlignmentDirectional.center,
               children: <Widget>[
                 Container(
-                  height: 60,
-                  width: 60,
+                  height: 70,
+                  width: 70,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      color:
-                          (address?.isDefault ?? false) || (paymentMethod?.selected ?? false) ? Theme.of(context).accentColor : Theme.of(context).focusColor),
-                  child: Icon(
-                    (paymentMethod?.selected ?? false) ? Icons.check : Icons.place_outlined,
-                    color: Theme.of(context).primaryColor,
-                    size: 38,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    border: Border.all(
+                      color: Theme.of(context).accentColor,
+                      width: (address?.isDefault ?? true) ? 3 : 0,
+                    ),
+                    color:
+                        // (paymentMethod?.selected ?? false)
+                        (address?.selected ?? false)
+                            ? Theme.of(context).accentColor
+                            : (address?.isDefault ?? false)
+                                ? Theme.of(context).primaryColor
+                                : Theme.of(context).focusColor,
                   ),
+                  child:
+                      // (paymentMethod?.selected ?? false)
+                      (address?.selected ?? false)
+                          ? Icon(
+                              Icons.check,
+                              color: Theme.of(context).primaryColor,
+                              size: 38,
+                            )
+                          : Icon(
+                              Icons.place_outlined,
+                              color: (address?.isDefault ?? false)
+                                  ? Theme.of(context).accentColor
+                                  : Theme.of(context).primaryColor,
+                              size: 38,
+                            ),
                 ),
               ],
             ),
@@ -91,7 +122,19 @@ class DeliveryAddressesItemWidget extends StatelessWidget {
                           address?.address ?? S.of(context).unknown,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: address?.description != null ? Theme.of(context).textTheme.caption : Theme.of(context).textTheme.subtitle1,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        Text(
+                          address?.receiver_name ?? S.of(context).unknown,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        Text(
+                          address?.receiver_phone ?? S.of(context).unknown,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: Theme.of(context).textTheme.caption,
                         ),
                       ],
                     ),

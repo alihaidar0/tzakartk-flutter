@@ -21,6 +21,9 @@ class ProfileController extends ControllerMVC {
         recentOrders.add(_order);
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getRecentOrders with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
@@ -36,6 +39,7 @@ class ProfileController extends ControllerMVC {
 
   Future<void> refreshProfile() async {
     recentOrders.clear();
-    listenForRecentOrders(message: S.of(state.context).orders_refreshed_successfuly);
+    listenForRecentOrders(
+        message: S.of(state.context).orders_refreshed_successfully);
   }
 }

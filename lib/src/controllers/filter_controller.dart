@@ -37,7 +37,8 @@ class FilterController extends ControllerMVC {
   }
 
   void listenForFields({String message}) async {
-    fields.add(new Field.fromJSON({'id': '0', 'name': S.of(state.context).all, 'selected': true}));
+    fields.add(new Field.fromJSON(
+        {'id': '0', 'name': S.of(state.context).all, 'selected': true}));
     final Stream<Field> stream = await getFields();
     stream.listen((Field _field) {
       setState(() {
@@ -48,6 +49,9 @@ class FilterController extends ControllerMVC {
         fields.add(_field);
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getFields with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
@@ -63,7 +67,8 @@ class FilterController extends ControllerMVC {
 
   Future<void> refreshFields() async {
     fields.clear();
-    listenForFields(message: S.of(state.context).addresses_refreshed_successfuly);
+    listenForFields(
+        message: S.of(state.context).addresses_refreshed_successfully);
   }
 
   void clearFilter() {

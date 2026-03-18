@@ -20,7 +20,10 @@ class CardsCarouselLoaderWidget extends StatelessWidget {
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.all(Radius.circular(10)),
               boxShadow: [
-                BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 15, offset: Offset(0, 5)),
+                BoxShadow(
+                    color: Theme.of(context).focusColor.withOpacity(0.1),
+                    blurRadius: 15,
+                    offset: Offset(0, 5)),
               ],
             ),
             child: Image.asset(

@@ -28,7 +28,6 @@ class CreditCard {
 
   Map toMap() {
     var map = new Map<String, dynamic>();
-    map["id"] = id;
     map["stripe_number"] = number;
     map["stripe_exp_month"] = expMonth;
     map["stripe_exp_year"] = expYear;
@@ -37,6 +36,17 @@ class CreditCard {
   }
 
   bool validated() {
-    return number != null && number != '' && expMonth != null && expMonth != '' && expYear != null && expYear != '' && cvc != null && cvc != '';
+    return number != null &&
+        number != '' &&
+        expMonth != null &&
+        expMonth != '' &&
+        expYear != null &&
+        expYear != '' &&
+        cvc != null &&
+        cvc != '';
   }
+
+  @override
+  String toString() =>
+      'id= $id, number= $number, expMonth= $expMonth, expYear= $expYear, cvc= $cvc';
 }

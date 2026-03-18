@@ -16,7 +16,9 @@ class PaymentMethodListItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed(this.paymentMethod.route);
+        this.paymentMethod.route.contains('PayPal')?
+        Navigator.of(context).pushNamed(this.paymentMethod.route):
+        Navigator.of(context).pushNamed(this.paymentMethod.route,arguments: this.paymentMethod.id);
         print(this.paymentMethod.name);
       },
       child: Container(
@@ -24,7 +26,10 @@ class PaymentMethodListItemWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -35,7 +40,8 @@ class PaymentMethodListItemWidget extends StatelessWidget {
               width: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                image: DecorationImage(image: AssetImage(paymentMethod.logo), fit: BoxFit.fill),
+                image: DecorationImage(
+                    image: AssetImage(paymentMethod.logo), fit: BoxFit.fill),
               ),
             ),
             SizedBox(width: 15),

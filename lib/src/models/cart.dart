@@ -4,21 +4,33 @@ import '../models/product.dart';
 
 class Cart {
   String id;
-  Product product;
+  String product_id;
+  String user_id;
   double quantity;
+  Product product;
   List<Option> options;
-  String userId;
 
   Cart();
 
   Cart.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
-      quantity = jsonMap['quantity'] != null ? jsonMap['quantity'].toDouble() : 0.0;
-      product = jsonMap['product'] != null ? Product.fromJSON(jsonMap['product']) : Product.fromJSON({});
-      options = jsonMap['options'] != null ? List.from(jsonMap['options']).map((element) => Option.fromJSON(element)).toList() : [];
+      product_id = jsonMap['product_id'].toString();
+      user_id = jsonMap['user_id'].toString();
+      quantity =
+          jsonMap['quantity'] != null ? jsonMap['quantity'].toDouble() : 0.0;
+      product = jsonMap['product'] != null
+          ? Product.fromJSON(jsonMap['product'])
+          : Product.fromJSON({});
+      options = jsonMap['options'] != null
+          ? List.from(jsonMap['options'])
+              .map((element) => Option.fromJSON(element))
+              .toList()
+          : [];
     } catch (e) {
       id = '';
+      product_id = '';
+      user_id = '';
       quantity = 0.0;
       product = Product.fromJSON({});
       options = [];
@@ -29,9 +41,9 @@ class Cart {
   Map toMap() {
     var map = new Map<String, dynamic>();
     map["id"] = id;
+    map["product_id"] = product.id.toString();
+    map["user_id"] = user_id;
     map["quantity"] = quantity;
-    map["product_id"] = product.id;
-    map["user_id"] = userId;
     map["options"] = options.map((element) => element.id).toList();
     return map;
   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
 import '../helpers/checkbox_form_field.dart';
+import '../library/globals.dart' as globals;
+import '../library/receiver_info.dart' as receiverInfo;
 import '../models/address.dart';
 
 // ignore: must_be_immutable
@@ -16,7 +18,6 @@ class DeliveryAddressDialog {
         context: context,
         builder: (context) {
           return SimpleDialog(
-//            contentPadding: EdgeInsets.symmetric(horizontal: 20),
             titlePadding: EdgeInsets.fromLTRB(16, 25, 16, 0),
             title: Row(
               children: <Widget>[
@@ -32,18 +33,90 @@ class DeliveryAddressDialog {
               ],
             ),
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).country,
+                      style: Theme.of(context).textTheme.bodyText2.merge(
+                            TextStyle(color: Theme.of(context).hintColor),
+                          ),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      Localizations.localeOf(context).languageCode == 'en'
+                          ? "${globals.country.en_name}"
+                          : "${globals.country.ar_name}",
+                      style: Theme.of(context).textTheme.headline6.merge(
+                            TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).city,
+                      style: Theme.of(context).textTheme.bodyText2.merge(
+                            TextStyle(color: Theme.of(context).hintColor),
+                          ),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      Localizations.localeOf(context).languageCode == 'en'
+                          ? "${globals.city.en_name}"
+                          : "${globals.city.ar_name}",
+                      style: Theme.of(context).textTheme.headline6.merge(
+                            TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                    ),
+                  ],
+                ),
+              ),
               Form(
                 key: _deliveryAddressFormKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: new TextFormField(
                         style: TextStyle(color: Theme.of(context).hintColor),
                         keyboardType: TextInputType.text,
-                        decoration: getInputDecoration(hintText: S.of(context).home_address, labelText: S.of(context).description),
-                        initialValue: address.description?.isNotEmpty ?? false ? address.description : null,
-                        validator: (input) => input.trim().length == 0 ? 'Not valid address description' : null,
+                        decoration: getInputDecoration(
+                          hintText: S.of(context).areaAndStreet,
+                          labelText: S.of(context).description,
+                        ),
+                        initialValue: address != null
+                            ? address.description?.isNotEmpty ?? false
+                                ? address.description
+                                : null
+                            : null,
+                        validator: (input) => input.trim().length == 0
+                            ? 'Not valid address description'
+                            : null,
                         onSaved: (input) => address.description = input,
                       ),
                     ),
@@ -52,17 +125,90 @@ class DeliveryAddressDialog {
                       child: new TextFormField(
                         style: TextStyle(color: Theme.of(context).hintColor),
                         keyboardType: TextInputType.text,
-                        decoration: getInputDecoration(hintText: S.of(context).hint_full_address, labelText: S.of(context).full_address),
-                        initialValue: address.address?.isNotEmpty ?? false ? address.address : null,
-                        validator: (input) => input.trim().length == 0 ? S.of(context).notValidAddress : null,
-                        onSaved: (input) => address.address = input,
+                        decoration: getInputDecoration(
+                            labelText: S.of(context).full_address),
+                        initialValue: address != null
+                            ? address.address?.isNotEmpty ?? false
+                                ? address.address
+                                : null
+                            : null,
+                        validator: (input) => input.trim().length == 0
+                            ? S.of(context).notValidAddress
+                            : null,
+                        onSaved: (input) {
+                          input = Localizations.localeOf(context)
+                                      .languageCode ==
+                                  'en'
+                              ? "${globals.country.en_name}, ${globals.city.en_name}, " +
+                                  input
+                              : "${globals.country.ar_name}, ${globals.city.ar_name}, " +
+                                  input;
+                          address.address = input;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: new TextFormField(
+                        style: TextStyle(color: Theme.of(context).hintColor),
+                        keyboardType: TextInputType.text,
+                        decoration: getInputDecoration(
+                            labelText: S.of(context).receiverFullName),
+                        initialValue: address != null
+                            ? address.receiver_name?.isNotEmpty ?? false
+                                ? address.receiver_name
+                                : null
+                            : null,
+                        validator: (input) => input.length < 3
+                            ? S.of(context).should_be_more_than_3_letters
+                            : null,
+                        onSaved: (input) {
+                          receiverInfo.receiverName = input;
+                          address.receiver_name = input;
+                          print("######### receiverInfo.receiverName #########");
+                          print("${receiverInfo.receiverName}");
+                          print("##################");
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: new TextFormField(
+                        style: TextStyle(color: Theme.of(context).hintColor),
+                        keyboardType: TextInputType.phone,
+                        decoration: getInputDecoration(
+                            labelText: S.of(context).receiver_phone,
+                            prefixText: "${globals.country.code} "),
+                        initialValue: address != null
+                            ? address.receiver_phone?.isNotEmpty ?? false
+                                ? address.receiver_phone.substring(4)
+                                : null
+                            : null,
+                        validator: (input) {
+                          input = input.replaceAll(' ', '');
+                          input = "${globals.country.code}" + input;
+                          return 11 <= input.length && 12 >= input.length
+                              ? null
+                              : S.of(context).shouldBeAValidMobileNumber;
+                        },
+                        onSaved: (input) {
+                          input = input.replaceAll(' ', '');
+                          input = "${globals.country.code}" + input;
+                          receiverInfo.receiverPhone = input;
+                          address.receiver_phone = input;
+                          print("######### receiverInfo.receiverPhone #########");
+                          print("${receiverInfo.receiverPhone}");
+                          print("##################");
+                        },
                       ),
                     ),
                     SizedBox(
                       width: double.infinity,
                       child: CheckboxFormField(
                         context: context,
-                        initialValue: address.isDefault ?? false,
+                        initialValue: address != null
+                            ? address.isDefault ?? false
+                            : false,
                         onSaved: (input) => address.isDefault = input,
                         title: Text(S.of(context).makeItDefault),
                       ),
@@ -97,15 +243,20 @@ class DeliveryAddressDialog {
         });
   }
 
-  InputDecoration getInputDecoration({String hintText, String labelText}) {
+  InputDecoration getInputDecoration(
+      {String hintText, String labelText, String prefixText}) {
     return new InputDecoration(
+      prefixText: prefixText,
       hintText: hintText,
       labelText: labelText,
       hintStyle: Theme.of(context).textTheme.bodyText2.merge(
             TextStyle(color: Theme.of(context).focusColor),
           ),
-      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
-      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor)),
+      enabledBorder: UnderlineInputBorder(
+          borderSide:
+              BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
+      focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).hintColor)),
       floatingLabelBehavior: FloatingLabelBehavior.auto,
       labelStyle: Theme.of(context).textTheme.bodyText2.merge(
             TextStyle(color: Theme.of(context).hintColor),

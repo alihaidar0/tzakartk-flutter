@@ -11,7 +11,9 @@ class ProductOrderItemWidget extends StatelessWidget {
   final ProductOrder productOrder;
   final Order order;
 
-  const ProductOrderItemWidget({Key key, this.productOrder, this.order, this.heroTag}) : super(key: key);
+  const ProductOrderItemWidget(
+      {Key key, this.productOrder, this.order, this.heroTag})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,8 @@ class ProductOrderItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed('/Product', arguments: RouteArgument(id: this.productOrder.product.id));
+        Navigator.of(context).pushNamed('/Product',
+            arguments: RouteArgument(id: this.productOrder.product.id));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -45,7 +48,8 @@ class ProductOrderItemWidget extends StatelessWidget {
                     height: 60,
                     width: 60,
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error_outline),
                 ),
               ),
             ),
@@ -59,24 +63,28 @@ class ProductOrderItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          productOrder.product.name,
+                          Localizations.localeOf(context).languageCode == "en"
+                              ? productOrder.product.en_name
+                              : productOrder.product.ar_name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                         Wrap(
-                          children: List.generate(productOrder.options.length, (index) {
+                          children: List.generate(productOrder.options.length,
+                              (index) {
                             return Text(
-                              productOrder.options.elementAt(index).name + ', ',
+                              Localizations.localeOf(context).languageCode ==
+                                      "en"
+                                  ? productOrder.options.elementAt(index).name +
+                                      ', '
+                                  : productOrder.options
+                                          .elementAt(index)
+                                          .ar_name +
+                                      ', ',
                               style: Theme.of(context).textTheme.caption,
                             );
                           }),
-                        ),
-                        Text(
-                          productOrder.product.market.name,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: Theme.of(context).textTheme.caption,
                         ),
                       ],
                     ),
@@ -86,7 +94,9 @@ class ProductOrderItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Helper.getPrice(Helper.getOrderPrice(productOrder), context, style: Theme.of(context).textTheme.subtitle1),
+                      Helper.getPrice(
+                          Helper.getOrderPrice(productOrder), context,
+                          style: Theme.of(context).textTheme.subtitle1),
                       Text(
                         " x " + productOrder.quantity.toString(),
                         style: Theme.of(context).textTheme.caption,

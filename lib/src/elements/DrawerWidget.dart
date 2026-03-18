@@ -1,6 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/profile_controller.dart';
@@ -15,6 +18,30 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends StateMVC<DrawerWidget> {
   _DrawerWidgetState() : super(ProfileController()) {}
 
+  void launchWhatApp({@required number, @required message}) async {
+    String url() {
+      if (Platform.isAndroid) {
+        return "whatsapp://send?phone=$number&text=$message"; // new line
+      } else {
+        return "https://wa.me/$number?text=${Uri.parse(message)}"; // new line
+      }
+    }
+    await canLaunch(url()) ? launch(url()) : print("can't open whatsapp");
+  }
+
+  void launchTiktok({@required user}) async {
+    String url = "https://tiktok.com/$user";
+    await canLaunch(url) ? launch(url) : print("can't open whatsapp");
+  }
+
+  void launchURL({@required url}) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -22,7 +49,10 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              currentUser.value.apiToken != null ? Navigator.of(context).pushNamed('/Profile') : Navigator.of(context).pushNamed('/Login');
+              currentUser.value.apiToken != null
+                  ? Navigator.of(context).pushNamed('/Profile')
+                  : Navigator.of(context)
+                      .pushReplacementNamed('/Login', arguments: false);
             },
             child: currentUser.value.apiToken != null
                 ? UserAccountsDrawerHeader(
@@ -37,41 +67,6 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                       currentUser.value.email,
                       style: Theme.of(context).textTheme.caption,
                     ),
-                    currentAccountPicture: Stack(
-                      children: [
-                        SizedBox(
-                          width: 80,
-                          height: 80,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(80)),
-                            child: CachedNetworkImage(
-                              height: 80,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              imageUrl: currentUser.value.image.thumb,
-                              placeholder: (context, url) => Image.asset(
-                                'assets/img/loading.gif',
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: 80,
-                              ),
-                              errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: currentUser.value.verifiedPhone ?? false
-                              ? Icon(
-                                  Icons.check_circle,
-                                  color: Theme.of(context).accentColor,
-                                  size: 24,
-                                )
-                              : SizedBox(),
-                        )
-                      ],
-                    ),
                   )
                 : Container(
                     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
@@ -81,9 +76,13 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(S.of(context).welcome, style: Theme.of(context).textTheme.headline4.merge(TextStyle(color: Theme.of(context).accentColor))),
+                        Text(S.of(context).welcome,
+                            style: Theme.of(context).textTheme.headline4.merge(
+                                TextStyle(
+                                    color: Theme.of(context).accentColor))),
                         SizedBox(height: 5),
-                        Text(S.of(context).loginAccountOrCreateNewOneForFree, style: Theme.of(context).textTheme.bodyText2),
+                        Text(S.of(context).loginAccountOrCreateNewOneForFree,
+                            style: Theme.of(context).textTheme.bodyText2),
                         SizedBox(height: 15),
                         Wrap(
                           spacing: 10,
@@ -91,7 +90,9 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                             MaterialButton(
                               elevation: 0,
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/Login');
+                                Navigator.of(context).pushReplacementNamed(
+                                    '/Login',
+                                    arguments: false);
                               },
                               color: Theme.of(context).accentColor,
                               height: 40,
@@ -100,10 +101,17 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 spacing: 9,
                                 children: [
-                                  Icon(Icons.exit_to_app_outlined, color: Theme.of(context).primaryColor, size: 24),
+                                  Icon(Icons.exit_to_app_outlined,
+                                      color: Theme.of(context).primaryColor,
+                                      size: 24),
                                   Text(
                                     S.of(context).login,
-                                    style: Theme.of(context).textTheme.subtitle2.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        .merge(TextStyle(
+                                            color: Theme.of(context)
+                                                .primaryColor)),
                                   ),
                                 ],
                               ),
@@ -111,20 +119,29 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                             ),
                             MaterialButton(
                               elevation: 0,
-                              color: Theme.of(context).focusColor.withOpacity(0.2),
+                              color:
+                                  Theme.of(context).focusColor.withOpacity(0.2),
                               height: 40,
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/SignUp');
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/SignUp');
                               },
                               child: Wrap(
                                 runAlignment: WrapAlignment.center,
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 spacing: 9,
                                 children: [
-                                  Icon(Icons.person_add_outlined, color: Theme.of(context).hintColor, size: 24),
+                                  Icon(Icons.person_add_outlined,
+                                      color: Theme.of(context).hintColor,
+                                      size: 24),
                                   Text(
                                     S.of(context).register,
-                                    style: Theme.of(context).textTheme.subtitle2.merge(TextStyle(color: Theme.of(context).hintColor)),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        .merge(TextStyle(
+                                            color:
+                                                Theme.of(context).hintColor)),
                                   ),
                                 ],
                               ),
@@ -138,7 +155,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 2);
+              Navigator.of(context)
+                  .pushReplacementNamed('/Pages', arguments: 1);
             },
             leading: Icon(
               Icons.home_outlined,
@@ -151,7 +169,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 0);
+              Navigator.of(context)
+                  .pushReplacementNamed('/Pages', arguments: 0);
             },
             leading: Icon(
               Icons.notifications_none_outlined,
@@ -164,7 +183,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 3);
+              Navigator.of(context)
+                  .pushReplacementNamed('/Pages', arguments: 2);
             },
             leading: Icon(
               Icons.local_mall_outlined,
@@ -172,32 +192,6 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
             ),
             title: Text(
               S.of(context).my_orders,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 4);
-            },
-            leading: Icon(
-              Icons.favorite_outline,
-              color: Theme.of(context).focusColor.withOpacity(1),
-            ),
-            title: Text(
-              S.of(context).favorite_products,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 4);
-            },
-            leading: Icon(
-              Icons.chat_outlined,
-              color: Theme.of(context).focusColor.withOpacity(1),
-            ),
-            title: Text(
-              S.of(context).messages,
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
@@ -214,23 +208,11 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Help');
-            },
-            leading: Icon(
-              Icons.help_outline,
-              color: Theme.of(context).focusColor.withOpacity(1),
-            ),
-            title: Text(
-              S.of(context).help__support,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ),
-          ListTile(
-            onTap: () {
               if (currentUser.value.apiToken != null) {
                 Navigator.of(context).pushNamed('/Settings');
               } else {
-                Navigator.of(context).pushReplacementNamed('/Login');
+                Navigator.of(context)
+                    .pushReplacementNamed('/Login', arguments: false);
               }
             },
             leading: Icon(
@@ -239,6 +221,19 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
             ),
             title: Text(
               S.of(context).settings,
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed('/CountriesAndCities');
+            },
+            leading: Icon(
+              Icons.location_city_outlined,
+              color: Theme.of(context).focusColor.withOpacity(1),
+            ),
+            title: Text(
+              S.of(context).countriesAndCities,
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
@@ -271,7 +266,9 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              Theme.of(context).brightness == Brightness.dark ? S.of(context).light_mode : S.of(context).dark_mode,
+              Theme.of(context).brightness == Brightness.dark
+                  ? S.of(context).light_mode
+                  : S.of(context).dark_mode,
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
@@ -279,10 +276,13 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
             onTap: () {
               if (currentUser.value.apiToken != null) {
                 logout().then((value) {
-                  Navigator.of(context).pushNamedAndRemoveUntil('/Pages', (Route<dynamic> route) => false, arguments: 2);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/Pages', (Route<dynamic> route) => false,
+                      arguments: 1);
                 });
               } else {
-                Navigator.of(context).pushNamed('/Login');
+                Navigator.of(context)
+                    .pushReplacementNamed('/Login', arguments: false);
               }
             },
             leading: Icon(
@@ -290,14 +290,16 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              currentUser.value.apiToken != null ? S.of(context).log_out : S.of(context).login,
+              currentUser.value.apiToken != null
+                  ? S.of(context).log_out
+                  : S.of(context).login,
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
           currentUser.value.apiToken == null
               ? ListTile(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/SignUp');
+                    Navigator.of(context).pushReplacementNamed('/SignUp');
                   },
                   leading: Icon(
                     Icons.person_add_outlined,
@@ -322,6 +324,239 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   ),
                 )
               : SizedBox(),
+          Container(
+            padding: const EdgeInsets.only(top: 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/img/logo.png',
+                      width: 50,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(width: 20),
+                    Text(
+                      S.of(context).tzakartk,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 10),
+                      InkWell(
+                        child: Text(
+                          S.of(context).customerService,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.merge(TextStyle(
+                                color: Theme.of(context).accentColor,
+                                decoration: TextDecoration.underline,
+                              )),
+                          textAlign: TextAlign.center,
+                        ),
+                        onTap: () {
+                          launchURL(url: "https://tzakartk.com/contact");
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      InkWell(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              S.of(context).complaints + ": ",
+                              style: Theme.of(context).textTheme.subtitle2,
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              'complaints@tzakartk.com',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.merge(TextStyle(
+                                    decoration: TextDecoration.underline,
+                                  )),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        onTap: () async {
+                          await launch("mailto:complaints@tzakartk.com");
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      InkWell(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  S.of(context).phoneNumber + ": ",
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  '+9611252213',
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                            Text(
+                              '9:00AM - 3:00PM',
+                              style: Theme.of(context).textTheme.subtitle2,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        onTap: () async {
+                          await launch("tel://+9611252213");
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      InkWell(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  S.of(context).mobileNumber + ": ",
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  '+96170701670',
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                            Text(
+                              '10:00AM - 6:00PM',
+                              style: Theme.of(context).textTheme.subtitle2,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        onTap: () async {
+                          await launch("tel://+96170701670");
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 3.0,
+                    horizontal: 50,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        S.of(context).or +
+                            '\n' +
+                            S.of(context).contactUsVia +
+                            ":",
+                        style: Theme.of(context).textTheme.subtitle1,
+                        textAlign: TextAlign.center,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              launchTiktok(user: '@tzakartk');
+                            },
+                            icon: SvgPicture.asset(
+                              'assets/img/tiktok.svg',
+                              height: 50,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () async {
+                              String fbProtocolUrl;
+                              if (Platform.isIOS) {
+                                fbProtocolUrl = 'fb://profile/106365055297270';
+                              } else {
+                                fbProtocolUrl = 'fb://page/106365055297270';
+                              }
+
+                              String fallbackUrl =
+                                  'https://www.facebook.com/tzakartk';
+
+                              try {
+                                bool launched = await launch(fbProtocolUrl,
+                                    forceSafariVC: false);
+
+                                if (!launched) {
+                                  await launch(fallbackUrl,
+                                      forceSafariVC: false);
+                                }
+                              } catch (e) {
+                                await launch(fallbackUrl, forceSafariVC: false);
+                              }
+                            },
+                            icon: SvgPicture.asset(
+                              'assets/img/facebook.svg',
+                              height: 50,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () async {
+                              var url = 'https://www.instagram.com/tzakartk/';
+
+                              if (await canLaunch(url)) {
+                                await launch(
+                                  url,
+                                  universalLinksOnly: true,
+                                );
+                              } else {
+                                throw 'There was a problem to open the url: $url';
+                              }
+                            },
+                            icon: SvgPicture.asset(
+                              'assets/img/instagram.svg',
+                              height: 50,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              launchWhatApp(
+                                  number: '+96170701670', message: '');
+                            },
+                            icon: SvgPicture.asset(
+                              'assets/img/whatsapp.svg',
+                              height: 50,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 5),
+              ],
+            ),
+          ),
         ],
       ),
     );

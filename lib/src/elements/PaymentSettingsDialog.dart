@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../generated/l10n.dart';
+import '../elements/ExpDateCustomInputFormatter.dart';
+import '../elements/NumberCustomInputFormatter.dart';
 import '../models/credit_card.dart';
 
 // ignore: must_be_immutable
@@ -8,7 +11,8 @@ class PaymentSettingsDialog extends StatefulWidget {
   CreditCard creditCard;
   VoidCallback onChanged;
 
-  PaymentSettingsDialog({Key key, this.creditCard, this.onChanged}) : super(key: key);
+  PaymentSettingsDialog({Key key, this.creditCard, this.onChanged})
+      : super(key: key);
 
   @override
   _PaymentSettingsDialogState createState() => _PaymentSettingsDialogState();
@@ -27,7 +31,8 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
             builder: (context) {
               return SimpleDialog(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                titlePadding:
+                    EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 title: Row(
                   children: <Widget>[
                     Icon(Icons.person_outline),
@@ -44,30 +49,68 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                     child: Column(
                       children: <Widget>[
                         new TextFormField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(16),
+                            NumberCustomInputFormatter(),
+                          ],
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.number,
-                          decoration: getInputDecoration(hintText: '4242 4242 4242 4242', labelText: S.of(context).number),
-                          initialValue: widget.creditCard.number.isNotEmpty ? widget.creditCard.number : null,
-                          validator: (input) => input.trim().length != 16 ? S.of(context).not_a_valid_number : null,
-                          onSaved: (input) => widget.creditCard.number = input,
+                          decoration: getInputDecoration(
+                            labelText: S.of(context).number,
+                          ),
+                          initialValue: widget.creditCard.number.isNotEmpty
+                              ? widget.creditCard.number
+                              : null,
+                          validator: (input) {
+                            input = input.replaceAll(' ', '');
+                            return input.length != 16
+                                ? S.of(context).not_a_valid_number
+                                : null;
+                          },
+                          onSaved: (input) => widget.creditCard.number =
+                              input.replaceAll(' ', ''),
                         ),
                         new TextFormField(
-                            style: TextStyle(color: Theme.of(context).hintColor),
-                            keyboardType: TextInputType.text,
-                            decoration: getInputDecoration(hintText: 'mm/yy', labelText: S.of(context).exp_date),
-                            initialValue: widget.creditCard.expMonth.isNotEmpty ? widget.creditCard.expMonth + '/' + widget.creditCard.expYear : null,
-                            // TODO validate date
-                            validator: (input) => !input.contains('/') || input.length != 5 ? S.of(context).not_a_valid_date : null,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(4),
+                              ExpDateCustomInputFormatter(),
+                            ],
+                            style:
+                                TextStyle(color: Theme.of(context).hintColor),
+                            keyboardType: TextInputType.number,
+                            decoration: getInputDecoration(
+                              hintText: 'mm/yy',
+                              labelText: S.of(context).exp_date,
+                            ),
+                            initialValue: widget.creditCard.expMonth.isNotEmpty
+                                ? widget.creditCard.expMonth +
+                                    '/' +
+                                    widget.creditCard.expYear
+                                : null,
+                            validator: (input) =>
+                                !input.contains('/') || input.length != 5
+                                    ? S.of(context).not_a_valid_date
+                                    : null,
                             onSaved: (input) {
-                              widget.creditCard.expMonth = input.split('/').elementAt(0);
-                              widget.creditCard.expYear = input.split('/').elementAt(1);
+                              widget.creditCard.expMonth =
+                                  input.split('/').elementAt(0);
+                              widget.creditCard.expYear =
+                                  input.split('/').elementAt(1);
                             }),
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.number,
-                          decoration: getInputDecoration(hintText: '253', labelText: S.of(context).cvc),
-                          initialValue: widget.creditCard.cvc.isNotEmpty ? widget.creditCard.cvc : null,
-                          validator: (input) => input.trim().length != 3 ? S.of(context).not_a_valid_cvc : null,
+                          decoration: getInputDecoration(
+                            labelText: S.of(context).cvc,
+                          ),
+                          initialValue: widget.creditCard.cvc.isNotEmpty
+                              ? widget.creditCard.cvc
+                              : null,
+                          validator: (input) => input.trim().length != 3
+                              ? S.of(context).not_a_valid_cvc
+                              : null,
                           onSaved: (input) => widget.creditCard.cvc = input,
                         ),
                       ],
@@ -75,22 +118,25 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                   ),
                   SizedBox(height: 20),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       MaterialButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(S.of(context).cancel),
-                      ),
-                      MaterialButton(
+                        elevation: 0,
                         onPressed: _submit,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+                        color: Theme.of(context).accentColor,
+                        shape: StadiumBorder(),
                         child: Text(
                           S.of(context).save,
-                          style: TextStyle(color: Theme.of(context).accentColor),
+                          style: Theme.of(context).textTheme.bodyText1.merge(
+                                TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
                         ),
                       ),
                     ],
-                    mainAxisAlignment: MainAxisAlignment.end,
                   ),
                   SizedBox(height: 10),
                 ],
@@ -109,13 +155,25 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
       hintText: hintText,
       labelText: labelText,
       hintStyle: Theme.of(context).textTheme.bodyText2.merge(
-            TextStyle(color: Theme.of(context).focusColor),
+            TextStyle(
+              color: Theme.of(context).focusColor,
+            ),
           ),
-      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
-      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor)),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Theme.of(context).hintColor.withOpacity(0.2),
+        ),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Theme.of(context).hintColor,
+        ),
+      ),
       floatingLabelBehavior: FloatingLabelBehavior.auto,
       labelStyle: Theme.of(context).textTheme.bodyText2.merge(
-            TextStyle(color: Theme.of(context).hintColor),
+            TextStyle(
+              color: Theme.of(context).hintColor,
+            ),
           ),
     );
   }

@@ -22,10 +22,12 @@ class Setting {
   String scaffoldColor;
   String googleMapsKey;
   String fcmKey;
-  ValueNotifier<Locale> mobileLanguage = new ValueNotifier(Locale('en', ''));
+  ValueNotifier<Locale> mobileLanguage = new ValueNotifier(Locale("en", ''));
   String appVersion;
   bool enableVersion = true;
   List<String> homeSections = [];
+  String mobile_logo;
+  String on_loading_image;
 
   ValueNotifier<Brightness> brightness = new ValueNotifier(Brightness.light);
 
@@ -47,16 +49,37 @@ class Setting {
       mobileLanguage.value = Locale(jsonMap['mobile_language'] ?? "en", '');
       appVersion = jsonMap['app_version'] ?? '';
       distanceUnit = jsonMap['distance_unit'] ?? 'km';
-      enableVersion = jsonMap['enable_version'] == null || jsonMap['enable_version'] == '0' ? false : true;
-      defaultTax = double.tryParse(jsonMap['default_tax'] ?? '0') ?? 0.0; //double.parse(jsonMap['default_tax'].toString());
+      enableVersion =
+          jsonMap['enable_version'] == null || jsonMap['enable_version'] == '0'
+              ? false
+              : true;
+      defaultTax = double.tryParse(jsonMap['default_tax'] ?? '0') ??
+          0.0; //double.parse(jsonMap['default_tax'].toString());
       defaultCurrency = jsonMap['default_currency'] ?? '';
-      currencyDecimalDigits = int.tryParse(jsonMap['default_currency_decimal_digits'] ?? '2') ?? 2;
-      currencyRight = jsonMap['currency_right'] == null || jsonMap['currency_right'] == '0' ? false : true;
-      payPalEnabled = jsonMap['enable_paypal'] == null || jsonMap['enable_paypal'] == '0' ? false : true;
-      stripeEnabled = jsonMap['enable_stripe'] == null || jsonMap['enable_stripe'] == '0' ? false : true;
-      razorPayEnabled = jsonMap['enable_razorpay'] == null || jsonMap['enable_razorpay'] == '0' ? false : true;
+      currencyDecimalDigits =
+          int.tryParse(jsonMap['default_currency_decimal_digits'] ?? '2') ?? 2;
+      currencyRight =
+          jsonMap['currency_right'] == null || jsonMap['currency_right'] == '0'
+              ? false
+              : true;
+      payPalEnabled =
+          jsonMap['enable_paypal'] == null || jsonMap['enable_paypal'] == '0'
+              ? false
+              : true;
+      stripeEnabled =
+          jsonMap['enable_stripe'] == null || jsonMap['enable_stripe'] == '0'
+              ? false
+              : true;
+      razorPayEnabled = jsonMap['enable_razorpay'] == null ||
+              jsonMap['enable_razorpay'] == '0'
+          ? false
+          : true;
       for (int _i = 1; _i <= 12; _i++) {
-        homeSections.add(jsonMap['home_section_' + _i.toString()] != null ? jsonMap['home_section_' + _i.toString()] : 'empty');
+        homeSections.add(jsonMap['home_section_' + _i.toString()] != null
+            ? jsonMap['home_section_' + _i.toString()]
+            : 'empty');
+        mobile_logo = jsonMap['mobile_logo'] ?? null;
+        on_loading_image = jsonMap['on_loading_image'] ?? null;
       }
     } catch (e) {
       print(CustomTrace(StackTrace.current, message: e));

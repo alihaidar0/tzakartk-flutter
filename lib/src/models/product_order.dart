@@ -8,16 +8,24 @@ class ProductOrder {
   List<Option> options;
   Product product;
   DateTime dateTime;
+
   ProductOrder();
 
   ProductOrder.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
       price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0.0;
-      quantity = jsonMap['quantity'] != null ? jsonMap['quantity'].toDouble() : 0.0;
-      product = jsonMap['product'] != null ? Product.fromJSON(jsonMap['product']) : Product.fromJSON({});
+      quantity =
+          jsonMap['quantity'] != null ? jsonMap['quantity'].toDouble() : 0.0;
+      product = jsonMap['product'] != null
+          ? Product.fromJSON(jsonMap['product'])
+          : Product.fromJSON({});
       dateTime = DateTime.parse(jsonMap['updated_at']);
-      options = jsonMap['options'] != null ? List.from(jsonMap['options']).map((element) => Option.fromJSON(element)).toList() : [];
+      options = jsonMap['options'] != null
+          ? List.from(jsonMap['options'])
+              .map((element) => Option.fromJSON(element))
+              .toList()
+          : [];
     } catch (e) {
       id = '';
       price = 0.0;

@@ -3,13 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../models/category.dart';
-import '../models/route_argument.dart';
 
 // ignore: must_be_immutable
 class CategoriesCarouselItemWidget extends StatelessWidget {
-  double marginLeft;
   Category category;
-  CategoriesCarouselItemWidget({Key key, this.marginLeft, this.category}) : super(key: key);
+  bool selected;
+  final Function(String) onTap;
+
+  CategoriesCarouselItemWidget({
+    Key key,
+    this.category,
+    this.selected,
+    @required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +23,29 @@ class CategoriesCarouselItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       highlightColor: Colors.transparent,
       onTap: () {
-        Navigator.of(context).pushNamed('/Category', arguments: RouteArgument(id: category.id));
+        onTap(category.id);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          SizedBox(height: 5),
           Hero(
             tag: category.id,
             child: Container(
-              margin: EdgeInsetsDirectional.only(start: this.marginLeft, end: 20),
-              width: 80,
-              height: 80,
+              width: 110,
+              height: 110,
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  boxShadow: [BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.2), offset: Offset(0, 2), blurRadius: 7.0)]),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  border: Border.all(color: Colors.black12, width: 0.5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: selected != null && selected
+                          ? Colors.black45
+                          : Colors.white,
+                      blurRadius: 5.0,
+                    )
+                  ]),
               child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: category.image.url.toLowerCase().endsWith('.svg')
@@ -46,19 +60,19 @@ class CategoriesCarouselItemWidget extends StatelessWidget {
                           'assets/img/loading.gif',
                           fit: BoxFit.cover,
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                        errorWidget: (context, url, error) =>
+                            Icon(Icons.error_outline),
                       ),
               ),
             ),
           ),
           SizedBox(height: 5),
-          Container(
-            margin: EdgeInsetsDirectional.only(start: this.marginLeft, end: 20),
-            child: Text(
-              category.name,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
+          Text(
+            Localizations.localeOf(context).languageCode == "en"
+                ? category?.en_name ?? ''
+                : category?.ar_name ?? '',
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyText2,
           ),
         ],
       ),

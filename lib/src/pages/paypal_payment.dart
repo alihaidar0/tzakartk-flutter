@@ -5,64 +5,89 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/paypal_controller.dart';
+import '../models/coupon.dart';
 import '../models/route_argument.dart';
+import '../repository/coupon_repository.dart';
+import '../repository/settings_repository.dart' as settingRepo;
 
 // ignore: must_be_immutable
 class PayPalPaymentWidget extends StatefulWidget {
   RouteArgument routeArgument;
+
   PayPalPaymentWidget({Key key, this.routeArgument}) : super(key: key);
+
   @override
   _PayPalPaymentWidgetState createState() => _PayPalPaymentWidgetState();
 }
 
 class _PayPalPaymentWidgetState extends StateMVC<PayPalPaymentWidget> {
   PayPalController _con;
+
   _PayPalPaymentWidgetState() : super(PayPalController()) {
     _con = controller;
   }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _con.scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          S.of(context).paypal_payment,
-          style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
+    return SafeArea(
+      child: Scaffold(
+        key: _con.scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(
+            S.of(context).paypal_payment,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .merge(TextStyle(letterSpacing: 1.3)),
+          ),
         ),
-      ),
-      body: Stack(
-        children: <Widget>[
-          WebView(
-              initialUrl: _con.url,
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController controller) {
-                _con.webView = controller;
-              },
-              onPageStarted: (String url) {
-                setState(() {
-                  _con.url = url;
-                });
-                if (url == "${GlobalConfiguration().getValue('base_url')}payments/paypal") {
-                  Navigator.of(context).pushReplacementNamed('/Pages', arguments: 3);
-                }
-              },
-              onPageFinished: (String url) {
-                setState(() {
-                  _con.progress = 1;
-                });
-              }),
-          _con.progress < 1
-              ? SizedBox(
-                  height: 3,
-                  child: LinearProgressIndicator(
-                    backgroundColor: Theme.of(context).accentColor.withOpacity(0.2),
-                  ),
-                )
-              : SizedBox(),
-        ],
+        body: Stack(
+          children: <Widget>[
+            WebView(
+                initialUrl: _con.url,
+                javascriptMode: JavascriptMode.unrestricted,
+                onWebViewCreated: (WebViewController controller) {
+                  _con.webView = controller;
+                },
+                onPageStarted: (String url) {
+                  setState(() {
+                    _con.url = url;
+                  });
+                  if (url ==
+                          "${GlobalConfiguration().getValue('base_url')}/client/account" ||
+                      url ==
+                          "${GlobalConfiguration().getValue('base_url')}/client/login") {
+                    settingRepo.coupon = new Coupon.fromJSON({});
+                    saveCoupon(settingRepo.coupon);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/OrderSuccess',
+                      (Route<dynamic> route) => false,
+                    );
+                  }
+                  if (url ==
+                      "${GlobalConfiguration().getValue('base_url')}/client/checkout") {
+                    Navigator.pop(context);
+                  }
+                },
+                onPageFinished: (String url) {
+                  setState(() {
+                    _con.progress = 1;
+                  });
+                }),
+            _con.progress < 1
+                ? SizedBox(
+                    height: 3,
+                    child: LinearProgressIndicator(
+                      backgroundColor:
+                          Theme.of(context).accentColor.withOpacity(0.2),
+                    ),
+                  )
+                : SizedBox(),
+          ],
+        ),
       ),
     );
   }

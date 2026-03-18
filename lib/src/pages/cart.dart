@@ -7,9 +7,8 @@ import '../controllers/cart_controller.dart';
 import '../elements/CartBottomDetailsWidget.dart';
 import '../elements/CartItemWidget.dart';
 import '../elements/EmptyCartWidget.dart';
-import '../helpers/helper.dart';
 import '../models/route_argument.dart';
-import '../repository/settings_repository.dart';
+import '../repository/settings_repository.dart' as settingRepo;
 
 class CartWidget extends StatefulWidget {
   final RouteArgument routeArgument;
@@ -30,26 +29,21 @@ class _CartWidgetState extends StateMVC<CartWidget> {
   @override
   void initState() {
     _con.listenForCarts();
+    _con.listenForDelivery();
+    _con.calculateCartPrice('');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: Helper.of(context).onWillPop,
+    return SafeArea(
       child: Scaffold(
         key: _con.scaffoldKey,
         bottomNavigationBar: CartBottomDetailsWidget(con: _con),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: IconButton(
-            onPressed: () {
-              if (widget.routeArgument != null) {
-                Navigator.of(context).pushReplacementNamed(widget.routeArgument.param, arguments: RouteArgument(id: widget.routeArgument.id));
-              } else {
-                Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
-              }
-            },
+            onPressed: () => Navigator.pop(context),
             icon: Icon(Icons.arrow_back),
             color: Theme.of(context).hintColor,
           ),
@@ -58,7 +52,10 @@ class _CartWidgetState extends StateMVC<CartWidget> {
           centerTitle: true,
           title: Text(
             S.of(context).cart,
-            style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .merge(TextStyle(letterSpacing: 1.3)),
           ),
         ),
         body: RefreshIndicator(
@@ -86,7 +83,9 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                               style: Theme.of(context).textTheme.headline4,
                             ),
                             subtitle: Text(
-                              S.of(context).verify_your_quantity_and_click_checkout,
+                              S
+                                  .of(context)
+                                  .verify_your_quantity_and_click_checkout,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.caption,
@@ -107,13 +106,21 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                               cart: _con.carts.elementAt(index),
                               heroTag: 'cart',
                               increment: () {
-                                _con.incrementQuantity(_con.carts.elementAt(index));
+                                _con.incrementQuantity(
+                                    _con.carts.elementAt(index));
                               },
                               decrement: () {
-                                _con.decrementQuantity(_con.carts.elementAt(index));
+                                if (_con.carts.elementAt(index).quantity <= 1) {
+                                  _con.removeFromCart(
+                                      _con.carts.elementAt(index));
+                                } else {
+                                  _con.decrementQuantity(
+                                      _con.carts.elementAt(index));
+                                }
                               },
                               onDismissed: () {
-                                _con.removeFromCart(_con.carts.elementAt(index));
+                                _con.removeFromCart(
+                                    _con.carts.elementAt(index));
                               },
                             );
                           },
@@ -124,22 +131,42 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                       padding: const EdgeInsets.all(18),
                       margin: EdgeInsets.only(bottom: 15),
                       decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          boxShadow: [BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), offset: Offset(0, 2), blurRadius: 5.0)]),
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Theme.of(context)
+                                  .focusColor
+                                  .withOpacity(0.15),
+                              offset: Offset(0, 2),
+                              blurRadius: 5.0)
+                        ],
+                      ),
                       child: TextField(
                         keyboardType: TextInputType.text,
                         onSubmitted: (String value) {
                           _con.doApplyCoupon(value);
                         },
                         cursorColor: Theme.of(context).accentColor,
-                        controller: TextEditingController()..text = coupon?.code ?? '',
+                        controller: TextEditingController()
+                          ..text = settingRepo.coupon?.code ?? '',
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 15,
+                          ),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           hintStyle: Theme.of(context).textTheme.bodyText1,
-                          suffixText: coupon?.valid == null ? '' : (coupon.valid ? S.of(context).validCouponCode : S.of(context).invalidCouponCode),
-                          suffixStyle: Theme.of(context).textTheme.caption.merge(TextStyle(color: _con.getCouponIconColor())),
+                          suffixText: settingRepo.coupon?.enabled == null
+                              ? ''
+                              : (settingRepo.coupon.enabled
+                                  ? S.of(context).validCouponCode
+                                  : S.of(context).invalidCouponCode),
+                          suffixStyle: Theme.of(context)
+                              .textTheme
+                              .caption
+                              .merge(
+                                  TextStyle(color: _con.getCouponIconColor())),
                           suffixIcon: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             child: Icon(
@@ -150,11 +177,23 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                           ),
                           hintText: S.of(context).haveCouponCode,
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.2))),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.5))),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.2))),
                         ),
                       ),
                     ),

@@ -8,10 +8,12 @@ import '../models/credit_card.dart';
 // ignore: must_be_immutable
 class CreditCardsWidget extends StatelessWidget {
   CreditCard creditCard;
+  String cartType;
   ValueChanged<CreditCard> onChanged;
 
   CreditCardsWidget({
     this.creditCard,
+    this.cartType,
     this.onChanged,
     Key key,
   }) : super(key: key);
@@ -28,7 +30,11 @@ class CreditCardsWidget extends StatelessWidget {
             color: Theme.of(context).primaryColor.withOpacity(0.8),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.15), blurRadius: 20, offset: Offset(0, 5)),
+              BoxShadow(
+                color: Theme.of(context).hintColor.withOpacity(0.15),
+                blurRadius: 20,
+                offset: Offset(0, 5),
+              ),
             ],
           ),
         ),
@@ -40,7 +46,11 @@ class CreditCardsWidget extends StatelessWidget {
             color: Theme.of(context).primaryColor.withOpacity(0.8),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.15), blurRadius: 20, offset: Offset(0, 5)),
+              BoxShadow(
+                color: Theme.of(context).hintColor.withOpacity(0.15),
+                blurRadius: 20,
+                offset: Offset(0, 5),
+              ),
             ],
           ),
         ),
@@ -52,7 +62,11 @@ class CreditCardsWidget extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.15), blurRadius: 20, offset: Offset(0, 5)),
+              BoxShadow(
+                color: Theme.of(context).hintColor.withOpacity(0.15),
+                blurRadius: 20,
+                offset: Offset(0, 5),
+              ),
             ],
           ),
           child: Padding(
@@ -64,8 +78,10 @@ class CreditCardsWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Image.asset(
-                      'assets/img/visa.png',
-                      height: 22,
+                      this.cartType == 'mastercard'
+                          ? 'assets/img/master.png'
+                          : 'assets/img/visa.png',
+                      height: 28,
                       width: 70,
                     ),
                     ButtonTheme(
@@ -76,7 +92,6 @@ class CreditCardsWidget extends StatelessWidget {
                         creditCard: creditCard,
                         onChanged: () {
                           onChanged(creditCard);
-                          //setState(() {});
                         },
                       ),
                     ),
@@ -88,7 +103,10 @@ class CreditCardsWidget extends StatelessWidget {
                 ),
                 Text(
                   Helper.getCreditCardNumber(creditCard.number),
-                  style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(letterSpacing: 1.4)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .merge(TextStyle(letterSpacing: 1.4)),
                 ),
                 SizedBox(height: 15),
                 Row(
@@ -109,11 +127,17 @@ class CreditCardsWidget extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       '${creditCard.expMonth}/${creditCard.expYear}',
-                      style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(letterSpacing: 1.4)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .merge(TextStyle(letterSpacing: 1.4)),
                     ),
                     Text(
                       creditCard.cvc,
-                      style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(letterSpacing: 1.4)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .merge(TextStyle(letterSpacing: 1.4)),
                     ),
                   ],
                 )

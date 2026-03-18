@@ -1,109 +1,159 @@
-import 'package:flutter/cupertino.dart';
-import 'package:mvc_pattern/mvc_pattern.dart';
-
-import '../helpers/helper.dart';
 import '../models/category.dart';
-import '../models/market.dart';
-import '../models/product.dart';
-import '../models/review.dart';
-import '../models/slide.dart';
+import '../models/sub_category.dart';
+import '../repository/banner_slider_repository.dart';
 import '../repository/category_repository.dart';
-import '../repository/market_repository.dart';
-import '../repository/product_repository.dart';
-import '../repository/settings_repository.dart';
-import '../repository/slider_repository.dart';
+import '../repository/change_location_repository.dart';
+import '../repository/our_new_repository.dart';
+import '../repository/sub_category_repository.dart';
+import 'cart_controller.dart';
 
-class HomeController extends ControllerMVC {
+class HomeController extends CartController {
+  List<String> bannerSlider = <String>[];
+  List<String> ourNewSlider = <String>[];
   List<Category> categories = <Category>[];
-  List<Slide> slides = <Slide>[];
-  List<Market> topMarkets = <Market>[];
-  List<Market> popularMarkets = <Market>[];
-  List<Review> recentReviews = <Review>[];
-  List<Product> trendingProducts = <Product>[];
+  List<bool> selected = <bool>[];
+  List<SubCategory> subCategories = <SubCategory>[];
+  bool loadingBanners = false;
+  bool loadingOurNew = false;
+  bool loadingCategories = false;
+  bool loadingSubCategories = false;
+  bool loadingSubCategoriesByCity = false;
 
   HomeController() {
-    listenForTopMarkets();
-    listenForSlides();
-    listenForTrendingProducts();
-    listenForCategories();
-    listenForPopularMarkets();
-    listenForRecentReviews();
+    listenForBanners();
+    listenForOurNew();
   }
 
-  Future<void> listenForSlides() async {
-    final Stream<Slide> stream = await getSlides();
-    stream.listen((Slide _slide) {
-      setState(() => slides.add(_slide));
-    }, onError: (a) {
-      print(a);
-    }, onDone: () {});
+  Future<void> listenForBanners() async {
+    if (!loadingBanners) {
+      loadingBanners = true;
+      bannerSlider.clear();
+      final Stream<String> stream = await getBanners();
+      stream.listen(
+        (String _banner) {
+          setState(() => bannerSlider.add(_banner));
+        },
+        onError: (a) {
+          loadingBanners = false;
+          print("##################");
+          print("######### Error getBanners #########");
+          print("##################");
+          print(a);
+        },
+        onDone: () {
+          loadingBanners = false;
+        },
+      );
+    }
   }
 
-  Future<void> listenForCategories() async {
-    final Stream<Category> stream = await getCategories();
-    stream.listen((Category _category) {
-      setState(() => categories.add(_category));
-    }, onError: (a) {
-      print(a);
-    }, onDone: () {});
+  Future<void> listenForOurNew() async {
+    if (!loadingOurNew) {
+      loadingOurNew = true;
+      ourNewSlider.clear();
+      final Stream<String> stream = await getOurNew();
+      stream.listen(
+        (String _ourNew) {
+          setState(() => ourNewSlider.add(_ourNew));
+        },
+        onError: (a) {
+          loadingOurNew = false;
+          print("##################");
+          print("######### Error getBanners #########");
+          print("##################");
+          print(a);
+        },
+        onDone: () {
+          loadingOurNew = false;
+        },
+      );
+    }
   }
 
-  Future<void> listenForTopMarkets() async {
-    final Stream<Market> stream = await getNearMarkets(deliveryAddress.value, deliveryAddress.value);
-    stream.listen((Market _market) {
-      setState(() => topMarkets.add(_market));
-    }, onError: (a) {}, onDone: () {});
+  Future<void> listenForCategories(String cityId) async {
+    if (!loadingCategories) {
+      loadingCategories = true;
+      categories.clear();
+      selected.clear();
+      final Stream<Category> stream = await getCategories(cityId);
+      stream.listen(
+        (Category _category) {
+          setState(() {
+            categories.add(_category);
+            selected.add(false);
+          });
+        },
+        onError: (a) {
+          loadingCategories = false;
+          print("##################");
+          print("######### Error getCategories #########");
+          print("##################");
+          print(a);
+        },
+        onDone: () {
+          loadingCategories = false;
+        },
+      );
+    }
   }
 
-  Future<void> listenForPopularMarkets() async {
-    final Stream<Market> stream = await getPopularMarkets(deliveryAddress.value);
-    stream.listen((Market _market) {
-      setState(() => popularMarkets.add(_market));
-    }, onError: (a) {}, onDone: () {});
+  Future<void> listenForSubCategories(String parentId) async {
+    if (!loadingSubCategories) {
+      loadingSubCategories = true;
+      subCategories.clear();
+      final Stream<SubCategory> stream = await getSubCategories(parentId);
+      stream.listen(
+        (SubCategory _subCategory) {
+          setState(() => subCategories.add(_subCategory));
+        },
+        onError: (a) {
+          loadingSubCategories = false;
+          print("##################");
+          print("######### Error getSubCategories #########");
+          print("##################");
+          print(a);
+        },
+        onDone: () {
+          loadingSubCategories = false;
+        },
+      );
+    }
   }
 
-  Future<void> listenForRecentReviews() async {
-    final Stream<Review> stream = await getRecentReviews();
-    stream.listen((Review _review) {
-      setState(() => recentReviews.add(_review));
-    }, onError: (a) {}, onDone: () {});
+  Future<void> listenForSubCategoriesByCity(String cityId) async {
+    if (!loadingSubCategoriesByCity) {
+      loadingSubCategoriesByCity = true;
+      subCategories.clear();
+      final Stream<SubCategory> stream = await getSubCategoriesByCity(cityId);
+      stream.listen(
+        (SubCategory _subCategory) {
+          setState(() => subCategories.add(_subCategory));
+        },
+        onError: (a) {
+          loadingSubCategoriesByCity = false;
+          print("##################");
+          print("######### Error getSubCategoriesByCity #########");
+          print("##################");
+          print(a);
+        },
+        onDone: () {
+          loadingSubCategoriesByCity = false;
+        },
+      );
+    }
   }
 
-  Future<void> listenForTrendingProducts() async {
-    final Stream<Product> stream = await getTrendingProducts(deliveryAddress.value);
-    stream.listen((Product _product) {
-      setState(() => trendingProducts.add(_product));
-    }, onError: (a) {
-      print(a);
-    }, onDone: () {});
-  }
-
-  void requestForCurrentLocation(BuildContext context) {
-    OverlayEntry loader = Helper.overlayLoader(state.context);
-    Overlay.of(state.context).insert(loader);
-    setCurrentLocation().then((_address) async {
-      deliveryAddress.value = _address;
-      await refreshHome();
-      loader.remove();
-    }).catchError((e) {
-      loader.remove();
-    });
+  void changeLocation(String cityId, {String message}) async {
+    changeLocationRepo(cityId);
   }
 
   Future<void> refreshHome() async {
-    setState(() {
-      slides = <Slide>[];
-      categories = <Category>[];
-      topMarkets = <Market>[];
-      popularMarkets = <Market>[];
-      recentReviews = <Review>[];
-      trendingProducts = <Product>[];
-    });
-    await listenForSlides();
-    await listenForTopMarkets();
-    await listenForTrendingProducts();
-    await listenForCategories();
-    await listenForPopularMarkets();
-    await listenForRecentReviews();
+    bannerSlider.clear();
+    ourNewSlider.clear();
+    categories.clear();
+    selected.clear();
+    subCategories.clear();
+    await listenForBanners();
+    await listenForOurNew();
   }
 }

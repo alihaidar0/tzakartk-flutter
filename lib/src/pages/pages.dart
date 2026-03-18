@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../elements/DrawerWidget.dart';
-import '../elements/FilterWidget.dart';
 import '../helpers/helper.dart';
 import '../models/route_argument.dart';
 import '../pages/home.dart';
-import '../pages/map.dart';
 import '../pages/notifications.dart';
 import '../pages/orders.dart';
-import 'messages.dart';
+import '../repository/user_repository.dart';
 
 // ignore: must_be_immutable
 class PagesWidget extends StatefulWidget {
@@ -27,7 +25,7 @@ class PagesWidget extends StatefulWidget {
         currentTab = int.parse(currentTab.id);
       }
     } else {
-      currentTab = 2;
+      currentTab = 1;
     }
   }
 
@@ -54,19 +52,16 @@ class _PagesWidgetState extends State<PagesWidget> {
       widget.currentTab = tabItem;
       switch (tabItem) {
         case 0:
-          widget.currentPage = NotificationsWidget(parentScaffoldKey: widget.scaffoldKey);
+          widget.currentPage =
+              NotificationsWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
         case 1:
-          widget.currentPage = MapWidget(parentScaffoldKey: widget.scaffoldKey, routeArgument: widget.routeArgument);
+          widget.currentPage =
+              HomeWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
         case 2:
-          widget.currentPage = HomeWidget(parentScaffoldKey: widget.scaffoldKey);
-          break;
-        case 3:
-          widget.currentPage = OrdersWidget(parentScaffoldKey: widget.scaffoldKey);
-          break;
-        case 4:
-          widget.currentPage = MessagesWidget(parentScaffoldKey: widget.scaffoldKey); //FavoritesWidget(parentScaffoldKey: widget.scaffoldKey);
+          widget.currentPage =
+              OrdersWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
       }
     });
@@ -76,64 +71,85 @@ class _PagesWidgetState extends State<PagesWidget> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: Helper.of(context).onWillPop,
-      child: Scaffold(
-        key: widget.scaffoldKey,
-        drawer: DrawerWidget(),
-        endDrawer: FilterWidget(onFilter: (filter) {
-          Navigator.of(context).pushReplacementNamed('/Pages', arguments: widget.currentTab);
-        }),
-        body: widget.currentPage,
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Theme.of(context).accentColor,
-          selectedFontSize: 0,
-          unselectedFontSize: 0,
-          iconSize: 22,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          selectedIconTheme: IconThemeData(size: 28),
-          unselectedItemColor: Theme.of(context).focusColor.withOpacity(1),
-          currentIndex: widget.currentTab,
-          onTap: (int i) {
-            this._selectTab(i);
-          },
-          // this will be set when a new tab is tapped
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(widget.currentTab == 0 ? Icons.notifications : Icons.notifications_outlined),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(widget.currentTab == 1 ? Icons.location_on : Icons.location_on_outlined),
-              label: '',
-            ),
-            BottomNavigationBarItem(
+      child: SafeArea(
+        child: Scaffold(
+          key: widget.scaffoldKey,
+          drawer: DrawerWidget(),
+          body: widget.currentPage,
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Theme.of(context).accentColor,
+            selectedFontSize: 0,
+            unselectedFontSize: 0,
+            iconSize: 22,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            selectedIconTheme: IconThemeData(size: 28),
+            unselectedItemColor: Theme.of(context).focusColor.withOpacity(1),
+            currentIndex: widget.currentTab,
+            onTap: (int i) {
+              if (i != 1) {
+                if (currentUser.value.apiToken != null) {
+                  this._selectTab(i);
+                } else {
+                  Navigator.of(context)
+                      .pushNamed(
+                    '/Login',
+                    arguments: true,
+                  )
+                      .then((value) {
+                    this._selectTab(i);
+                  });
+                }
+              } else {
+                this._selectTab(i);
+              }
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(widget.currentTab == 0
+                    ? Icons.notifications
+                    : Icons.notifications_outlined),
                 label: '',
-                icon: Container(
-                  width: 42,
-                  height: 42,
-                  margin: EdgeInsets.only(bottom: 5),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
+              ),
+              BottomNavigationBarItem(
+                  label: '',
+                  icon: Container(
+                    width: 42,
+                    height: 42,
+                    margin: EdgeInsets.only(bottom: 5),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).accentColor,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(50),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            color:
+                                Theme.of(context).accentColor.withOpacity(0.4),
+                            blurRadius: 40,
+                            offset: Offset(0, 15)),
+                        BoxShadow(
+                            color:
+                                Theme.of(context).accentColor.withOpacity(0.4),
+                            blurRadius: 13,
+                            offset: Offset(0, 3))
+                      ],
                     ),
-                    boxShadow: [
-                      BoxShadow(color: Theme.of(context).accentColor.withOpacity(0.4), blurRadius: 40, offset: Offset(0, 15)),
-                      BoxShadow(color: Theme.of(context).accentColor.withOpacity(0.4), blurRadius: 13, offset: Offset(0, 3))
-                    ],
-                  ),
-                  child: new Icon(widget.currentTab == 2 ? Icons.home : Icons.home_outlined, color: Theme.of(context).primaryColor),
-                )),
-            BottomNavigationBarItem(
-              icon: new Icon(widget.currentTab == 3 ? Icons.local_mall : Icons.local_mall_outlined),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(widget.currentTab == 4 ? Icons.chat : Icons.chat_outlined),
-              label: '',
-            ),
-          ],
+                    child: new Icon(
+                        widget.currentTab == 1
+                            ? Icons.home
+                            : Icons.home_outlined,
+                        color: Theme.of(context).primaryColor),
+                  )),
+              BottomNavigationBarItem(
+                icon: new Icon(widget.currentTab == 2
+                    ? Icons.local_mall
+                    : Icons.local_mall_outlined),
+                label: '',
+              ),
+            ],
+          ),
         ),
       ),
     );

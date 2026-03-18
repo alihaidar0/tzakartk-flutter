@@ -1,26 +1,35 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
-import '../helpers/helper.dart';
 import '../models/cart.dart';
+import '../models/cart_price.dart';
 import '../models/coupon.dart';
 import '../repository/cart_repository.dart';
 import '../repository/coupon_repository.dart';
-import '../repository/settings_repository.dart';
-import '../repository/user_repository.dart';
+import '../repository/settings_repository.dart' as settingRepo;
 
 class CartController extends ControllerMVC {
   List<Cart> carts = <Cart>[];
-  double taxAmount = 0.0;
-  double deliveryFee = 0.0;
-  int cartCount = 0;
+  CartPrice cartPrice = new CartPrice();
   double subTotal = 0.0;
+  double deliveryFee = 0.0;
   double total = 0.0;
+  double couponDiscount = 0.0;
+  int cartCount = 0;
+  bool freeDelivery = true;
+  double taxAmount = 0.0;
+  bool incrementQuantityLoading = false;
+  bool decrementQuantityLoading = false;
+
   GlobalKey<ScaffoldState> scaffoldKey;
 
   CartController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
+    getCoupon();
   }
 
   void listenForCarts({String message}) async {
@@ -29,29 +38,44 @@ class CartController extends ControllerMVC {
     stream.listen((Cart _cart) {
       if (!carts.contains(_cart)) {
         setState(() {
-          coupon = _cart.product.applyCoupon(coupon);
           carts.add(_cart);
         });
       }
     }, onError: (a) {
+      print("##################");
+      print("######### Error getCart with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
       ));
     }, onDone: () {
       if (carts.isNotEmpty) {
-        calculateSubtotal();
+        calculateCartPrice(settingRepo.coupon.code);
       }
       if (message != null) {
         ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
           content: Text(message),
         ));
       }
-      onLoadingCartDone();
     });
   }
 
-  void onLoadingCartDone() {}
+  void listenForDelivery({String message}) async {
+    final Stream<bool> stream = await getDelivery();
+    stream.listen((bool _delivery) {
+      this.freeDelivery = _delivery;
+    }, onError: (a) {
+      this.freeDelivery = false;
+      print("##################");
+      print("######### Error getDelivery with SnackBar #########");
+      print("##################");
+      print(a);
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S.of(state.context).verify_your_internet_connection),
+      ));
+    });
+  }
 
   void listenForCartsCount({String message}) async {
     final Stream<int> stream = await getCartCount();
@@ -60,6 +84,9 @@ class CartController extends ControllerMVC {
         this.cartCount = _count;
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getCartCount with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
@@ -71,7 +98,9 @@ class CartController extends ControllerMVC {
     setState(() {
       carts = [];
     });
-    listenForCarts(message: S.of(state.context).carts_refreshed_successfuly);
+    listenForCarts(message: S.of(state.context).carts_refreshed_successfully);
+    listenForDelivery();
+    listenForCartsCount();
   }
 
   void removeFromCart(Cart _cart) async {
@@ -79,92 +108,118 @@ class CartController extends ControllerMVC {
       this.carts.remove(_cart);
     });
     removeCart(_cart).then((value) {
-      calculateSubtotal();
+      calculateCartPrice(settingRepo.coupon.code);
+      listenForCartsCount();
+      listenForDelivery();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).the_product_was_removed_from_your_cart(_cart.product.name)),
+        content: Text(S
+            .of(state.context)
+            .the_product_was_removed_from_your_cart(_cart.product.en_name)),
       ));
     });
   }
 
-  void calculateSubtotal() async {
-    double cartPrice = 0;
-    subTotal = 0;
-    carts.forEach((cart) {
-      cartPrice = cart.product.price;
-      cart.options.forEach((element) {
-        cartPrice += element.price;
+  void calculateCartPrice(String code) async {
+    final Stream<CartPrice> stream = await getCartPrice(code);
+    stream.listen((CartPrice _cartPrice) {
+      setState(() {
+        subTotal = _cartPrice.sub_total;
+        deliveryFee = _cartPrice.delivery_fee;
+        total = _cartPrice.total;
+        couponDiscount = _cartPrice.couponDiscount;
       });
-      cartPrice *= cart.quantity;
-      subTotal += cartPrice;
-    });
-    if (Helper.canDelivery(carts[0].product.market, carts: carts)) {
-      deliveryFee = carts[0].product.market.deliveryFee;
-    }
-    taxAmount = (subTotal + deliveryFee) * carts[0].product.market.defaultTax / 100;
-    total = subTotal + taxAmount + deliveryFee;
-    setState(() {});
-  }
-
-  void doApplyCoupon(String code, {String message}) async {
-    coupon = new Coupon.fromJSON({"code": code, "valid": null});
-    final Stream<Coupon> stream = await verifyCoupon(code);
-    stream.listen((Coupon _coupon) async {
-      coupon = _coupon;
     }, onError: (a) {
+      print("##################");
+      print("######### Error calculateCartPrice with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
       ));
-    }, onDone: () {
-      listenForCarts();
+    });
+  }
+
+  void doApplyCoupon(String code, {String message}) async {
+    verifyCoupon(code).then((value) {
+      settingRepo.coupon = value;
+      if (value != null && value.enabled) {
+        calculateCartPrice(value.code);
+      } else {
+        calculateCartPrice('');
+      }
+    }).catchError((e) {
+      print("##################");
+      print("######### Error doApplyCoupon with SnackBar #########");
+      print("##################");
+      print(e);
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S.of(state.context).verify_your_internet_connection),
+      ));
+    }).whenComplete(() {
+      saveCoupon(settingRepo.coupon);
     });
   }
 
   incrementQuantity(Cart cart) {
-    if (cart.quantity <= 99) {
-      ++cart.quantity;
-      updateCart(cart);
-      calculateSubtotal();
+    if (cart.quantity <= cart?.product?.packageItemsCount) {
+      // if (cart.quantity <= 99) {
+      if (!incrementQuantityLoading) {
+        incrementQuantityLoading = true;
+        ++cart.quantity;
+        updateCart(cart).then((value) {
+          if (!value) {
+            --cart.quantity;
+          }
+          calculateCartPrice(settingRepo.coupon.code);
+        }).whenComplete(() {
+          incrementQuantityLoading = false;
+          listenForCartsCount();
+          listenForDelivery();
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S.of(state.context).thereAreNoRemainItems),
+      ));
     }
   }
 
   decrementQuantity(Cart cart) {
-    if (cart.quantity > 1) {
+    if (cart.quantity > 1 && !decrementQuantityLoading) {
+      decrementQuantityLoading = true;
       --cart.quantity;
-      updateCart(cart);
-      calculateSubtotal();
+      updateCart(cart).then((value) {
+        if (!value) {
+          ++cart.quantity;
+        }
+        calculateCartPrice(settingRepo.coupon.code);
+      }).whenComplete(() {
+        decrementQuantityLoading = false;
+        listenForCartsCount();
+        listenForDelivery();
+      });
     }
   }
 
   void goCheckout(BuildContext context) {
-    if (!currentUser.value.profileCompleted()) {
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).completeYourProfileDetailsToContinue),
-        action: SnackBarAction(
-          label: S.of(state.context).settings,
-          textColor: Theme.of(state.context).accentColor,
-          onPressed: () {
-            Navigator.of(state.context).pushNamed('/Settings');
-          },
-        ),
-      ));
-    } else {
-      if (carts[0].product.market.closed) {
-        ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-          content: Text(S.of(state.context).this_market_is_closed_),
-        ));
-      } else {
-        Navigator.of(state.context).pushNamed('/DeliveryPickup');
-      }
-    }
+    Navigator.of(state.context).pushNamed('/DeliveryPickup');
   }
 
   Color getCouponIconColor() {
-    if (coupon?.valid == true) {
+    if (settingRepo.coupon?.enabled == true) {
       return Colors.green;
-    } else if (coupon?.valid == false) {
+    } else if (settingRepo.coupon?.enabled == false) {
       return Colors.redAccent;
     }
     return Theme.of(state.context).focusColor.withOpacity(0.7);
+  }
+
+  Future<void> getCoupon() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('coupon')) {
+      settingRepo.coupon =
+          Coupon.fromJSON(json.decode(await prefs.get('coupon')));
+    }
+    return settingRepo.coupon;
   }
 }

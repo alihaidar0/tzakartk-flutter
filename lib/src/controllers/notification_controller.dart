@@ -16,12 +16,16 @@ class NotificationController extends ControllerMVC {
   }
 
   void listenForNotifications({String message}) async {
+    notifications.clear();
     final Stream<model.Notification> stream = await getNotifications();
     stream.listen((model.Notification _notification) {
       setState(() {
         notifications.add(_notification);
       });
     }, onError: (a) {
+      print("##################");
+      print("######### Error getNotifications with SnackBar #########");
+      print("##################");
       print(a);
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).verify_your_internet_connection),
@@ -37,7 +41,8 @@ class NotificationController extends ControllerMVC {
 
   Future<void> refreshNotifications() async {
     notifications.clear();
-    listenForNotifications(message: S.of(state.context).notifications_refreshed_successfuly);
+    listenForNotifications(
+        message: S.of(state.context).notifications_refreshed_successfully);
   }
 
   void doMarkAsReadNotifications(model.Notification _notification) async {
@@ -60,20 +65,6 @@ class NotificationController extends ControllerMVC {
       });
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).thisNotificationHasMarkedAsUnread),
-      ));
-    });
-  }
-
-  void doRemoveNotification(model.Notification _notification) async {
-    removeNotification(_notification).then((value) {
-      setState(() {
-        if (!_notification.read) {
-          --unReadNotificationsCount;
-        }
-        this.notifications.remove(_notification);
-      });
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).notificationWasRemoved),
       ));
     });
   }

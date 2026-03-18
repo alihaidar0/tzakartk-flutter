@@ -1,34 +1,77 @@
 import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
-import '../models/address.dart' as model;
+import '../library/receiver_info.dart' as receiverInfo;
+import '../models/address.dart';
+import '../models/note.dart';
 import '../models/payment_method.dart';
+import '../models/shop.dart';
+import '../repository/note_repository.dart';
 import '../repository/settings_repository.dart' as settingRepo;
+import '../repository/shop_repository.dart';
 import '../repository/user_repository.dart' as userRepo;
 import 'cart_controller.dart';
 
 class DeliveryPickupController extends CartController {
   GlobalKey<ScaffoldState> scaffoldKey;
-  model.Address deliveryAddress;
+  List<Address> addresses = <Address>[];
   PaymentMethodList list;
+  DateTime deliveryDay;
+  Note note;
+  bool loadingRemoveDeliveryAddress = false;
+  List<Shop> shops = <Shop>[];
 
   DeliveryPickupController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
+    super.listenForDelivery();
     super.listenForCarts();
-    listenForDeliveryAddress();
-    print(settingRepo.deliveryAddress.value.toMap());
+    // listenForDeliveryAddressDay();
+    listenForAddresses();
+    listenForShops();
+    listenForNote();
   }
 
-  void listenForDeliveryAddress() async {
-    this.deliveryAddress = settingRepo.deliveryAddress.value;
-  }
-
-  void addAddress(model.Address address) {
-    userRepo.addAddress(address).then((value) {
+  void listenForAddresses() async {
+    addresses.clear();
+    final Stream<Address> stream = await userRepo.getAddresses();
+    stream.listen((Address _address) {
       setState(() {
-        settingRepo.deliveryAddress.value = value;
-        this.deliveryAddress = value;
+        if (isSame(_address, settingRepo.deliveryAddress.value)) {
+          _address.selected = true;
+          receiverInfo.receiverName = _address.receiver_name;
+          receiverInfo.receiverPhone = _address.receiver_phone;
+        }
+        addresses.add(_address);
       });
+    }, onError: (a) {
+      print("##################");
+      print("######### Error userRepo.getAddresses with SnackBar #########");
+      print("##################");
+      print(a);
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S.of(state.context).verify_your_internet_connection),
+      ));
+    });
+  }
+
+  bool isSame(Address address_1, Address address_2) {
+    if (address_1.id == address_2.id &&
+        address_1.description == address_2.description &&
+        address_1.address == address_2.address &&
+        address_1.receiver_name == address_2.receiver_name &&
+        address_1.receiver_phone == address_2.receiver_phone &&
+        address_1.cityId == address_2.cityId &&
+        address_1.isDefault == address_2.isDefault &&
+        address_1.userId == address_2.userId)
+      return true;
+    else {
+      return false;
+    }
+  }
+
+  void addAddress(Address address) {
+    userRepo.addAddress(address).then((value) {
+      listenForAddresses();
     }).whenComplete(() {
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).new_address_added_successfully),
@@ -36,55 +79,134 @@ class DeliveryPickupController extends CartController {
     });
   }
 
-  void updateAddress(model.Address address) {
+  void updateAddress(Address address) {
     userRepo.updateAddress(address).then((value) {
-      setState(() {
-        settingRepo.deliveryAddress.value = value;
-        this.deliveryAddress = value;
-      });
+      listenForAddresses();
     }).whenComplete(() {
+      listenForAddresses();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).the_address_updated_successfully),
       ));
     });
   }
 
-  PaymentMethod getPickUpMethod() {
-    return list.pickupList.elementAt(0);
+  void listenForDeliveryAddressDay() {
+    this.deliveryDay = settingRepo.deliveryDay.value;
   }
 
-  PaymentMethod getDeliveryMethod() {
-    return list.pickupList.elementAt(1);
+  void removeDeliveryAddress(Address address) async {
+    if (!loadingRemoveDeliveryAddress) {
+      loadingRemoveDeliveryAddress = true;
+      userRepo.removeDeliveryAddress(address).then(
+        (value) {
+          setState(() {
+            this.addresses.remove(address);
+          });
+          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(
+            SnackBar(
+              content: Text(
+                S.of(state.context).delivery_address_removed_successfully,
+              ),
+            ),
+          );
+          loadingRemoveDeliveryAddress = false;
+        },
+      );
+    }
   }
 
-  void toggleDelivery() {
-    list.pickupList.forEach((element) {
-      if (element != getDeliveryMethod()) {
-        element.selected = false;
-      }
-    });
+  void updateDeliveryDay(DateTime date) {
     setState(() {
-      getDeliveryMethod().selected = !getDeliveryMethod().selected;
+      this.deliveryDay = date;
+      settingRepo.deliveryDay.value = date;
     });
   }
 
-  void togglePickUp() {
-    list.pickupList.forEach((element) {
-      if (element != getPickUpMethod()) {
-        element.selected = false;
-      }
-    });
+  void toggleDelivery(Address address) {
     setState(() {
-      getPickUpMethod().selected = !getPickUpMethod().selected;
+      addresses.forEach((element) {
+        if (element != address) element.selected = false;
+      });
+      address.selected = !address.selected;
+      settingRepo.deliveryAddress.value = address;
     });
   }
 
   PaymentMethod getSelectedMethod() {
-    return list.pickupList.firstWhere((element) => element.selected);
+    return list.deliveryMethod;
   }
 
   @override
   void goCheckout(BuildContext context) {
-    Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+    if (deliveryDay != null) {
+      if (!freeDelivery) {
+        Address _address = addresses.firstWhere(
+          (element) => element.selected == true,
+          orElse: () => null,
+        );
+        if (_address != null &&
+            settingRepo.deliveryAddress.value != null &&
+            isSame(_address, settingRepo.deliveryAddress.value)) {
+          Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+        } else {
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
+            content: Text(S.of(state.context).select_your_delivery_address),
+          ));
+        }
+      } else {
+        if (receiverInfo.receiverName == null ||
+            receiverInfo.receiverName == '' ||
+            receiverInfo.receiverPhone == null ||
+            receiverInfo.receiverPhone == '') {
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
+            content: Text(
+                S.of(state.context).select_a_receiver_name_and_receiver_phone),
+          ));
+        } else {
+          if (receiverInfo.receiverPhone.length < 11) {
+            ScaffoldMessenger.of(scaffoldKey?.currentContext)
+                .showSnackBar(SnackBar(
+              content: Text(S.of(state.context).shouldBeAValidMobileNumber),
+            ));
+          } else {
+            settingRepo.deliveryAddress.value = new Address();
+            Navigator.of(state.context).pushNamed(getSelectedMethod().route);
+          }
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+        content: Text(S.of(state.context).select_a_delivery_date),
+      ));
+    }
+  }
+
+  void listenForNote() async {
+    final Stream<Note> stream = await getNote();
+    stream.listen((Note _note) {
+      setState(() {
+        note = _note;
+      });
+    }, onError: (a) {
+      print("##################");
+      print("######### Error getNote #########");
+      print("##################");
+      print(a);
+    }, onDone: () {});
+  }
+
+  Future<void> listenForShops() async {
+    shops.clear();
+    final Stream<Shop> stream = await getShops();
+    stream.listen((Shop _shop) {
+      setState(() => shops.add(_shop));
+    }, onError: (a) {
+      print("##################");
+      print("######### Error getShops #########");
+      print("##################");
+      print(a);
+    }, onDone: () {});
   }
 }

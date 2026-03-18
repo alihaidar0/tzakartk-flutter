@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../controllers/splash_screen_controller.dart';
+import '../helpers/helper.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -31,7 +32,13 @@ class SplashScreenState extends StateMVC<SplashScreen> {
       });
       if (progress == 100) {
         try {
-          Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
+          _con.checkFirstSeen().then((value) {
+            if (value) {
+              Navigator.of(context).pushReplacementNamed('/SetGlobalsScreen');
+            } else {
+              Navigator.of(context).pushReplacementNamed('/OnBoardingsScreens');
+            }
+          });
         } catch (e) {}
       }
     });
@@ -39,28 +46,34 @@ class SplashScreenState extends StateMVC<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _con.scaffoldKey,
-      body: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'assets/img/logo.png',
-                width: 150,
-                fit: BoxFit.cover,
+    return WillPopScope(
+      onWillPop: Helper.of(context).onWillPop,
+      child: SafeArea(
+        child: Scaffold(
+          key: _con.scaffoldKey,
+          body: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/img/logo.png',
+                    width: 150,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(height: 50),
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).hintColor),
+                  ),
+                ],
               ),
-              SizedBox(height: 50),
-              CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).hintColor),
-              ),
-            ],
+            ),
           ),
         ),
       ),

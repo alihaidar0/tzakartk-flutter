@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -6,7 +5,6 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import '../../generated/l10n.dart';
 import '../helpers/helper.dart';
 import '../models/user.dart' as model;
-import '../pages/mobile_verification_2.dart';
 import '../repository/user_repository.dart' as repository;
 
 class UserController extends ControllerMVC {
@@ -29,21 +27,38 @@ class UserController extends ControllerMVC {
     });
   }
 
-  void login() async {
+  void login(bool mustBack) async {
     loader = Helper.overlayLoader(state.context);
     FocusScope.of(state.context).unfocus();
     if (loginFormKey.currentState.validate()) {
       loginFormKey.currentState.save();
       Overlay.of(state.context).insert(loader);
       repository.login(user).then((value) {
+        print("######### value in login #########");
+        print("${value}");
+        print("##################");
         if (value != null && value.apiToken != null) {
-          Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+          if (mustBack != null && mustBack) {
+            Navigator.of(scaffoldKey.currentContext).pop(true);
+          } else {
+            Navigator.of(scaffoldKey.currentContext).pushNamedAndRemoveUntil(
+                '/Pages', (Route<dynamic> route) => false,
+                arguments: 1);
+          }
         } else {
-          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-            content: Text(S.of(state.context).wrong_email_or_password),
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
+            content: Text(
+              S
+                  .of(state.context)
+                  .make_sure_that_you_confirmed_your_Email_or_that_your_email_and_password_is_not_wrong,
+            ),
           ));
         }
       }).catchError((e) {
+        print("######### catchError in login #########");
+        print("${e}");
+        print("##################");
         loader.remove();
         ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
           content: Text(S.of(state.context).this_account_not_exist),
@@ -54,53 +69,26 @@ class UserController extends ControllerMVC {
     }
   }
 
-  Future<void> verifyPhone(model.User user) async {
-    final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
-      repository.currentUser.value.verificationId = verId;
-    };
-
-    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResent]) {
-      repository.currentUser.value.verificationId = verId;
-      Navigator.push(
-        scaffoldKey.currentContext,
-        MaterialPageRoute(
-            builder: (context) => MobileVerification2(
-                  onVerified: (v) {
-                    Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
-                  },
-                )),
-      );
-    };
-    final PhoneVerificationCompleted _verifiedSuccess = (AuthCredential auth) {};
-    final PhoneVerificationFailed _verifyFailed = (FirebaseAuthException e) {
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(e.message),
-      ));
-      print(e.toString());
-    };
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: user.phone,
-      timeout: const Duration(seconds: 5),
-      verificationCompleted: _verifiedSuccess,
-      verificationFailed: _verifyFailed,
-      codeSent: smsCodeSent,
-      codeAutoRetrievalTimeout: autoRetrieve,
-    );
-  }
-
   void register() async {
     loader = Helper.overlayLoader(state.context);
     FocusScope.of(state.context).unfocus();
     Overlay.of(state.context).insert(loader);
     repository.register(user).then((value) {
-      if (value != null && value.apiToken != null) {
-        Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+      if (value != null && value == true) {
+        print("######### value in register #########");
+        print("${value}");
+        print("##################");
+        Navigator.of(scaffoldKey.currentContext)
+            .pushReplacementNamed('/Login', arguments: false);
       } else {
         ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
           content: Text(S.of(state.context).wrong_email_or_password),
         ));
       }
     }).catchError((e) {
+      print("######### catchError in register #########");
+      print("${e}");
+      print("##################");
       loader.remove();
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).this_email_account_exists),
@@ -118,19 +106,24 @@ class UserController extends ControllerMVC {
       Overlay.of(state.context).insert(loader);
       repository.resetPassword(user).then((value) {
         if (value != null && value == true) {
-          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-            content: Text(S.of(state.context).your_reset_link_has_been_sent_to_your_email),
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
+            content: Text(S
+                .of(state.context)
+                .your_reset_link_has_been_sent_to_your_email),
             action: SnackBarAction(
               label: S.of(state.context).login,
               onPressed: () {
-                Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Login');
+                Navigator.of(scaffoldKey.currentContext)
+                    .pushReplacementNamed('/Login', arguments: false);
               },
             ),
             duration: Duration(seconds: 10),
           ));
         } else {
           loader.remove();
-          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
             content: Text(S.of(state.context).error_verify_email_settings),
           ));
         }

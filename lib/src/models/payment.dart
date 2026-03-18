@@ -1,5 +1,7 @@
 class Payment {
   String id;
+  double price;
+  String description;
   String status;
   String method;
 
@@ -10,6 +12,8 @@ class Payment {
   Payment.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
+      price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0;
+      description = jsonMap['description'] ?? '';
       status = jsonMap['status'] ?? '';
       method = jsonMap['method'] ?? '';
     } catch (e) {
@@ -22,8 +26,8 @@ class Payment {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'status': status,
+      // 'id': id,
+      // 'status': status,
       'method': method,
     };
   }

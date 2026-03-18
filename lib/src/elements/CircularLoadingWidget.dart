@@ -11,14 +11,17 @@ class CircularLoadingWidget extends StatefulWidget {
   _CircularLoadingWidgetState createState() => _CircularLoadingWidgetState();
 }
 
-class _CircularLoadingWidgetState extends State<CircularLoadingWidget> with SingleTickerProviderStateMixin {
+class _CircularLoadingWidgetState extends State<CircularLoadingWidget>
+    with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController animationController;
 
   void initState() {
     super.initState();
-    animationController = AnimationController(duration: Duration(milliseconds: 300), vsync: this);
-    CurvedAnimation curve = CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+    animationController =
+        AnimationController(duration: Duration(milliseconds: 300), vsync: this);
+    CurvedAnimation curve =
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
     animation = Tween<double>(begin: widget.height, end: 0).animate(curve)
       ..addListener(() {
         if (mounted) {
@@ -34,10 +37,6 @@ class _CircularLoadingWidgetState extends State<CircularLoadingWidget> with Sing
 
   @override
   void dispose() {
-//    Timer(Duration(seconds: 30), () {
-//      //if (mounted) {
-//      //}
-//    });
     animationController.dispose();
     super.dispose();
   }

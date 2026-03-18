@@ -17,7 +17,8 @@ class LanguageItemWidget extends StatefulWidget {
   _LanguageItemWidgetState createState() => _LanguageItemWidgetState();
 }
 
-class _LanguageItemWidgetState extends State<LanguageItemWidget> with SingleTickerProviderStateMixin {
+class _LanguageItemWidgetState extends State<LanguageItemWidget>
+    with SingleTickerProviderStateMixin {
   Animation animation;
   AnimationController animationController;
   Animation<double> sizeCheckAnimation;
@@ -29,8 +30,10 @@ class _LanguageItemWidgetState extends State<LanguageItemWidget> with SingleTick
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(duration: Duration(milliseconds: 350), vsync: this);
-    CurvedAnimation curve = CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+    animationController =
+        AnimationController(duration: Duration(milliseconds: 350), vsync: this);
+    CurvedAnimation curve =
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
     animation = Tween(begin: 0.0, end: 40.0).animate(curve)
       ..addListener(() {
         setState(() {});
@@ -72,7 +75,8 @@ class _LanguageItemWidgetState extends State<LanguageItemWidget> with SingleTick
         } else {
           animationController.forward();
         }
-        settingRepo.setting.value.mobileLanguage.value = new Locale(widget.language.code, '');
+        settingRepo.setting.value.mobileLanguage.value =
+            new Locale(widget.language.code, '');
         // settingRepo.setting.notifyListeners();
         //settingRepo.locale.notifyListeners();
         //widget.language.selected = !widget.language.selected;
@@ -82,7 +86,10 @@ class _LanguageItemWidgetState extends State<LanguageItemWidget> with SingleTick
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -96,7 +103,9 @@ class _LanguageItemWidgetState extends State<LanguageItemWidget> with SingleTick
                   width: 40,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(40)),
-                    image: DecorationImage(image: AssetImage(widget.language.flag), fit: BoxFit.cover),
+                    image: DecorationImage(
+                        image: AssetImage(widget.language.flag),
+                        fit: BoxFit.cover),
                   ),
                 ),
                 Container(
@@ -104,14 +113,18 @@ class _LanguageItemWidgetState extends State<LanguageItemWidget> with SingleTick
                   width: animation.value,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(40)),
-                    color: Theme.of(context).accentColor.withOpacity(opacityAnimation.value),
+                    color: Theme.of(context)
+                        .accentColor
+                        .withOpacity(opacityAnimation.value),
                   ),
                   child: Transform.rotate(
                     angle: rotateCheckAnimation.value,
                     child: Icon(
                       Icons.check,
                       size: sizeCheckAnimation.value,
-                      color: Theme.of(context).primaryColor.withOpacity(opacityCheckAnimation.value),
+                      color: Theme.of(context)
+                          .primaryColor
+                          .withOpacity(opacityCheckAnimation.value),
                     ),
                   ),
                 ),

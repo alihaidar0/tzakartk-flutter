@@ -1,3 +1,4 @@
+import '../helpers/custom_trace.dart';
 import '../models/media.dart';
 
 enum UserState { available, away, busy }
@@ -6,20 +7,19 @@ class User {
   String id;
   String name;
   String email;
-  String password;
   String apiToken;
   String deviceToken;
-  String phone;
-  bool verifiedPhone;
-  String verificationId;
-  String address;
-  String bio;
+  String loyalty_points;
+  String phone_number;
+  bool has_media;
   Media image;
 
-  // used for indicate if client logged in or not
+  /// local used
+  String password;
+  String address;
+  String bio;
+  String verificationId;
   bool auth;
-
-//  String role;
 
   User();
 
@@ -30,44 +30,44 @@ class User {
       email = jsonMap['email'] != null ? jsonMap['email'] : '';
       apiToken = jsonMap['api_token'];
       deviceToken = jsonMap['device_token'];
-      try {
-        phone = jsonMap['custom_fields']['phone']['view'];
-      } catch (e) {
-        phone = "";
-      }
-      try {
-        verifiedPhone = jsonMap['custom_fields']['verifiedPhone']['view'] == '1' ? true : false;
-      } catch (e) {
-        verifiedPhone = false;
-      }
-      try {
-        address = jsonMap['custom_fields']['address']['view'];
-      } catch (e) {
-        address = "";
-      }
-      try {
-        bio = jsonMap['custom_fields']['bio']['view'];
-      } catch (e) {
-        bio = "";
-      }
-      image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0 ? Media.fromJSON(jsonMap['media'][0]) : new Media();
+      loyalty_points = jsonMap['loyalty_points'].toString();
+      phone_number = jsonMap['phone_number'];
+      has_media = jsonMap['has_media'];
+      image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
+          ? Media.fromJSON(jsonMap['media'][0])
+          : new Media();
+      address = jsonMap['address'];
+      bio = jsonMap['bio'];
     } catch (e) {
-      print(e);
+      id = '';
+      name = '';
+      email = '';
+      apiToken = '';
+      deviceToken = '';
+      phone_number = '';
+      has_media = false;
+      image = new Media();
+
+      /// local used
+      address = '';
+      bio = "";
+      print(CustomTrace(StackTrace.current, message: e));
     }
   }
 
   Map toMap() {
     var map = new Map<String, dynamic>();
     map["id"] = id;
-    map["email"] = email;
     map["name"] = name;
-    map["password"] = password;
+    map["email"] = email;
     map["api_token"] = apiToken;
     if (deviceToken != null) {
       map["device_token"] = deviceToken;
     }
-    map["phone"] = phone;
-    map["verifiedPhone"] = verifiedPhone;
+    map["phone_number"] = phone_number;
+
+    /// local used
+    map["password"] = password;
     map["address"] = address;
     map["bio"] = bio;
     map["media"] = image?.toMap();
@@ -89,9 +89,5 @@ class User {
     var map = this.toMap();
     map["auth"] = this.auth;
     return map.toString();
-  }
-
-  bool profileCompleted() {
-    return address != null && address != '' && phone != null && phone != '' && verifiedPhone != null && verifiedPhone;
   }
 }
